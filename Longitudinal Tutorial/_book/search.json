@@ -1,0 +1,37 @@
+[
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Longitudinal Tutorial",
+    "section": "",
+    "text": "Preface\nThis is a Quarto book.\nTo learn more about Quarto books visit https://quarto.org/docs/books.\n\n1 + 1\n\n[1] 2"
+  },
+  {
+    "objectID": "Longi_intro.html",
+    "href": "Longi_intro.html",
+    "title": "1  Introduction",
+    "section": "",
+    "text": "2 Data Structure\n\nlibrary(tidyr) #Allows for us to manipulate the data structure\n\nWarning: package 'tidyr' was built under R version 4.3.3\n\nlibrary(data.table) #Allows for us to manipulate the data structure\n\nWarning: package 'data.table' was built under R version 4.3.3\n\nlibrary(ggplot2) #this makes better looking plots in R\n\nWarning: package 'ggplot2' was built under R version 4.3.3\n\ntheme_set(theme_minimal())\n\n\n\n3 Read in Data"
+  },
+  {
+    "objectID": "Multi_intro.html",
+    "href": "Multi_intro.html",
+    "title": "12  Introduction",
+    "section": "",
+    "text": "This section covers the basics of multilevel data analysis.\nTo learn more about multilevel data analysis, visit the [Quarto documentation](https://quarto.org/docs/books).\n\n13 Data Structure"
+  },
+  {
+    "objectID": "Longi_EDA.html",
+    "href": "Longi_EDA.html",
+    "title": "2  Exploratory Data Analysis",
+    "section": "",
+    "text": "3 Long and wide format"
+  },
+  {
+    "objectID": "Longi_interpretation.html",
+    "href": "Longi_interpretation.html",
+    "title": "9  Interpretation",
+    "section": "",
+    "text": "ibgdvnbvolnhadv"
+  }
+]

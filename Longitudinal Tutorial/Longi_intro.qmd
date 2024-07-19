@@ -1,0 +1,15 @@
+---
+title: "Introduction"
+---
+
+
+# Data Structure
+
+```{r}
+library(tidyr) #Allows for us to manipulate the data structure
+library(data.table) #Allows for us to manipulate the data structure
+library(ggplot2) #this makes better looking plots in R
+theme_set(theme_minimal())
+```
+
+# Read in Data
