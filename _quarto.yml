@@ -13,7 +13,7 @@ book:
         - Longi_EDA.qmd
         - Longi_GEE.qmd
         - Longi_mixeffect.qmd
-        - Longi-comparison.qmd
+        - Longi_comparison.qmd
         - Longi_covmodel.qmd
         - Longi_modelselection.qmd
         - Longi_prediction.qmd

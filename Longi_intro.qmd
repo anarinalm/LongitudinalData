@@ -1,3 +1,14 @@
 # Longitudinal Data Analysis {#sec-longi-intro .unnumbered}
 
 ## Data Structure
+
+```{r, warning=FALSE}
+suppressPackageStartupMessages(library(tidyr))
+suppressPackageStartupMessages(library(data.table))
+suppressPackageStartupMessages(library(ggplot2))
+```
+
+```{r}
+TLC <- read.csv("Data/TLC.csv")
+head(TLC, n = 10)
+```

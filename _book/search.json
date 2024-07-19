@@ -1,0 +1,79 @@
+[
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Longitudinal Tutorial",
+    "section": "",
+    "text": "Welcome\nThis is a Quarto book.\nTo learn more about Quarto books visit https://quarto.org/docs/books.\n\n1 + 1\n\n[1] 2"
+  },
+  {
+    "objectID": "Longi_EDA.html#long-and-wide-format",
+    "href": "Longi_EDA.html#long-and-wide-format",
+    "title": "1  Exploratory Data Analysis",
+    "section": "1.1 Long and wide format",
+    "text": "1.1 Long and wide format"
+  },
+  {
+    "objectID": "Longi_GEE.html#package",
+    "href": "Longi_GEE.html#package",
+    "title": "2  Marginal Model (GEE)",
+    "section": "2.1 Package",
+    "text": "2.1 Package"
+  },
+  {
+    "objectID": "Longi_modelselection.html#backward-forward-stepwise-model-selection",
+    "href": "Longi_modelselection.html#backward-forward-stepwise-model-selection",
+    "title": "6  Model Selection",
+    "section": "6.1 Backward, Forward, Stepwise Model Selection",
+    "text": "6.1 Backward, Forward, Stepwise Model Selection"
+  },
+  {
+    "objectID": "Longi_interpretation.html#intercept",
+    "href": "Longi_interpretation.html#intercept",
+    "title": "8  Interpretation",
+    "section": "8.1 Intercept",
+    "text": "8.1 Intercept"
+  },
+  {
+    "objectID": "Longi_noncontinuous.html#binary-outcome",
+    "href": "Longi_noncontinuous.html#binary-outcome",
+    "title": "9  Models for Non-Continuous Outcomes (Longitudinal)",
+    "section": "9.1 Binary Outcome",
+    "text": "9.1 Binary Outcome"
+  },
+  {
+    "objectID": "Longi_noncontinuous.html#count-outcome",
+    "href": "Longi_noncontinuous.html#count-outcome",
+    "title": "9  Models for Non-Continuous Outcomes (Longitudinal)",
+    "section": "9.2 Count Outcome",
+    "text": "9.2 Count Outcome"
+  },
+  {
+    "objectID": "Multi_EDA.html#visualization",
+    "href": "Multi_EDA.html#visualization",
+    "title": "12  Exploratory Data Analysis",
+    "section": "12.1 Visualization",
+    "text": "12.1 Visualization"
+  },
+  {
+    "objectID": "Multi_noncontinuous.html#binary-outcome",
+    "href": "Multi_noncontinuous.html#binary-outcome",
+    "title": "19  Models for Non-Continuous Outcomes (Multilevel)",
+    "section": "19.1 Binary Outcome",
+    "text": "19.1 Binary Outcome"
+  },
+  {
+    "objectID": "Multi_noncontinuous.html#count-outcome",
+    "href": "Multi_noncontinuous.html#count-outcome",
+    "title": "19  Models for Non-Continuous Outcomes (Multilevel)",
+    "section": "19.2 Count Outcome",
+    "text": "19.2 Count Outcome"
+  },
+  {
+    "objectID": "Longi_intro.html#data-structure",
+    "href": "Longi_intro.html#data-structure",
+    "title": "Longitudinal Data Analysis",
+    "section": "Data Structure",
+    "text": "Data Structure\n\nsuppressPackageStartupMessages(library(tidyr))\nsuppressPackageStartupMessages(library(data.table))\nsuppressPackageStartupMessages(library(ggplot2))\n\n\nTLC &lt;- read.csv(\"Data/TLC.csv\")\nhead(TLC, n = 10)\n\n   id lead0 lead1 lead4 lead6     group\n1   1  30.8  26.9  25.8  23.8   Placebo\n2   2  26.5  14.8  19.5  21.0 Treatment\n3   3  25.8  23.0  19.1  23.2 Treatment\n4   4  24.7  24.5  22.0  22.5   Placebo\n5   5  20.4   2.8   3.2   9.4 Treatment\n6   6  20.4   5.4   4.5  11.9 Treatment\n7   7  28.6  20.8  19.2  18.4   Placebo\n8   8  33.7  31.6  28.5  25.1   Placebo\n9   9  19.7  14.9  15.3  14.7   Placebo\n10 10  31.1  31.2  29.2  30.1   Placebo"
+  }
+]
