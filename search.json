@@ -1,0 +1,37 @@
+[
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Longitudinal Tutorial",
+    "section": "",
+    "text": "Welcome\nThis is a Quarto book.\nTo learn more about Quarto books visit https://quarto.org/docs/books.\n\n1 + 1\n\n[1] 2"
+  },
+  {
+    "objectID": "Longi_intro.html",
+    "href": "Longi_intro.html",
+    "title": "2  Longitudinal Introduction",
+    "section": "",
+    "text": "This section covers the basics of longitudinal data analysis.\nTo learn more about longitudinal data analysis, visit the [Quarto documentation](https://quarto.org/docs/books).\n\n3 Data Structure"
+  },
+  {
+    "objectID": "Multi_intro.html",
+    "href": "Multi_intro.html",
+    "title": "3  Multilevel Introduction",
+    "section": "",
+    "text": "This section covers the basics of multilevel data analysis.\nTo learn more about multilevel data analysis, visit the [Quarto documentation](https://quarto.org/docs/books).\n\n4 Data Structure"
+  },
+  {
+    "objectID": "Longi_intro.html#data-structure",
+    "href": "Longi_intro.html#data-structure",
+    "title": "Longitudinal Data Analysis",
+    "section": "Data Structure",
+    "text": "Data Structure"
+  },
+  {
+    "objectID": "Multi_intro.html#data-structure",
+    "href": "Multi_intro.html#data-structure",
+    "title": "Multilevel Data Analysis",
+    "section": "Data Structure",
+    "text": "Data Structure"
+  }
+]

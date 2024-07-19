@@ -1,0 +1,3 @@
+# Marginal Model (GEE) {#sec-longi-GEE}
+
+## Package

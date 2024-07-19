@@ -1,0 +1,5 @@
+# Models for Non-Continuous Outcomes (Longitudinal) {#sec-longi-noncontinuous}
+
+## Binary Outcome
+
+## Count Outcome

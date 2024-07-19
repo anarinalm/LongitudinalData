@@ -1,0 +1,1 @@
+# Multilevel Models for Categorical Variables {#sec-multi-categoricalvar}

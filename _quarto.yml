@@ -1,0 +1,50 @@
+project:
+  type: book
+
+book:
+  title: "Longitudinal Tutorial"
+  author: "Yingxi Kong"
+  date: "7/8/2024"
+  chapters:
+    - index.qmd
+    - preface.qmd
+    - part: Longi_intro.qmd
+      chapters: 
+        - Longi_EDA.qmd
+        - Longi_GEE.qmd
+        - Longi_mixeffect.qmd
+        - Longi-comparison.qmd
+        - Longi_covmodel.qmd
+        - Longi_modelselection.qmd
+        - Longi_prediction.qmd
+        - Longi_interpretation.qmd
+        - Longi_noncontinuous.qmd
+        - Longi_missingdata.qmd
+    - part: Multi_intro.qmd
+      chapters:
+        - Multi_hierarchicalstructure.qmd
+        - Multi_EDA.qmd
+        - Multi_MLM.qmd
+        - Multi_modeldiagnostic.qmd
+        - Multi_interpretation.qmd
+        - Multi_prediction.qmd
+        - Multi_varying.qmd
+        - Multi_nonnested.qmd
+        - Multi_noncontinuous.qmd
+        - Multi_categoricalvar.qmd
+        
+
+bibliography: references.bib
+
+format:
+  html:
+    theme: cosmo
+  pdf:
+    documentclass: scrreprt
+    include-in-header: 
+      text: |
+        \usepackage{makeidx}
+        \makeindex
+    include-after-body: 
+      text: |
+        \printindex 
