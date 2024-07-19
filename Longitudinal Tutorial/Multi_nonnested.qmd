@@ -1,3 +1,0 @@
----
-title: "Non-nested Model (Crossed Effects)"
----

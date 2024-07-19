@@ -1,3 +1,0 @@
----
-title: "Mixed Effects Model"
----

@@ -1,3 +1,0 @@
----
-title: "Marginal Model (GEE)"
----

@@ -1,3 +1,0 @@
----
-title: "Multilevel Models with Varying Intercepts and Slopes"
----

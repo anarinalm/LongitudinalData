@@ -1,3 +1,0 @@
----
-title: "Multilevel Models for Categorical Variables"
----

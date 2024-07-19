@@ -1,3 +1,0 @@
----
-title: "Models for Non-Continuous Outcomes"
----

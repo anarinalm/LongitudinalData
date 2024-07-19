@@ -1,3 +1,0 @@
----
-title: "Multilevel Logistic Regression for Binary Data"
----

@@ -1,9 +1,0 @@
----
-title: "Introduction"
----
-
-This section covers the basics of multilevel data analysis.
-
-To learn more about multilevel data analysis, visit the \[Quarto documentation\](https://quarto.org/docs/books).
-
-# Data Structure

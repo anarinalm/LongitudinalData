@@ -1,5 +1,0 @@
----
-title: "Exploratory Data Analysis"
----
-
-# Long and wide format
