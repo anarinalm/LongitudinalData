@@ -296,7 +296,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#data-structure" id="toc-data-structure" class="nav-link active" data-scroll-target="#data-structure">Data Structure</a></li>
+  <li><a href="#data-structure" id="toc-data-structure" class="nav-link active" data-scroll-target="#data-structure">Data Structure</a>
+  <ul class="collapse">
+  <li><a href="#loading-csv-files" id="toc-loading-csv-files" class="nav-link" data-scroll-target="#loading-csv-files">Loading CSV files</a></li>
+  <li><a href="#loading-dta-files" id="toc-loading-dta-files" class="nav-link" data-scroll-target="#loading-dta-files">Loading dta files</a></li>
+  </ul></li>
+  <li><a href="#converting-between-data-formats-wide-and-long-format" id="toc-converting-between-data-formats-wide-and-long-format" class="nav-link" data-scroll-target="#converting-between-data-formats-wide-and-long-format">Converting between data formats (wide and long format)</a></li>
   </ul>
 </nav>
     </div>
@@ -322,15 +327,24 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <section id="data-structure" class="level2">
 <h2 class="anchored" data-anchor-id="data-structure">Data Structure</h2>
-<div class="cell">
+<div class="cell" data-layout-align="center">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">suppressPackageStartupMessages</span>(<span class="fu">library</span>(tidyr))</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">suppressPackageStartupMessages</span>(<span class="fu">library</span>(data.table))</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">suppressPackageStartupMessages</span>(<span class="fu">library</span>(ggplot2))</span>
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">suppressPackageStartupMessages</span>(<span class="fu">library</span>(haven))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>TLC <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">"Data/TLC.csv"</span>)</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(TLC, <span class="at">n =</span> <span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The most important part of any statistical analysis begins with loading the data into Rstudio. Data can come in many forms with two popular ones being csv (comma separated values) and dta. Below we show different methods for how to load the data into RStudio.</p>
+<section id="loading-csv-files" class="level3">
+<h3 class="anchored" data-anchor-id="loading-csv-files">Loading CSV files</h3>
+<section id="using-base-r" class="level4">
+<h4 class="anchored" data-anchor-id="using-base-r">Using base R</h4>
+<p>The following method is a pretty standard way of loading csv files into R. It requires no external packages (this is already a base R function) and works as follows. First, specify the location of your data, and put it into function as an input.</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>TLC <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">"Data/TLC.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>We can then get a look at the data by using the head function which provides us with a sneak peek of the first n rows.</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(TLC, <span class="at">n =</span> <span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>   id lead0 lead1 lead4 lead6     group
 1   1  30.8  26.9  25.8  23.8   Placebo
@@ -345,9 +359,59 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 10 10  31.1  31.2  29.2  30.1   Placebo</code></pre>
 </div>
 </div>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>TLCdta <span class="ot">&lt;-</span> <span class="fu">read_dta</span>(<span class="st">"Data/TLC.dta"</span>)</span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(TLCdta, <span class="at">n =</span> <span class="dv">15</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="using-the-readr-package" class="level4">
+<h4 class="anchored" data-anchor-id="using-the-readr-package">Using the readr package</h4>
+<p>The next method requires the use of the readr package. It works exactly the same as read.csv, save for the fact that it is faster than read.csv.</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readr)</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>TLC <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"Data/TLC.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>We can also print the first few rows to take a look of our data using function <code>head</code>, here we print the first 10 rows of the data.</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(TLC, <span class="at">n =</span> <span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 10 × 6
+      id lead0 lead1 lead4 lead6 group    
+   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt;    
+ 1     1  30.8 26.9   25.8 23.8  Placebo  
+ 2     2  26.5 14.8   19.5 21    Treatment
+ 3     3  25.8 23     19.1 23.2  Treatment
+ 4     4  24.7 24.5   22   22.5  Placebo  
+ 5     5  20.4  2.8    3.2  9.40 Treatment
+ 6     6  20.4  5.40   4.5 11.9  Treatment
+ 7     7  28.6 20.8   19.2 18.4  Placebo  
+ 8     8  33.7 31.6   28.5 25.1  Placebo  
+ 9     9  19.7 14.9   15.3 14.7  Placebo  
+10    10  31.1 31.2   29.2 30.1  Placebo  </code></pre>
+</div>
+</div>
+</section>
+<section id="using-the-data.table-package" class="level4">
+<h4 class="anchored" data-anchor-id="using-the-data.table-package">Using the data.table package</h4>
+<p>If we have large datasets, we can use the fread function in the data.table package to read the data faster compared to the other methods above, and we print the first 5 rows of the data.</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(data.table)</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>TLC <span class="ot">&lt;-</span> <span class="fu">fread</span>(<span class="st">"Data/TLC.csv"</span>)</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(TLC, <span class="at">n =</span> <span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>      id lead0 lead1 lead4 lead6     group
+   &lt;int&gt; &lt;num&gt; &lt;num&gt; &lt;num&gt; &lt;num&gt;    &lt;char&gt;
+1:     1  30.8  26.9  25.8  23.8   Placebo
+2:     2  26.5  14.8  19.5  21.0 Treatment
+3:     3  25.8  23.0  19.1  23.2 Treatment
+4:     4  24.7  24.5  22.0  22.5   Placebo
+5:     5  20.4   2.8   3.2   9.4 Treatment</code></pre>
+</div>
+</div>
+</section>
+</section>
+<section id="loading-dta-files" class="level3">
+<h3 class="anchored" data-anchor-id="loading-dta-files">Loading dta files</h3>
+<p>We can also read files in other formats from other software (STATA, SPSS, SAS, etc). Here we will explore reading dta files which is used in STATA software. In order to load these into Rstudio we need to use a package known as haven. The haven package has a function known as <code>read_dta()</code> which serves a similar purpose as <code>read.csv()</code>, <code>read_csv()</code> and <code>fread()</code>.</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>TLCdta <span class="ot">&lt;-</span> <span class="fu">read_dta</span>(<span class="st">"Data/TLC.dta"</span>)</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(TLCdta, <span class="at">n =</span> <span class="dv">15</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 15 × 6
       id lead0 lead1 lead4 lead6 group    
@@ -367,6 +431,69 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 13    13  21.4 26.3  19.5  19    Placebo  
 14    14  27.9  6.30 18.5  16.3  Treatment
 15    15  21.1 20.3  18.4  20.8  Placebo  </code></pre>
+</div>
+</div>
+</section>
+</section>
+<section id="converting-between-data-formats-wide-and-long-format" class="level2">
+<h2 class="anchored" data-anchor-id="converting-between-data-formats-wide-and-long-format">Converting between data formats (wide and long format)</h2>
+<p>For the most part there are two formats that your data can come in. The wide format and the long format. The long format is when patients within the data have more than one observation. In other words, each row is snapshot into a subject’s history at a specific time point. In the case of our data, each subject has four observations corresponding to their four lead measurements (initial measurement, 1 week measurement, 4 week measurement, and 6 week measurement). The code below details how to convert from wide format to long format.</p>
+<p>The arguments to <code>gather()</code>:</p>
+<ul>
+<li><code>data</code>: Data object (e.g.&nbsp;the data object here is TLC).</li>
+<li><code>key</code>: Name of new key column (made from names of data columns).</li>
+<li><code>value</code>: Name of new value column.</li>
+<li><code>...</code>: Names of source columns that contain values.</li>
+<li><code>factor_key</code>: Treat the new key column as a factor (instead of character vector).</li>
+</ul>
+<p>Then, we print the first 16 rows of the long format TLC data.</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>long_TLC <span class="ot">&lt;-</span> tidyr<span class="sc">::</span><span class="fu">gather</span>(TLC, level, measurements, lead0<span class="sc">:</span>lead6, <span class="at">factor_key =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>long_TLC <span class="ot">&lt;-</span> long_TLC[<span class="fu">order</span>(long_TLC<span class="sc">$</span>id), ]</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(long_TLC, <span class="at">n =</span> <span class="dv">16</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>    id     group level measurements
+1    1   Placebo lead0         30.8
+101  1   Placebo lead1         26.9
+201  1   Placebo lead4         25.8
+301  1   Placebo lead6         23.8
+2    2 Treatment lead0         26.5
+102  2 Treatment lead1         14.8
+202  2 Treatment lead4         19.5
+302  2 Treatment lead6         21.0
+3    3 Treatment lead0         25.8
+103  3 Treatment lead1         23.0
+203  3 Treatment lead4         19.1
+303  3 Treatment lead6         23.2
+4    4   Placebo lead0         24.7
+104  4   Placebo lead1         24.5
+204  4   Placebo lead4         22.0
+304  4   Placebo lead6         22.5</code></pre>
+</div>
+</div>
+<p>The wide format is when each row corresponds to a unique subject. The below shows one how to convert from long format to wide.</p>
+<p>The arguments to <code>spread()</code>:</p>
+<ul>
+<li><code>data</code>: Data object.</li>
+<li><code>key</code>: Name of column containing the new column names.</li>
+<li><code>value</code>: Name of column containing values.</li>
+</ul>
+<p>Then, we print the first 10 rows of the converted wide format TLC data which should be same as our original data.</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>wide_TLC <span class="ot">&lt;-</span> <span class="fu">spread</span>(long_TLC, level, measurements)</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(wide_TLC, <span class="at">n =</span> <span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>   id     group lead0 lead1 lead4 lead6
+1   1   Placebo  30.8  26.9  25.8  23.8
+2   2 Treatment  26.5  14.8  19.5  21.0
+3   3 Treatment  25.8  23.0  19.1  23.2
+4   4   Placebo  24.7  24.5  22.0  22.5
+5   5 Treatment  20.4   2.8   3.2   9.4
+6   6 Treatment  20.4   5.4   4.5  11.9
+7   7   Placebo  28.6  20.8  19.2  18.4
+8   8   Placebo  33.7  31.6  28.5  25.1
+9   9   Placebo  19.7  14.9  15.3  14.7
+10 10   Placebo  31.1  31.2  29.2  30.1</code></pre>
 </div>
 </div>
 
