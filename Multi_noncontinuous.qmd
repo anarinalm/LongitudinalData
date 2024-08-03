@@ -1,5 +1,0 @@
-# Models for Non-Continuous Outcomes (Multilevel) {#sec-multi-noncontinuous}
-
-## Binary Outcome
-
-## Count Outcome
