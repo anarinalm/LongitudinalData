@@ -7,7 +7,6 @@ knitr::opts_chunk$set(fig.height = 4)
 knitr::opts_chunk$set(fig.width = 6)
 knitr::opts_chunk$set(fig.align="center")
 `%notin%` <- Negate(`%in%`)
-library(kableExtra)
 ```
 ## Data Structure
 
@@ -16,6 +15,9 @@ suppressPackageStartupMessages(library(tidyr))
 suppressPackageStartupMessages(library(data.table))
 suppressPackageStartupMessages(library(ggplot2))
 suppressPackageStartupMessages(library(haven))
+suppressPackageStartupMessages(library(dplyr))
+suppressPackageStartupMessages(library(GGally))
+suppressPackageStartupMessages(library(kableExtra))
 ```
 
 The most important part of any statistical analysis begins with loading the data into Rstudio. Data can
@@ -70,37 +72,3 @@ TLCdta <- read_dta("Data/TLC.dta")
 head(TLCdta, n = 15)
 ```
 
-
-## Converting between data formats (wide and long format)
-
-For the most part there are two formats that your data can come in. The wide format and the long format. The long format is when patients within the data have more than one observation. In other words, each row is snapshot into a subject's history at a specific time point. In the case of our data, each subject has four observations corresponding to their four lead measurements (initial measurement, 1 week measurement, 4 week measurement, and 6 week measurement). The code below details how to convert from wide format to long format.
-
-The arguments to `gather()`:
-
-* `data`: Data object (e.g. the data object here is TLC).
-* `key`: Name of new key column (made from names of data columns).
-* `value`: Name of new value column.
-* `...`: Names of source columns that contain values.
-* `factor_key`: Treat the new key column as a factor (instead of character vector).
-
-
-Then, we print the first 16 rows of the long format TLC data.
-```{r}
-long_TLC <- tidyr::gather(TLC, level, measurements, lead0:lead6, factor_key=TRUE)
-long_TLC <- long_TLC[order(long_TLC$id),]
-head(long_TLC,n=16)
-```
-
-The wide format is when each row corresponds to a unique subject. The below shows one how to convert from long format to wide.
-
-The arguments to `spread()`:
-
-* `data`: Data object.
-* `key`: Name of column containing the new column names.
-* `value`: Name of column containing values.
-
-Then, we print the first 10 rows of the converted wide format TLC data which should be same as our original data.
-```{r}
-wide_TLC <- spread(long_TLC, level, measurements)
-head(wide_TLC, n = 10)
-```

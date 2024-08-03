@@ -215,77 +215,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
       </ul>
   </li>
-        <li class="sidebar-item sidebar-item-section">
-      <div class="sidebar-item-container"> 
-            <a href="./Multi_intro.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Multilevel Data Analysis</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true" aria-label="Toggle section">
-            <i class="bi bi-chevron-right ms-2"></i>
-          </a> 
-      </div>
-      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./Multi_hierarchicalstructure.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Hierarchical Structure</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./Multi_EDA.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Exploratory Data Analysis</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./Multi_MLM.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Multilevel Linear Models (MLM)</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./Multi_modeldiagnostic.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Model Diagnostic</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./Multi_interpretation.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Interpretation</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./Multi_prediction.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Prediction</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./Multi_varying.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Multilevel Models with Varying Intercepts and Slopes</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./Multi_nonnested.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Non-nested Model (Crossed Effects)</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./Multi_noncontinuous.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">Models for Non-Continuous Outcomes (Multilevel)</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./Multi_categoricalvar.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">20</span>&nbsp; <span class="chapter-title">Multilevel Models for Categorical Variables</span></span></a>
-  </div>
-</li>
-      </ul>
-  </li>
     </ul>
     </div>
 </nav>
@@ -301,7 +230,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#loading-csv-files" id="toc-loading-csv-files" class="nav-link" data-scroll-target="#loading-csv-files">Loading CSV files</a></li>
   <li><a href="#loading-dta-files" id="toc-loading-dta-files" class="nav-link" data-scroll-target="#loading-dta-files">Loading dta files</a></li>
   </ul></li>
-  <li><a href="#converting-between-data-formats-wide-and-long-format" id="toc-converting-between-data-formats-wide-and-long-format" class="nav-link" data-scroll-target="#converting-between-data-formats-wide-and-long-format">Converting between data formats (wide and long format)</a></li>
   </ul>
 </nav>
     </div>
@@ -331,7 +259,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">suppressPackageStartupMessages</span>(<span class="fu">library</span>(tidyr))</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">suppressPackageStartupMessages</span>(<span class="fu">library</span>(data.table))</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">suppressPackageStartupMessages</span>(<span class="fu">library</span>(ggplot2))</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">suppressPackageStartupMessages</span>(<span class="fu">library</span>(haven))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">suppressPackageStartupMessages</span>(<span class="fu">library</span>(haven))</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">suppressPackageStartupMessages</span>(<span class="fu">library</span>(dplyr))</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="fu">suppressPackageStartupMessages</span>(<span class="fu">library</span>(GGally))</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="fu">suppressPackageStartupMessages</span>(<span class="fu">library</span>(kableExtra))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>The most important part of any statistical analysis begins with loading the data into Rstudio. Data can come in many forms with two popular ones being csv (comma separated values) and dta. Below we show different methods for how to load the data into RStudio.</p>
 <section id="loading-csv-files" class="level3">
@@ -433,71 +364,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 15    15  21.1 20.3  18.4  20.8  Placebo  </code></pre>
 </div>
 </div>
-</section>
-</section>
-<section id="converting-between-data-formats-wide-and-long-format" class="level2">
-<h2 class="anchored" data-anchor-id="converting-between-data-formats-wide-and-long-format">Converting between data formats (wide and long format)</h2>
-<p>For the most part there are two formats that your data can come in. The wide format and the long format. The long format is when patients within the data have more than one observation. In other words, each row is snapshot into a subject’s history at a specific time point. In the case of our data, each subject has four observations corresponding to their four lead measurements (initial measurement, 1 week measurement, 4 week measurement, and 6 week measurement). The code below details how to convert from wide format to long format.</p>
-<p>The arguments to <code>gather()</code>:</p>
-<ul>
-<li><code>data</code>: Data object (e.g.&nbsp;the data object here is TLC).</li>
-<li><code>key</code>: Name of new key column (made from names of data columns).</li>
-<li><code>value</code>: Name of new value column.</li>
-<li><code>...</code>: Names of source columns that contain values.</li>
-<li><code>factor_key</code>: Treat the new key column as a factor (instead of character vector).</li>
-</ul>
-<p>Then, we print the first 16 rows of the long format TLC data.</p>
-<div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>long_TLC <span class="ot">&lt;-</span> tidyr<span class="sc">::</span><span class="fu">gather</span>(TLC, level, measurements, lead0<span class="sc">:</span>lead6, <span class="at">factor_key =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>long_TLC <span class="ot">&lt;-</span> long_TLC[<span class="fu">order</span>(long_TLC<span class="sc">$</span>id), ]</span>
-<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(long_TLC, <span class="at">n =</span> <span class="dv">16</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>    id     group level measurements
-1    1   Placebo lead0         30.8
-101  1   Placebo lead1         26.9
-201  1   Placebo lead4         25.8
-301  1   Placebo lead6         23.8
-2    2 Treatment lead0         26.5
-102  2 Treatment lead1         14.8
-202  2 Treatment lead4         19.5
-302  2 Treatment lead6         21.0
-3    3 Treatment lead0         25.8
-103  3 Treatment lead1         23.0
-203  3 Treatment lead4         19.1
-303  3 Treatment lead6         23.2
-4    4   Placebo lead0         24.7
-104  4   Placebo lead1         24.5
-204  4   Placebo lead4         22.0
-304  4   Placebo lead6         22.5</code></pre>
-</div>
-</div>
-<p>The wide format is when each row corresponds to a unique subject. The below shows one how to convert from long format to wide.</p>
-<p>The arguments to <code>spread()</code>:</p>
-<ul>
-<li><code>data</code>: Data object.</li>
-<li><code>key</code>: Name of column containing the new column names.</li>
-<li><code>value</code>: Name of column containing values.</li>
-</ul>
-<p>Then, we print the first 10 rows of the converted wide format TLC data which should be same as our original data.</p>
-<div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>wide_TLC <span class="ot">&lt;-</span> <span class="fu">spread</span>(long_TLC, level, measurements)</span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(wide_TLC, <span class="at">n =</span> <span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>   id     group lead0 lead1 lead4 lead6
-1   1   Placebo  30.8  26.9  25.8  23.8
-2   2 Treatment  26.5  14.8  19.5  21.0
-3   3 Treatment  25.8  23.0  19.1  23.2
-4   4   Placebo  24.7  24.5  22.0  22.5
-5   5 Treatment  20.4   2.8   3.2   9.4
-6   6 Treatment  20.4   5.4   4.5  11.9
-7   7   Placebo  28.6  20.8  19.2  18.4
-8   8   Placebo  33.7  31.6  28.5  25.1
-9   9   Placebo  19.7  14.9  15.3  14.7
-10 10   Placebo  31.1  31.2  29.2  30.1</code></pre>
-</div>
-</div>
 
 
+</section>
 </section>
 
 </main> <!-- /main -->
