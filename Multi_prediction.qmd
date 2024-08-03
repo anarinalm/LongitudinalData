@@ -1,1 +1,0 @@
-# Prediction {#sec-multi-prediction}
