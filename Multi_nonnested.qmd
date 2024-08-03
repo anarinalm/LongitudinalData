@@ -1,1 +1,0 @@
-# Non-nested Model (Crossed Effects) {#sec-multi-nonnested}
