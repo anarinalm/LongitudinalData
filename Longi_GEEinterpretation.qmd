@@ -1,0 +1,212 @@
+# Marginal Model Interpretation {#sec-longi-GEE-interpretation}
+
+```{r setup, include=FALSE, echo=TRUE}
+knitr::opts_chunk$set(message = F)
+knitr::opts_chunk$set(warning = F)
+knitr::opts_chunk$set(tidy.opts=list(width.cutoff=80),tidy=TRUE)
+knitr::opts_chunk$set(fig.height = 4)
+knitr::opts_chunk$set(fig.width = 6)
+knitr::opts_chunk$set(fig.align="center")
+`%notin%` <- Negate(`%in%`)
+```
+
+```{r, echo=FALSE, warning=FALSE}
+suppressPackageStartupMessages(library(tidyr))
+suppressPackageStartupMessages(library(data.table))
+suppressPackageStartupMessages(library(ggplot2))
+suppressPackageStartupMessages(library(haven))
+suppressPackageStartupMessages(library(dplyr))
+suppressPackageStartupMessages(library(GGally))
+suppressPackageStartupMessages(library(kableExtra))
+```
+
+```{r, echo=FALSE}
+TLC <- read.csv("Data/TLC.csv")
+
+### Convert Data from wide to Long
+long_TLC <- tidyr::gather(TLC, level, measurements, lead0:lead6, factor_key=TRUE)
+long_TLC <- long_TLC[order(long_TLC$id),]
+
+#create new time variable for analyses
+long_TLC$time <- c(0,1,4,6)[long_TLC$level]
+
+#Note: other ways to code for time as continuous
+# create new variable to make time continuous
+long_TLC$week = 0 #baseline, week 0
+long_TLC$week[long_TLC$level == "lead1"] = 1 #week 1
+long_TLC$week[long_TLC$level == "lead4"] = 4 #week 4
+long_TLC$week[long_TLC$level == "lead6"] = 6 #week 6
+```
+
+
+## Brief Review of What We Learned
+
+\textbf{Models for LDA with Continuous Outcomes}
+
+* Marginal Models
+  + GLS
+    + Define covariance model
+    + Compare models using AIC, BIC, likelihood ratio test
+  + GEE
+    + Compare models using QIC
+    + Define covariance model and link function
+
+```{r}
+library(nlme) #used for the gls() function
+```
+
+## Interpreting Coefficients of Marginal Models (Systematic Component)
+
+First, lets consider a few simple cases in understanding the Marginal Model:
+
+$$\mu_{ij} = E(\textcolor{red}{y}_{ij} \mid {X_{ij},t_{ij}})$$
+
+where $X_{ij}$ are the explanatory variables and $t_{ij}$ is time. 
+
+
+a) If the mean is constant across time and other variables ($X_{ij}$), and the mean is the same for all individuals, then
+
+$$\mu_{ij} = \mu$$
+
+
+b) If the mean changes across time linearly and is not impacted by other variables ($X_{i}$), and is the same for all individuals, then
+
+$$\mu_{ij} = \beta_0 + \beta_1 t_{ij}$$
+
+
+c) If the mean changes across time with time-varying variables ($X_{ij}$) and is the same for all individuals, then
+
+$$\mu_{ij} = \beta_0 + \beta_1 x_{ij}$$
+
+Now, lets go back to interpreting coefficients of our models
+
+\begin{center}
+$E(y_{ij} \mid X_{ij}) = \beta_0 +  \beta_{trt}trt +  \beta_{T}T$
+\end{center}
+
+```{r}
+# unstructured covariance  
+marg_mod <- gls(measurements ~ factor(group) + time, 
+                data = long_TLC, corr = corSymm(form = ~1 | id),
+                weights = varIdent(form = ~1 | as.factor(level)), method = "REML")
+
+summary(marg_mod)
+```
+
+
+
+$\beta_{trt}$ and $\beta_{T}$ represents the estimated population mean change.
+
+The general interpretation for these coeffiecients when $X_{ij}$ is continuous, is that a unit difference in $X$ leads to a $\beta_1$ difference in overall mean response while holding all other variables constant.
+
+Lets interpret these coefficients in the context of the TLC data.
+
+**Interpretation**: 
+
+$\beta_{trt}$: Among the treatment group, the average population change of blood lead levels (BLL) decreases by 2 in comparison to the control group.
+
+
+$\beta_{T}$: Among the control and treatment groups, blood lead levels (BLL) decreases by 0.40 ($\beta_{T}$) for every one-unit increase in time ($T$).
+
+
+$\beta_{0}$: Among the control and treatment group, the average population change of blood lead levels (BLL) increases by 26 and is constant over time.
+
+
+\newpage
+
+\textbf{How would our interpretation change after adding an interaction term?}
+
+Consider the following model: 
+
+\begin{center}
+$E(y_{ij} \mid X_{ij}) = \beta_0 +  \beta_{trt}trt +  \beta_{T}T + \beta_{trt:T}\cdot trt \cdot T$ 
+\end{center}
+
+
+```{r}
+# unstructured covariance  
+marg_mod_inter <- gls(measurements ~ factor(group) + time + factor(group):time, 
+                      data = long_TLC, corr = corSymm(form = ~1 | id),
+                      weights = varIdent(form = ~1 | as.factor(level)), method = "REML")
+
+summary(marg_mod_inter)
+```
+
+
+**Interpretation**: 
+
+$\beta_{0}$: Among the control and treatment groups, the average population change of blood lead levels (BLL) increases by 26 and is constant over time.
+
+$\beta_{trt}$: Among the treatment group, the average population change of blood lead levels (BLL) decreases by 1.93 in comparison to the control group. 
+
+$\beta_{T}$: Among the control group, blood lead levels (BLL) decreases by 0.40 ($\beta_{T}$) for every one-unit increase in time ($T$).
+
+$\beta_{T} + \beta_{trt:T}$: Among the treatment groups, blood lead levels (BLL) decreases by 2.09  for every one-unit increase in time ($T$).
+
+$\beta_{trt:T}$: Comparing the treatment and control groups, the difference in the mean change of blood lead levels (BLL) is 0.20 less among the patients in the treatment group compared to the control group for every one-unit increase in time ($T$).
+
+\newpage
+
+\textbf{How would this change if time was categorical?}
+
+Consider the Response Profiles Analysis case with no interaction terms first:
+
+\begin{center}
+$E(y_{ij} \mid X_{ij}) = \beta_0 +  \beta_{trt}trt +  \beta_{T_1}T_1 +  \beta_{T_4}T_4 +  \beta_{T_6}T_6$
+\end{center}
+
+```{r}
+# unstructured covariance  
+marg_mod_resp_prof <- gls(measurements ~ factor(group) + factor(level), 
+                          data = long_TLC, corr = corSymm(form = ~1 | id),
+                          weights = varIdent(form = ~1 | as.factor(level)), method = "REML")
+
+summary(marg_mod_resp_prof)
+```
+
+
+**Interpretation**: 
+
+$\beta_{0}$: Among the control and treatment groups, the average population change of blood lead levels (BLL) increases by 27.41 and is constant over time.
+
+$\beta_{trt}$: Among the treatment group, the average population change of blood lead levels (BLL) decreases by 2.01 in comparison to the control group. 
+
+$\beta_{T_1}, \beta_{T_4}, \beta_{T_6}$: represent the average change in blood lead levels (BLL) among the population (e.g. both control and treatment groups) relative to baseline which is the reference group for each time variable (dichotomous indicator variable).
+
+For example, the average change in blood lead levels (BLL) among the population is 7.31 less compared to the baseline measure.
+
+
+\newpage
+
+\textbf{How would this change if an interaction term was included in the model?}
+
+Consider the Response Profiles Analysis case with no interaction terms first:
+
+\begin{center}
+$E(y_{ij} \mid X_{ij}) = \beta_0 +  \beta_{trt}trt +  \beta_{T_1}T_1 +  \beta_{T_4}T_4 +  \beta_{T_6}T_6 + \beta_{trt:T1}\cdot trt \cdot T_1 +  \beta_{trt:T4}\cdot trt \cdot T_4 +  \beta_{trt:T6}\cdot trt \cdot T_6$
+\end{center}
+
+```{r}
+# unstructured covariance  
+marg_mod_resp_prof <- gls(measurements ~ factor(group) + factor(level) + factor(group):factor(level), 
+                          data = long_TLC, corr = corSymm(form = ~ 1 | id),
+                          weights = varIdent(form = ~1 | as.factor(level)), method = "REML")
+
+summary(marg_mod_resp_prof)
+```
+
+
+**Interpretation of Interaction Term Parameters**: 
+
+$\beta_{T_1}, \beta_{T_4}, \beta_{T_6}$: represent the average change in blood lead levels (BLL) among the control group relative to baseline which is the reference group in this case for each time variable (dichotomous indicator variable).
+
+$\beta_{T_1} + \beta_{trt:T1}, \beta_{T_4} + \beta_{trt:T4}, \beta_{T_6} + \beta_{trt:T6}$: represent the average change in blood lead levels (BLL) among the treatment group compared to control group relative to baseline which is the reference group in this case for each time variable (dichotomous indicator variable).
+
+For example, the average change in blood lead levels (BLL) among the treatment group at week 1 compared to baseline is 13.02 less ($\beta_{T_1} + \beta_{trt:T1}$) in comparison to the control group at visit 1. Notice that there are two references here in our interpretation: the group (treatment vs control) and the time point (week 1 vs baseline).
+
+$\beta_{trt:T1}, \beta_{trt:T4}, \beta_{trt:T6}$: represent the average difference in mean blood lead levels (BLL) between treatment groups at the different time points in comparison to baseline which is the reference group.
+
+For example, the average difference in mean blood lead levels (BLL) from baseline to week 1 was 11.40 ($\beta_{trt:T1}$) between treatment groups.
+
+
+

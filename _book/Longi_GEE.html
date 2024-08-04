@@ -20,6 +20,40 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
@@ -30,7 +64,7 @@ ul.task-list li input[type="checkbox"] {
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./Longi_mixeffect.html" rel="next">
+<link href="./Longi_GEEinterpretation.html" rel="next">
 <link href="./Longi_EDA.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
@@ -61,6 +95,8 @@ ul.task-list li input[type="checkbox"] {
   }
 }</script>
 
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
 </head>
 
@@ -133,121 +169,56 @@ ul.task-list li input[type="checkbox"] {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="./Longi_GEEinterpretation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Marginal Model (GEE) Interpretation</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="./Longi_mixeffect.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Mixed Effects Model</span></span></a>
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Mixed Effects Model</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./Longi_comparison.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Comparison Between GEE and Mixed Effects Model</span></span></a>
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Comparison Between GEE and Mixed Effects Model</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./Longi_covmodel.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Modeling the Covariance</span></span></a>
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Modeling the Covariance</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./Longi_modelselection.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Model Selection</span></span></a>
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Model Selection</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./Longi_prediction.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Prediction</span></span></a>
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Prediction</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./Longi_interpretation.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Interpretation</span></span></a>
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Interpretation</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./Longi_noncontinuous.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Models for Non-Continuous Outcomes (Longitudinal)</span></span></a>
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Models for Non-Continuous Outcomes (Longitudinal)</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./Longi_missingdata.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Missing Data</span></span></a>
-  </div>
-</li>
-      </ul>
-  </li>
-        <li class="sidebar-item sidebar-item-section">
-      <div class="sidebar-item-container"> 
-            <a href="./Multi_intro.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Multilevel Data Analysis</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true" aria-label="Toggle section">
-            <i class="bi bi-chevron-right ms-2"></i>
-          </a> 
-      </div>
-      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./Multi_hierarchicalstructure.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Hierarchical Structure</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./Multi_EDA.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Exploratory Data Analysis</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./Multi_MLM.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Multilevel Linear Models (MLM)</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./Multi_modeldiagnostic.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Model Diagnostic</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./Multi_interpretation.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Interpretation</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./Multi_prediction.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Prediction</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./Multi_varying.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Multilevel Models with Varying Intercepts and Slopes</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./Multi_nonnested.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Non-nested Model (Crossed Effects)</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./Multi_noncontinuous.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">Models for Non-Continuous Outcomes (Multilevel)</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./Multi_categoricalvar.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">20</span>&nbsp; <span class="chapter-title">Multilevel Models for Categorical Variables</span></span></a>
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Missing Data</span></span></a>
   </div>
 </li>
       </ul>
@@ -262,7 +233,12 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#package" id="toc-package" class="nav-link active" data-scroll-target="#package"><span class="header-section-number">2.1</span> Package</a></li>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction"><span class="header-section-number">2.1</span> Introduction</a></li>
+  <li><a href="#required-packages" id="toc-required-packages" class="nav-link" data-scroll-target="#required-packages"><span class="header-section-number">2.2</span> Required Packages</a></li>
+  <li><a href="#constructing-marginal-models" id="toc-constructing-marginal-models" class="nav-link" data-scroll-target="#constructing-marginal-models"><span class="header-section-number">2.3</span> Constructing Marginal Models</a></li>
+  <li><a href="#response-profile-analysis" id="toc-response-profile-analysis" class="nav-link" data-scroll-target="#response-profile-analysis"><span class="header-section-number">2.4</span> Response Profile Analysis</a></li>
+  <li><a href="#parametric-curves" id="toc-parametric-curves" class="nav-link" data-scroll-target="#parametric-curves"><span class="header-section-number">2.5</span> Parametric Curves</a></li>
+  <li><a href="#constructing-marginal-models-1" id="toc-constructing-marginal-models-1" class="nav-link" data-scroll-target="#constructing-marginal-models-1"><span class="header-section-number">2.6</span> Constructing Marginal Models</a></li>
   </ul>
 </nav>
     </div>
@@ -286,8 +262,796 @@ ul.task-list li input[type="checkbox"] {
 
 </header>
 
-<section id="package" class="level2" data-number="2.1">
-<h2 data-number="2.1" class="anchored" data-anchor-id="package"><span class="header-section-number">2.1</span> Package</h2>
+<section id="introduction" class="level2" data-number="2.1">
+<h2 data-number="2.1" class="anchored" data-anchor-id="introduction"><span class="header-section-number">2.1</span> Introduction</h2>
+<p>For this lab we will return to the TLC dataset with N=100 participants in order to better understand marginal models for longitudinal data when the outcome is continuous.</p>
+</section>
+<section id="required-packages" class="level2" data-number="2.2">
+<h2 data-number="2.2" class="anchored" data-anchor-id="required-packages"><span class="header-section-number">2.2</span> Required Packages</h2>
+<p>We will use the following packages:</p>
+<ul>
+<li><p><code>nlme</code>: This package is for fitting and comparing Gaussian linear and nonlinear mixed-effects models. The variance-covariance structures for the residuals can be specified, and it is useful for data with repeated measures or longitudinal designs. We will use the <code>gls()</code> function to fit a linear model using generalized least squares.</p></li>
+<li><p><code>lme4</code>: This package is for fitting mixed-effects models. We will use the <code>lmer()</code> function to fit a linear model.</p></li>
+</ul>
+<p>These packages are for applying the generalized estimating equations (GEE) approach for fitting marginal generalized linear models to data with repeated measures or longitudinal designs:</p>
+<ul>
+<li><p><code>gee</code>: This is the “Generalized Estimation Equation Solver” package.</p></li>
+<li><p><code>gpack</code>: This is the “Generalized Estimating Equation Package” package.</p></li>
+<li><p><code>geeM</code>: This is the “Solve Generalized Estimating Equations” package.</p></li>
+</ul>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyr)  <span class="co">#Allows for us to manipulate the data structure</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(data.table)  <span class="co">#Allows for us to manipulate the data structure</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)  <span class="co">#this makes better looking plots in R</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="co"># new packages for models</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(nlme)  <span class="co">#used for the gls() function</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gee)  <span class="co"># install.packages('gee'), used for the gee() function</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(geepack)  <span class="co"># install.packages('geepack'), used for the geeglm() function</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(geeM)  <span class="co"># install.packages('geeM'), used for the geeglm() function</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="fu">theme_set</span>(<span class="fu">theme_minimal</span>())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="constructing-marginal-models" class="level2" data-number="2.3">
+<h2 data-number="2.3" class="anchored" data-anchor-id="constructing-marginal-models"><span class="header-section-number">2.3</span> Constructing Marginal Models</h2>
+<p>Consider a continuous outcome <span class="math inline">\(Y\)</span> which indicates a patient’s blood lead level (in micrograms per deciLiter <span class="math inline">\(\mu\)</span>g/dL). The correct way to write Y when doing a model like this would be as <span class="math inline">\(Y_{ij}\)</span>. <span class="math inline">\(Y_{ij}\)</span> is the lead blood level of patient i at time point j. Likewise the covariates <span class="math inline">\(X = (1,X^1, \dots,X^p)\)</span> would be as <span class="math inline">\(X_{ij} = (1,X^1_{ij},\dots X^p_{ij})\)</span>, the p covariates for individual i measured at time point j. 1 is simply the intercept. The superscript here just represents the <span class="math inline">\(k-th\)</span> covariate in the analysis (i.e.&nbsp;in other words we have p covariates).</p>
+<p>In these different modelling strategies we always specify a link between the mean of our distribution and the data, <span class="math inline">\(E(y_{ij} \mid X_{ij}) = \mu_{ij} = g^{-1}(X^T_{ij}\beta)\)</span>. Here <span class="math inline">\(g^{-1}\)</span> is what is commonly referred to as a link function. It is exactly what it sounds like. A function which links the mean of your distribution to your data. There are many common link functions that you’ve probably already dealt with in other regression courses. For example there is the logit link function <span class="math inline">\(g(\mu) =log(\frac{\mu}{1-\mu}) = X^T\beta\)</span> that one uses when doing logistic function.</p>
+<p>When one is doing linear regression a common link function is just the identity link <span class="math inline">\(g(\mu) =\mu = X^T\beta\)</span>.</p>
+<p><strong>Here we introduce a few functions and corresponding packages to fit these models:</strong></p>
+<p><strong>1. Using the gls() function to fit a linear model using generalized least squares</strong></p>
+<p>The syntax for the function <code>gls()</code> in <code>nlme</code> package is</p>
+<p>gls(model, data, correlation, weights, subset, method, na.action, control, verbose)</p>
+<ul>
+<li>Description
+<ul>
+<li><code>model</code>: A two-sided linear formula object describing the model</li>
+<li><code>data</code>: Optional dataframe</li>
+<li><code>correlation</code>: See description for details.
+<ul>
+<li>The corStruct object describes the within-group correlation structure.</li>
+<li>Note we use <code>corCompSymm</code> which has the following syntax: corCompSymm(value, form, fixed) compound symmetry structure corresponding to a constant correlation.</li>
+</ul></li>
+<li><code>weights</code>: See description for details.
+<ul>
+<li>Describes the variance function.</li>
+<li>Note we use <code>varClasses</code> which defines standard classes of variance function structures and use <code>varIdent</code> which describes constant variance(s), that is generally used to allow different variances.</li>
+</ul></li>
+</ul></li>
+</ul>
+<p>We consider the first model discussed in lecture. This model includes time as a categorical covariate and also includes an interaction term to account and adjust for any possible discrepancies between the treatment and control.</p>
+<p>Model 1: <span class="math display">\[E(y_{ij} \mid X_{ij}) = \beta_0 +  \beta_{trt}trt +  \beta_{T_1}T_1 +  \beta_{T_4}T_4 +  \beta_{T_6}T_6 +  \]</span> <span class="math display">\[\beta_{trt:T_1}trt*T_1+ \beta_{trt:T_4}trt*T_4 + \beta_{trt:T_6}trt*T_6\]</span></p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Model fit with compound symmetry heterogeneous variances</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Model 1: Response Profiles (time T categorical)</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>fit.compsym <span class="ot">&lt;-</span> <span class="fu">gls</span>(measurements <span class="sc">~</span> <span class="fu">factor</span>(group) <span class="sc">*</span> <span class="fu">factor</span>(level), <span class="at">data =</span> long_TLC,</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">corr =</span> <span class="fu">corCompSymm</span>(, <span class="at">form =</span> <span class="sc">~</span><span class="fu">factor</span>(level) <span class="sc">|</span> id), <span class="at">weights =</span> <span class="fu">varIdent</span>(<span class="at">form =</span> <span class="sc">~</span><span class="dv">1</span> <span class="sc">|</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>        <span class="fu">factor</span>(level)))</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(fit.compsym)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Generalized least squares fit by REML
+  Model: measurements ~ factor(group) * factor(level) 
+  Data: long_TLC 
+      AIC      BIC   logLik
+  2459.96 2511.587 -1216.98
+
+Correlation Structure: Compound symmetry
+ Formula: ~factor(level) | id 
+ Parameter estimate(s):
+      Rho 
+0.6102726 
+Variance function:
+ Structure: Different standard deviations per stratum
+ Formula: ~1 | factor(level) 
+ Parameter estimates:
+   lead0    lead1    lead4    lead6 
+1.000000 1.279673 1.323194 1.519223 
+
+Coefficients:
+                                            Value Std.Error   t-value p-value
+(Intercept)                                26.272 0.7237961  36.29751  0.0000
+factor(group)Treatment                      0.268 1.0236023   0.26182  0.7936
+factor(level)lead1                         -1.612 0.7506795  -2.14739  0.0324
+factor(level)lead4                         -2.202 0.7713861  -2.85460  0.0045
+factor(level)lead6                         -2.626 0.8726947  -3.00907  0.0028
+factor(group)Treatment:factor(level)lead1 -11.406 1.0616211 -10.74395  0.0000
+factor(group)Treatment:factor(level)lead4  -8.824 1.0909047  -8.08870  0.0000
+factor(group)Treatment:factor(level)lead6  -3.152 1.2341767  -2.55393  0.0110
+
+ Correlation: 
+                                          (Intr) fct()T fct()1 fct()4 fct()6
+factor(group)Treatment                    -0.707                            
+factor(level)lead1                        -0.211  0.149                     
+factor(level)lead4                        -0.181  0.128  0.402              
+factor(level)lead6                        -0.060  0.043  0.383  0.383       
+factor(group)Treatment:factor(level)lead1  0.149 -0.211 -0.707 -0.285 -0.270
+factor(group)Treatment:factor(level)lead4  0.128 -0.181 -0.285 -0.707 -0.271
+factor(group)Treatment:factor(level)lead6  0.043 -0.060 -0.270 -0.271 -0.707
+                                          f()T:()1 f()T:()4
+factor(group)Treatment                                     
+factor(level)lead1                                         
+factor(level)lead4                                         
+factor(level)lead6                                         
+factor(group)Treatment:factor(level)lead1                  
+factor(group)Treatment:factor(level)lead4  0.402           
+factor(group)Treatment:factor(level)lead6  0.383    0.383  
+
+Standardized residuals:
+       Min         Q1        Med         Q3        Max 
+-2.1429121 -0.6927784 -0.1528884  0.5263114  5.5480102 
+
+Residual standard error: 5.118012 
+Degrees of freedom: 400 total; 392 residual</code></pre>
+</div>
+</div>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(fit.compsym)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Denom. DF: 392 
+                            numDF   F-value p-value
+(Intercept)                     1 2438.1298  &lt;.0001
+factor(group)                   1    7.1161   0.008
+factor(level)                   3   80.5492  &lt;.0001
+factor(group):factor(level)     3   46.9289  &lt;.0001</code></pre>
+</div>
+</div>
+<p><strong>2. Next, we discuss Marginal Models (GEE) and three R Packages </strong></p>
+<pre><code>1. Using the `gee` package</code></pre>
+<p>The syntax for the function <code>gee()</code> in <code>gee</code> package is</p>
+<p>gee(formula, id, data, family = gaussian, constr = ‘independence’,Mv)</p>
+<ul>
+<li>Using the <code>GEE</code> Package
+<ul>
+<li><code>formula</code>: Symbolic description of the model to be fitted</li>
+<li><code>family</code>: Description of the error distribution and link function</li>
+<li><code>data</code>: Optional dataframe</li>
+<li><code>id</code>: Vector that identifies the clusters</li>
+<li><code>constr</code>: Working correlation structure: “independence”, “exchangeable”, “AR-M”, “unstructured”</li>
+<li><code>Mv</code>: order of AR correlation (AR1: Mv = 1)</li>
+</ul></li>
+</ul>
+<p>Consider the same model 1 defined earlier:</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Model 1: Response Profiles (time T categorical)</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>mod_tlc_gee <span class="ot">&lt;-</span> <span class="fu">gee</span>(measurements <span class="sc">~</span> level <span class="sc">+</span> group <span class="sc">+</span> level <span class="sc">*</span> group, <span class="at">id =</span> id, <span class="at">data =</span> long_TLC,</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">family =</span> <span class="fu">gaussian</span>(<span class="at">link =</span> <span class="st">"identity"</span>), <span class="at">corstr =</span> <span class="st">"unstructured"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>              (Intercept)                levellead1                levellead4 
+                   26.272                    -1.612                    -2.202 
+               levellead6            groupTreatment levellead1:groupTreatment 
+                   -2.626                     0.268                   -11.406 
+levellead4:groupTreatment levellead6:groupTreatment 
+                   -8.824                    -3.152 </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(mod_tlc_gee)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+ GEE:  GENERALIZED LINEAR MODELS FOR DEPENDENT DATA
+ gee S-function, version 4.13 modified 98/01/27 (1998) 
+
+Model:
+ Link:                      Identity 
+ Variance to Mean Relation: Gaussian 
+ Correlation Structure:     Unstructured 
+
+Call:
+gee(formula = measurements ~ level + group + level * group, id = id, 
+    data = long_TLC, family = gaussian(link = "identity"), corstr = "unstructured")
+
+Summary of Residuals:
+        Min          1Q      Median          3Q         Max 
+-16.6620002  -4.6205000  -0.9930005   3.6724993  43.1380019 
+
+
+Coefficients:
+                          Estimate Naive S.E.    Naive z Robust S.E.
+(Intercept)                 26.272  0.9370175 28.0378980   0.7033749
+levellead1                  -1.612  0.9958441 -1.6187272   0.4330324
+levellead4                  -2.202  0.9838821 -2.2380730   0.4386752
+levellead6                  -2.626  0.9316319 -2.8187098   0.5278091
+groupTreatment               0.268  1.3251428  0.2022423   0.9944085
+levellead1:groupTreatment  -11.406  1.4083363 -8.0989180   1.1086833
+levellead4:groupTreatment   -8.824  1.3914194 -6.3417258   1.1408849
+levellead6:groupTreatment   -3.152  1.3175265 -2.3923617   1.2439296
+                             Robust z
+(Intercept)                37.3513450
+levellead1                 -3.7225849
+levellead4                 -5.0196593
+levellead6                 -4.9752836
+groupTreatment              0.2695069
+levellead1:groupTreatment -10.2878795
+levellead4:groupTreatment  -7.7343471
+levellead6:groupTreatment  -2.5339053
+
+Estimated Scale Parameter:  43.90009
+Number of Iterations:  1
+
+Working Correlation
+          [,1]      [,2]      [,3]      [,4]
+[1,] 1.0000000 0.4352485 0.4487346 0.5057310
+[2,] 0.4352485 1.0000000 0.8094551 0.6759677
+[3,] 0.4487346 0.8094551 1.0000000 0.6975035
+[4,] 0.5057310 0.6759677 0.6975035 1.0000000</code></pre>
+</div>
+</div>
+<pre><code>2. Using the `geepack` package</code></pre>
+<p>The syntax for the function <code>geeglm()</code> in <code>geepack</code> package is</p>
+<p>geeglm(formula, family = gaussian, data, id, zcor = NULL, constr, std.err = ‘san.se’)</p>
+<ul>
+<li>Using the <code>geepack</code> package
+<ul>
+<li><code>formula</code>: Symbolic description of the model to be fitted</li>
+<li><code>family</code>: Description of the error distribution and link function</li>
+<li><code>data</code>: Optional dataframe</li>
+<li><code>id</code>: Vector that identifies the clusters</li>
+<li><code>contr</code>: A character string specifying the correlation structure. The following are permitted: “independence”, “exchangeable”, “ar1”, “unstructured” and “userdefined”</li>
+<li><code>zcor</code>: Enter a user defined correlation structure</li>
+</ul></li>
+</ul>
+<p>Consider the same model 1 defined earlier</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Model 1: Response Profiles (time T categorical)</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>mod_tlc_geep <span class="ot">&lt;-</span> <span class="fu">geeglm</span>(measurements <span class="sc">~</span> level <span class="sc">+</span> group <span class="sc">+</span> level <span class="sc">*</span> group, <span class="at">id =</span> id, <span class="at">data =</span> long_TLC,</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">family =</span> <span class="fu">gaussian</span>(<span class="at">link =</span> <span class="st">"identity"</span>), <span class="at">corstr =</span> <span class="st">"unstructured"</span>)</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(mod_tlc_geep)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+geeglm(formula = measurements ~ level + group + level * group, 
+    family = gaussian(link = "identity"), data = long_TLC, id = id, 
+    corstr = "unstructured")
+
+ Coefficients:
+                          Estimate  Std.err     Wald Pr(&gt;|W|)    
+(Intercept)                26.2720   0.7034 1395.123  &lt; 2e-16 ***
+levellead1                 -1.6120   0.4330   13.858 0.000197 ***
+levellead4                 -2.2020   0.4387   25.197 5.18e-07 ***
+levellead6                 -2.6260   0.5278   24.753 6.52e-07 ***
+groupTreatment              0.2680   0.9944    0.073 0.787540    
+levellead1:groupTreatment -11.4060   1.1087  105.840  &lt; 2e-16 ***
+levellead4:groupTreatment  -8.8240   1.1409   59.820 1.04e-14 ***
+levellead6:groupTreatment  -3.1520   1.2439    6.421 0.011280 *  
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Correlation structure = unstructured 
+Estimated Scale Parameters:
+
+            Estimate Std.err
+(Intercept)    43.02   6.583
+  Link = identity 
+
+Estimated Correlation Parameters:
+          Estimate Std.err
+alpha.1:2   0.4352 0.07616
+alpha.1:3   0.4487 0.08482
+alpha.1:4   0.5057 0.05768
+alpha.2:3   0.8095 0.11232
+alpha.2:4   0.6760 0.10359
+alpha.3:4   0.6975 0.13711
+Number of clusters:   100  Maximum cluster size: 4 </code></pre>
+</div>
+</div>
+<p>We can use the QIC() function from the geepack package.</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">QIC</span>(mod_tlc_geep)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>      QIC      QICu Quasi Lik       CIC    params      QICC 
+    17225     17225     -8604         8         8     17230 </code></pre>
+</div>
+</div>
+<pre><code>3. Using the geeM package</code></pre>
+<p>The syntax for the function <code>geem()</code> in <code>geeM</code> package is</p>
+<p>geem(formula, id, waves = NULL, data, family = gaussian, constr = “independence”, Mv = 1)</p>
+<ul>
+<li>Using the <code>geeM</code> package
+<ul>
+<li><code>formula</code>: Symbolic description of the model to be fitted</li>
+<li><code>id</code>: Vector that identifies the clusters</li>
+<li><code>data</code>: Optional dataframe</li>
+<li><code>family</code>: Description of the error distribution and link function</li>
+<li><code>constr</code>: A character string specifying the correlation structure. Allowed structures are: “independence”, “exchangeable” (equal correlation), “ar1” (exponential decay), “m-dependent” (m-diagonal), “unstructured”, “fixed”, and “userdefined”.</li>
+<li><code>Mv</code>: for “m-dependent”, the value for m.</li>
+</ul></li>
+</ul>
+<p>Consider the same model 1 defined earlier</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Model 1: Response Profiles (time T categorical)</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>mod_tlc_geeM <span class="ot">&lt;-</span> <span class="fu">geem</span>(measurements <span class="sc">~</span> level <span class="sc">+</span> group <span class="sc">+</span> level <span class="sc">*</span> group, <span class="at">id =</span> id, <span class="at">data =</span> long_TLC,</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">family =</span> <span class="fu">gaussian</span>(<span class="at">link =</span> <span class="st">"identity"</span>), <span class="at">corstr =</span> <span class="st">"unstructured"</span>)</span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(mod_tlc_geeM)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>                          Estimates Model SE Robust SE     wald         p
+(Intercept)                  26.270    1.143    0.7034  37.3500 0.000e+00
+levellead1                   -1.612    1.543    0.4330  -3.7230 1.972e-04
+levellead4                   -2.202    1.487    0.4387  -5.0200 5.200e-07
+levellead6                   -2.626    1.270    0.5278  -4.9750 6.500e-07
+groupTreatment                0.268    1.617    0.9944   0.2695 7.875e-01
+levellead1:groupTreatment   -11.410    2.182    1.1090 -10.2900 0.000e+00
+levellead4:groupTreatment    -8.824    2.103    1.1410  -7.7340 0.000e+00
+levellead6:groupTreatment    -3.152    1.795    1.2440  -2.5340 1.128e-02
+
+ Working Correlation: 
+       [,1]   [,2]   [,3]   [,4]
+[1,] 1.0000 0.0893 0.1546 0.3835
+[2,] 0.0893 1.0000 1.0716 0.6018
+[3,] 0.1546 1.0716 1.0000 0.5901
+[4,] 0.3835 0.6018 0.5901 1.0000
+ Correlation Structure:  unstructured 
+ Est. Scale Parameter:  65.36 
+
+ Number of GEE iterations: 1 
+ Number of Clusters:  100    Maximum Cluster Size:  4 
+ Number of observations with nonzero weight:  400 </code></pre>
+</div>
+</div>
+</section>
+<section id="response-profile-analysis" class="level2" data-number="2.4">
+<h2 data-number="2.4" class="anchored" data-anchor-id="response-profile-analysis"><span class="header-section-number">2.4</span> Response Profile Analysis</h2>
+<p>Model 1: <span class="math inline">\(E(y_{ij} \mid X_{ij}) = \beta_0 + \beta_{trt}trt + \beta_{T_1}T_1 + \beta_{T_4}T_4 + \beta_{T_6}T_6 + \beta_{trt:T_1}trt*T_1+ \beta_{trt:T_4}trt*T_4 + \beta_{trt:T_6}trt*T_6\)</span>.</p>
+<p>This model includes time as a categorical covariate and also includes an interaction term to account and adjust for any possible discrepancies between the treatment and control.</p>
+<p>Using the GLS approach, we can fit a model to include time, treatment, and their interaction as categorical variables (use dummy variables). What is your overall conclusion?</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Recall the example above from the nlme package</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Model 1: Response Profiles (time T categorical)</span></span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>resprof_gls_mod_1 <span class="ot">&lt;-</span> <span class="fu">gls</span>(measurements <span class="sc">~</span> <span class="fu">factor</span>(group) <span class="sc">*</span> <span class="fu">factor</span>(level), <span class="at">data =</span> long_TLC,</span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">corr =</span> <span class="fu">corCompSymm</span>(, <span class="at">form =</span> <span class="sc">~</span><span class="fu">factor</span>(level) <span class="sc">|</span> id), <span class="at">weights =</span> <span class="fu">varIdent</span>(<span class="at">form =</span> <span class="sc">~</span><span class="dv">1</span> <span class="sc">|</span></span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>        <span class="fu">factor</span>(level)))</span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Print summary</span></span>
+<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(resprof_gls_mod_1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Generalized least squares fit by REML
+  Model: measurements ~ factor(group) * factor(level) 
+  Data: long_TLC 
+   AIC  BIC logLik
+  2460 2512  -1217
+
+Correlation Structure: Compound symmetry
+ Formula: ~factor(level) | id 
+ Parameter estimate(s):
+   Rho 
+0.6103 
+Variance function:
+ Structure: Different standard deviations per stratum
+ Formula: ~1 | factor(level) 
+ Parameter estimates:
+lead0 lead1 lead4 lead6 
+1.000 1.280 1.323 1.519 
+
+Coefficients:
+                                            Value Std.Error t-value p-value
+(Intercept)                                26.272    0.7238   36.30  0.0000
+factor(group)Treatment                      0.268    1.0236    0.26  0.7936
+factor(level)lead1                         -1.612    0.7507   -2.15  0.0324
+factor(level)lead4                         -2.202    0.7714   -2.85  0.0045
+factor(level)lead6                         -2.626    0.8727   -3.01  0.0028
+factor(group)Treatment:factor(level)lead1 -11.406    1.0616  -10.74  0.0000
+factor(group)Treatment:factor(level)lead4  -8.824    1.0909   -8.09  0.0000
+factor(group)Treatment:factor(level)lead6  -3.152    1.2342   -2.55  0.0110
+
+ Correlation: 
+                                          (Intr) fct()T fct()1 fct()4 fct()6
+factor(group)Treatment                    -0.707                            
+factor(level)lead1                        -0.211  0.149                     
+factor(level)lead4                        -0.181  0.128  0.402              
+factor(level)lead6                        -0.060  0.043  0.383  0.383       
+factor(group)Treatment:factor(level)lead1  0.149 -0.211 -0.707 -0.285 -0.270
+factor(group)Treatment:factor(level)lead4  0.128 -0.181 -0.285 -0.707 -0.271
+factor(group)Treatment:factor(level)lead6  0.043 -0.060 -0.270 -0.271 -0.707
+                                          f()T:()1 f()T:()4
+factor(group)Treatment                                     
+factor(level)lead1                                         
+factor(level)lead4                                         
+factor(level)lead6                                         
+factor(group)Treatment:factor(level)lead1                  
+factor(group)Treatment:factor(level)lead4  0.402           
+factor(group)Treatment:factor(level)lead6  0.383    0.383  
+
+Standardized residuals:
+    Min      Q1     Med      Q3     Max 
+-2.1429 -0.6928 -0.1529  0.5263  5.5480 
+
+Residual standard error: 5.118 
+Degrees of freedom: 400 total; 392 residual</code></pre>
+</div>
+</div>
+<p>Using the GEE approach, we can fit a model to include time, treatment, and their interaction as categorical variables (use dummy variables). Assume unstructured covariance model. Compare model estimates, standard errors, and covariance matrices with those from the methods you used in the previous question.</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>model_1 <span class="ot">&lt;-</span> <span class="fu">geeglm</span>(measurements <span class="sc">~</span> group <span class="sc">+</span> <span class="fu">as.factor</span>(time) <span class="sc">+</span> <span class="fu">as.factor</span>(time) <span class="sc">*</span> group,</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>    <span class="at">id =</span> id, <span class="at">data =</span> long_TLC, <span class="at">family =</span> <span class="fu">gaussian</span>(<span class="at">link =</span> <span class="st">"identity"</span>), <span class="at">corstr =</span> <span class="st">"unstructured"</span>)</span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(model_1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+geeglm(formula = measurements ~ group + as.factor(time) + as.factor(time) * 
+    group, family = gaussian(link = "identity"), data = long_TLC, 
+    id = id, corstr = "unstructured")
+
+ Coefficients:
+                                Estimate Std.err    Wald Pr(&gt;|W|)    
+(Intercept)                       26.272   0.703 1395.12  &lt; 2e-16 ***
+groupTreatment                     0.268   0.994    0.07   0.7875    
+as.factor(time)1                  -1.612   0.433   13.86   0.0002 ***
+as.factor(time)4                  -2.202   0.439   25.20  5.2e-07 ***
+as.factor(time)6                  -2.626   0.528   24.75  6.5e-07 ***
+groupTreatment:as.factor(time)1  -11.406   1.109  105.84  &lt; 2e-16 ***
+groupTreatment:as.factor(time)4   -8.824   1.141   59.82  1.0e-14 ***
+groupTreatment:as.factor(time)6   -3.152   1.244    6.42   0.0113 *  
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Correlation structure = unstructured 
+Estimated Scale Parameters:
+
+            Estimate Std.err
+(Intercept)       43    6.58
+  Link = identity 
+
+Estimated Correlation Parameters:
+          Estimate Std.err
+alpha.1:2    0.435  0.0762
+alpha.1:3    0.449  0.0848
+alpha.1:4    0.506  0.0577
+alpha.2:3    0.809  0.1123
+alpha.2:4    0.676  0.1036
+alpha.3:4    0.698  0.1371
+Number of clusters:   100  Maximum cluster size: 4 </code></pre>
+</div>
+</div>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Recall the example above from the geepack package</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Model 1: Response Profiles (time T categorical)</span></span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>resprof_gee_mod_1 <span class="ot">&lt;-</span> <span class="fu">geeglm</span>(measurements <span class="sc">~</span> level <span class="sc">+</span> group <span class="sc">+</span> level <span class="sc">*</span> group, <span class="at">id =</span> id,</span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">data =</span> long_TLC, <span class="at">family =</span> <span class="fu">gaussian</span>(<span class="at">link =</span> <span class="st">"identity"</span>), <span class="at">corstr =</span> <span class="st">"unstructured"</span>)</span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Print summary</span></span>
+<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(resprof_gee_mod_1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+geeglm(formula = measurements ~ level + group + level * group, 
+    family = gaussian(link = "identity"), data = long_TLC, id = id, 
+    corstr = "unstructured")
+
+ Coefficients:
+                          Estimate Std.err    Wald Pr(&gt;|W|)    
+(Intercept)                 26.272   0.703 1395.12  &lt; 2e-16 ***
+levellead1                  -1.612   0.433   13.86   0.0002 ***
+levellead4                  -2.202   0.439   25.20  5.2e-07 ***
+levellead6                  -2.626   0.528   24.75  6.5e-07 ***
+groupTreatment               0.268   0.994    0.07   0.7875    
+levellead1:groupTreatment  -11.406   1.109  105.84  &lt; 2e-16 ***
+levellead4:groupTreatment   -8.824   1.141   59.82  1.0e-14 ***
+levellead6:groupTreatment   -3.152   1.244    6.42   0.0113 *  
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Correlation structure = unstructured 
+Estimated Scale Parameters:
+
+            Estimate Std.err
+(Intercept)       43    6.58
+  Link = identity 
+
+Estimated Correlation Parameters:
+          Estimate Std.err
+alpha.1:2    0.435  0.0762
+alpha.1:3    0.449  0.0848
+alpha.1:4    0.506  0.0577
+alpha.2:3    0.809  0.1123
+alpha.2:4    0.676  0.1036
+alpha.3:4    0.698  0.1371
+Number of clusters:   100  Maximum cluster size: 4 </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Print QIC</span></span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a><span class="fu">QIC</span>(resprof_gee_mod_1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>      QIC      QICu Quasi Lik       CIC    params      QICC 
+    17225     17225     -8604         8         8     17230 </code></pre>
+</div>
+</div>
+</section>
+<section id="parametric-curves" class="level2" data-number="2.5">
+<h2 data-number="2.5" class="anchored" data-anchor-id="parametric-curves"><span class="header-section-number">2.5</span> Parametric Curves</h2>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="co"># create new variable to make time continuous</span></span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>long_TLC<span class="sc">$</span>week <span class="ot">=</span> <span class="dv">0</span>  <span class="co">#baseline, week 0 </span></span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>long_TLC<span class="sc">$</span>week[long_TLC<span class="sc">$</span>level <span class="sc">==</span> <span class="st">"lead1"</span>] <span class="ot">=</span> <span class="dv">1</span>  <span class="co">#week 1</span></span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>long_TLC<span class="sc">$</span>week[long_TLC<span class="sc">$</span>level <span class="sc">==</span> <span class="st">"lead4"</span>] <span class="ot">=</span> <span class="dv">4</span>  <span class="co">#week 4</span></span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a>long_TLC<span class="sc">$</span>week[long_TLC<span class="sc">$</span>level <span class="sc">==</span> <span class="st">"lead6"</span>] <span class="ot">=</span> <span class="dv">6</span>  <span class="co">#week 6</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>parcurv_mod_2 <span class="ot">&lt;-</span> <span class="fu">gls</span>(measurements <span class="sc">~</span> <span class="fu">factor</span>(group) <span class="sc">+</span> week, <span class="at">data =</span> long_TLC, <span class="at">corr =</span> <span class="fu">corCompSymm</span>(,</span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>    <span class="at">form =</span> <span class="sc">~</span>week <span class="sc">|</span> id), <span class="at">weights =</span> <span class="fu">varIdent</span>(<span class="at">form =</span> <span class="sc">~</span><span class="dv">1</span> <span class="sc">|</span> week), <span class="at">method =</span> <span class="st">"REML"</span>)</span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Print summary</span></span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(parcurv_mod_2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Generalized least squares fit by REML
+  Model: measurements ~ factor(group) + week 
+  Data: long_TLC 
+   AIC  BIC logLik
+  2663 2695  -1323
+
+Correlation Structure: Compound symmetry
+ Formula: ~week | id 
+ Parameter estimate(s):
+  Rho 
+0.659 
+Variance function:
+ Structure: Different standard deviations per stratum
+ Formula: ~1 | week 
+ Parameter estimates:
+   0    1    4    6 
+1.00 2.22 1.83 1.54 
+
+Coefficients:
+                       Value Std.Error t-value p-value
+(Intercept)            26.53     0.742    35.8  0.0000
+factor(group)Treatment  2.30     1.049     2.2  0.0291
+week                   -0.58     0.098    -5.9  0.0000
+
+ Correlation: 
+                       (Intr) fct()T
+factor(group)Treatment -0.707       
+week                   -0.035  0.000
+
+Standardized residuals:
+    Min      Q1     Med      Q3     Max 
+-2.5179 -1.0636 -0.3993  0.0715  4.5654 
+
+Residual standard error: 5.48 
+Degrees of freedom: 400 total; 397 residual</code></pre>
+</div>
+</div>
+</section>
+<section id="constructing-marginal-models-1" class="level2" data-number="2.6">
+<h2 data-number="2.6" class="anchored" data-anchor-id="constructing-marginal-models-1"><span class="header-section-number">2.6</span> Constructing Marginal Models</h2>
+<p><em>Model 1: time is categorical, main effects, interaction terms</em></p>
+<p>Model 1: <span class="math inline">\(E(y_{ij} \mid X_{ij}) = \beta_0 + \beta_{trt}trt + \beta_{T_1}T_1 + \beta_{T_4}T_4 + \beta_{T_6}T_6 + \beta_{trt:T_1}trt*T_1+ \beta_{trt:T_4}trt*T_4 + \beta_{trt:T_6}trt*T_6\)</span></p>
+<p>This model includes time as a categorical covariate and also includes an interaction term to account and adjust for any possible discrepancies between the treatment and control.</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>model_1 <span class="ot">&lt;-</span> <span class="fu">geeglm</span>(measurements <span class="sc">~</span> group <span class="sc">+</span> <span class="fu">as.factor</span>(time) <span class="sc">+</span> <span class="fu">as.factor</span>(time) <span class="sc">*</span> group,</span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>    <span class="at">id =</span> id, <span class="at">data =</span> long_TLC, <span class="at">family =</span> <span class="fu">gaussian</span>(<span class="at">link =</span> <span class="st">"identity"</span>), <span class="at">corstr =</span> <span class="st">"unstructured"</span>)</span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Print summary</span></span>
+<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(model_1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+geeglm(formula = measurements ~ group + as.factor(time) + as.factor(time) * 
+    group, family = gaussian(link = "identity"), data = long_TLC, 
+    id = id, corstr = "unstructured")
+
+ Coefficients:
+                                Estimate Std.err    Wald Pr(&gt;|W|)    
+(Intercept)                       26.272   0.703 1395.12  &lt; 2e-16 ***
+groupTreatment                     0.268   0.994    0.07   0.7875    
+as.factor(time)1                  -1.612   0.433   13.86   0.0002 ***
+as.factor(time)4                  -2.202   0.439   25.20  5.2e-07 ***
+as.factor(time)6                  -2.626   0.528   24.75  6.5e-07 ***
+groupTreatment:as.factor(time)1  -11.406   1.109  105.84  &lt; 2e-16 ***
+groupTreatment:as.factor(time)4   -8.824   1.141   59.82  1.0e-14 ***
+groupTreatment:as.factor(time)6   -3.152   1.244    6.42   0.0113 *  
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Correlation structure = unstructured 
+Estimated Scale Parameters:
+
+            Estimate Std.err
+(Intercept)       43    6.58
+  Link = identity 
+
+Estimated Correlation Parameters:
+          Estimate Std.err
+alpha.1:2    0.435  0.0762
+alpha.1:3    0.449  0.0848
+alpha.1:4    0.506  0.0577
+alpha.2:3    0.809  0.1123
+alpha.2:4    0.676  0.1036
+alpha.3:4    0.698  0.1371
+Number of clusters:   100  Maximum cluster size: 4 </code></pre>
+</div>
+</div>
+<p><em>Model 2: time is continuous, main effects</em></p>
+<p>Model 2: <span class="math inline">\(E(y_{ij} \mid X_{ij}) = \beta_0 + \beta_{trt}trt + \beta_{T}T\)</span></p>
+<p>This model includes time as a continuous covariate and doesn’t specify any interaction between treatment and control groups.</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>model_2 <span class="ot">&lt;-</span> <span class="fu">geeglm</span>(measurements <span class="sc">~</span> group <span class="sc">+</span> time, <span class="at">id =</span> id, <span class="at">data =</span> long_TLC, <span class="at">family =</span> <span class="fu">gaussian</span>(<span class="at">link =</span> <span class="st">"identity"</span>),</span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>    <span class="at">corstr =</span> <span class="st">"unstructured"</span>)</span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Print summary</span></span>
+<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(model_2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+geeglm(formula = measurements ~ group + time, family = gaussian(link = "identity"), 
+    data = long_TLC, id = id, corstr = "unstructured")
+
+ Coefficients:
+               Estimate Std.err    Wald Pr(&gt;|W|)    
+(Intercept)     25.5006  0.7040 1312.05  &lt; 2e-16 ***
+groupTreatment  -5.3442  1.0307   26.89  2.2e-07 ***
+time            -0.1510  0.0913    2.74    0.098 .  
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Correlation structure = unstructured 
+Estimated Scale Parameters:
+
+            Estimate Std.err
+(Intercept)       56    7.57
+  Link = identity 
+
+Estimated Correlation Parameters:
+          Estimate Std.err
+alpha.1:2  -0.0399  0.1068
+alpha.1:3   0.1088  0.1099
+alpha.1:4   0.4679  0.0820
+alpha.2:3   0.8603  0.0929
+alpha.2:4   0.4375  0.1145
+alpha.3:4   0.4881  0.1208
+Number of clusters:   100  Maximum cluster size: 4 </code></pre>
+</div>
+</div>
+<p><em>Model 3: time is continuous, main effects, interaction term</em></p>
+<p>Model 3: <span class="math inline">\(E(y_{ij} \mid X_{ij}) = \beta_0 + \beta_{trt}trt + \beta_{T}T + \beta_{trt:T}trt*T\)</span></p>
+<p>This model includes time as a continuous covariate and also includes an interaction term to account and adjust for any possible discrepancies between the treatment and control.</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Define Model 3 and label it as: model_3</span></span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>model_3 <span class="ot">&lt;-</span> <span class="fu">geeglm</span>(measurements <span class="sc">~</span> group <span class="sc">+</span> time <span class="sc">+</span> time <span class="sc">*</span> group, <span class="at">id =</span> id, <span class="at">data =</span> long_TLC,</span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">family =</span> <span class="fu">gaussian</span>(<span class="at">link =</span> <span class="st">"identity"</span>), <span class="at">corstr =</span> <span class="st">"unstructured"</span>)</span>
+<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Print summary</span></span>
+<span id="cb34-6"><a href="#cb34-6" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(model_3)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+geeglm(formula = measurements ~ group + time + time * group, 
+    family = gaussian(link = "identity"), data = long_TLC, id = id, 
+    corstr = "unstructured")
+
+ Coefficients:
+                    Estimate Std.err    Wald Pr(&gt;|W|)    
+(Intercept)           25.589   0.707 1309.53  &lt; 2e-16 ***
+groupTreatment        -5.694   1.054   29.19  6.5e-08 ***
+time                  -0.265   0.102    6.74   0.0094 ** 
+groupTreatment:time    0.600   0.203    8.76   0.0031 ** 
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Correlation structure = unstructured 
+Estimated Scale Parameters:
+
+            Estimate Std.err
+(Intercept)     58.6    7.61
+  Link = identity 
+
+Estimated Correlation Parameters:
+          Estimate Std.err
+alpha.1:2 -0.06469  0.1038
+alpha.1:3  0.00237  0.1233
+alpha.1:4  0.30449  0.1035
+alpha.2:3  0.92472  0.0824
+alpha.2:4  0.56396  0.1051
+alpha.3:4  0.56953  0.1160
+Number of clusters:   100  Maximum cluster size: 4 </code></pre>
+</div>
+</div>
+<p><em>Model 4: time is continuous, time^2, main effects</em></p>
+<p>Model 4: <span class="math inline">\(E(y_{ij} \mid X_{ij}) = \beta_0 + \beta_{trt}trt + \beta_{T}T + \beta_{T^2}T^2\)</span></p>
+<p>This model treats time as a continuous covariate and also introduces a quadratic term. As a general note when adding quadratic, or higher power terms, into your regression you can either create a new covariate in your dataframe and put that into your formula, or you can take the existing one and specify the term as “I(x^2)”.</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Define Model 4 and label it as: model_4</span></span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>model_4 <span class="ot">&lt;-</span> <span class="fu">geeglm</span>(measurements <span class="sc">~</span> group <span class="sc">+</span> time <span class="sc">+</span> <span class="fu">I</span>(time<span class="sc">^</span><span class="dv">2</span>), <span class="at">id =</span> id, <span class="at">data =</span> long_TLC,</span>
+<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">family =</span> <span class="fu">gaussian</span>(<span class="at">link =</span> <span class="st">"identity"</span>), <span class="at">corstr =</span> <span class="st">"unstructured"</span>)</span>
+<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-5"><a href="#cb36-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Print summary</span></span>
+<span id="cb36-6"><a href="#cb36-6" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(model_4)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+geeglm(formula = measurements ~ group + time + I(time^2), family = gaussian(link = "identity"), 
+    data = long_TLC, id = id, corstr = "unstructured")
+
+ Coefficients:
+               Estimate Std.err   Wald Pr(&gt;|W|)    
+(Intercept)     26.1837  0.7144 1343.5  &lt; 2e-16 ***
+groupTreatment  -5.1837  1.0267   25.5  4.4e-07 ***
+time            -2.0829  0.4685   19.8  8.7e-06 ***
+I(time^2)        0.3299  0.0809   16.6  4.5e-05 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Correlation structure = unstructured 
+Estimated Scale Parameters:
+
+            Estimate Std.err
+(Intercept)     52.3    6.93
+  Link = identity 
+
+Estimated Correlation Parameters:
+          Estimate Std.err
+alpha.1:2    0.055  0.1133
+alpha.1:3    0.241  0.1109
+alpha.1:4    0.435  0.0903
+alpha.2:3    0.801  0.1005
+alpha.2:4    0.531  0.1120
+alpha.3:4    0.548  0.1177
+Number of clusters:   100  Maximum cluster size: 4 </code></pre>
+</div>
+</div>
+<p><em>Model 5: time is continuous, time^2, main effects, interaction</em></p>
+<p>Model 5: <span class="math inline">\(E(y_{ij} \mid X_{ij}) = \beta_0 + \beta_{trt}trt + \beta_{T}T + \beta_{T^2}T^2 + \beta_{trt:T}trt*T+\beta_{trt:T^2}trt*T^2\)</span></p>
+<p>This model includes time as a continuous covariate and also includes a quadratic term to capture any possible non-linearity in time and an interaction term to account and adjust for any possible discrepancies between the treatment and control.</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Define Model 5 and label it as: model_5</span></span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a>model_5 <span class="ot">&lt;-</span> <span class="fu">geeglm</span>(measurements <span class="sc">~</span> group <span class="sc">+</span> time <span class="sc">+</span> <span class="fu">I</span>(time<span class="sc">^</span><span class="dv">2</span>) <span class="sc">+</span> group<span class="sc">:</span>(time <span class="sc">+</span> <span class="fu">I</span>(time<span class="sc">^</span><span class="dv">2</span>)),</span>
+<span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">id =</span> id, <span class="at">data =</span> long_TLC, <span class="at">family =</span> <span class="fu">gaussian</span>(<span class="at">link =</span> <span class="st">"identity"</span>), <span class="at">corstr =</span> <span class="st">"unstructured"</span>)</span>
+<span id="cb38-5"><a href="#cb38-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Print summary</span></span>
+<span id="cb38-6"><a href="#cb38-6" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(model_5)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+geeglm(formula = measurements ~ group + time + I(time^2) + group:(time + 
+    I(time^2)), family = gaussian(link = "identity"), data = long_TLC, 
+    id = id, corstr = "unstructured")
+
+ Coefficients:
+                         Estimate Std.err    Wald Pr(&gt;|W|)    
+(Intercept)               25.7785  0.6915 1389.59  &lt; 2e-16 ***
+groupTreatment            -3.4262  1.0497   10.65   0.0011 ** 
+time                      -0.6750  0.2567    6.91   0.0085 ** 
+I(time^2)                  0.0619  0.0417    2.20   0.1377    
+groupTreatment:time       -4.8098  0.8088   35.36  2.7e-09 ***
+groupTreatment:I(time^2)   0.8814  0.1393   40.00  2.5e-10 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Correlation structure = unstructured 
+Estimated Scale Parameters:
+
+            Estimate Std.err
+(Intercept)     48.5     6.6
+  Link = identity 
+
+Estimated Correlation Parameters:
+          Estimate Std.err
+alpha.1:2    0.199  0.1099
+alpha.1:3    0.399  0.0988
+alpha.1:4    0.333  0.1149
+alpha.2:3    0.718  0.1067
+alpha.2:4    0.719  0.1011
+alpha.3:4    0.619  0.1175
+Number of clusters:   100  Maximum cluster size: 4 </code></pre>
+</div>
+</div>
+<p>Now that we have our five models how exactly can we go about choosing which one is the best?</p>
+<p>A common method of model selection is using the Akaike Information Criterion (AIC) or the Bayesian Information Criterion (BIC). For reference <span class="math inline">\(AIC = 2p - 2log(L)\)</span> where <span class="math inline">\(L\)</span> is the likelihood and p is the number of covariates (excluding the intercept). Similarly $BIC = plog(n) - 2log(L) $ where n is the sample size of the data. As an aside when we say log() we are strictly talking about the natural logarithm.</p>
+<p>Given a collection of models <span class="math inline">\(\{ \mathcal{M}_m \}^M_{m=1}\)</span> we would like to know which one to choose. AIC and BIC both reward goodness of fit (as assessed by the likelihood function), but this can lead to problems in overfitting (i.e.&nbsp;using too much information that makes a model too specific). Overfitting could arise because increasing the number of covariates could cause the likelihood <span class="math inline">\(\hat{L}\)</span> to increase. To counteract this problem both the AIC and BIC introduce a penalty term that is meant to punish models that are built with a high number of predictors (predictors is synonymous with covariates). AIC uses the <span class="math inline">\(2p\)</span> penalty and BIC uses the <span class="math inline">\(plog(n)\)</span> penalty. Unfortunately for us using the AIC and BIC requires for their to be an actual likelihood. GEE’s don’t have likelihood’s attached to them so it would be non-sensical for us to use either AIC or BIC to select a model.</p>
+<p>One way to work around this issue is through the introduction of the Quasi-likelihood Information Criterion (QIC). Developed by Pan (2001), the QIC is a modification of the AIC for models fitted by GEE. Using the QIC() function from the geepack package we can calculate the QIC’s of each model and see which of the five has the minimum QIC.</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>QIC_comparisons <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="st">`</span><span class="at">Model Name</span><span class="st">`</span> <span class="ot">=</span> <span class="fu">c</span>(<span class="st">"Model 1"</span>, <span class="st">"Model 2"</span>, <span class="st">"Model 3"</span>, <span class="st">"Model 4"</span>,</span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Model 5"</span>), <span class="at">QIC =</span> <span class="fu">c</span>(<span class="fu">QIC</span>(model_1)[<span class="dv">1</span>], <span class="fu">QIC</span>(model_2)[<span class="dv">1</span>], <span class="fu">QIC</span>(model_3)[<span class="dv">1</span>], <span class="fu">QIC</span>(model_4)[<span class="dv">1</span>],</span>
+<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">QIC</span>(model_5)[<span class="dv">1</span>]))</span>
+<span id="cb40-4"><a href="#cb40-4" aria-hidden="true" tabindex="-1"></a>QIC_comparisons</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  Model.Name   QIC
+1    Model 1 17225
+2    Model 2 22419
+3    Model 3 23441
+4    Model 4 20927
+5    Model 5 19397</code></pre>
+</div>
+</div>
+<p>From the above we can see that Model 1 has the smallest QIC out of the five models.</p>
 
 
 </section>
@@ -533,8 +1297,8 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./Longi_mixeffect.html" class="pagination-link">
-        <span class="nav-page-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Mixed Effects Model</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./Longi_GEEinterpretation.html" class="pagination-link">
+        <span class="nav-page-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Marginal Model (GEE) Interpretation</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

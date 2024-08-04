@@ -12,6 +12,7 @@ book:
       chapters: 
         - Longi_EDA.qmd
         - Longi_GEE.qmd
+        - Longi_GEEinterpretation.qmd
         - Longi_mixeffect.qmd
         - Longi_comparison.qmd
         - Longi_covmodel.qmd

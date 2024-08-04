@@ -1,3 +1,361 @@
 # Marginal Model (GEE) {#sec-longi-GEE}
 
-## Package
+```{r setup, include=FALSE, echo=TRUE}
+knitr::opts_chunk$set(message = F)
+knitr::opts_chunk$set(warning = F)
+knitr::opts_chunk$set(tidy.opts=list(width.cutoff=80),tidy=TRUE)
+knitr::opts_chunk$set(fig.height = 4)
+knitr::opts_chunk$set(fig.width = 6)
+knitr::opts_chunk$set(fig.align="center")
+`%notin%` <- Negate(`%in%`)
+```
+
+```{r, echo=FALSE, warning=FALSE}
+suppressPackageStartupMessages(library(tidyr))
+suppressPackageStartupMessages(library(data.table))
+suppressPackageStartupMessages(library(ggplot2))
+suppressPackageStartupMessages(library(haven))
+suppressPackageStartupMessages(library(dplyr))
+suppressPackageStartupMessages(library(GGally))
+suppressPackageStartupMessages(library(kableExtra))
+```
+
+```{r, echo=FALSE}
+TLC <- read.csv("Data/TLC.csv")
+
+### Convert Data from wide to Long
+long_TLC <- tidyr::gather(TLC, level, measurements, lead0:lead6, factor_key=TRUE)
+long_TLC <- long_TLC[order(long_TLC$id),]
+
+#create new time variable for analyses
+long_TLC$time <- c(0,1,4,6)[long_TLC$level]
+
+#Note: other ways to code for time as continuous
+# create new variable to make time continuous
+long_TLC$week = 0 #baseline, week 0
+long_TLC$week[long_TLC$level == "lead1"] = 1 #week 1
+long_TLC$week[long_TLC$level == "lead4"] = 4 #week 4
+long_TLC$week[long_TLC$level == "lead6"] = 6 #week 6
+```
+
+## Introduction
+For this lab we will return to the TLC dataset with N=100 participants in order to better understand marginal models for longitudinal data when the outcome is continuous.
+
+## Required Packages
+
+We will use the following packages:
+
+- `nlme`: This package is for fitting and comparing Gaussian linear and nonlinear mixed-effects models. The variance-covariance structures for the residuals can be specified, and it is useful for data with repeated measures or longitudinal designs. We will use the `gls()` function to fit a linear model using generalized least squares.
+
+- `lme4`: This package is for fitting mixed-effects models. We will use the `lmer()` function to fit a linear model.
+
+These packages are for applying the generalized estimating equations (GEE) approach for fitting marginal generalized linear models to data with repeated measures or longitudinal designs:
+
+- `gee`: This is the “Generalized Estimation Equation Solver” package.
+
+- `gpack`: This is the “Generalized Estimating Equation Package” package.
+
+- `geeM`: This is the “Solve Generalized Estimating Equations” package.
+
+```{r}
+library(tidyr) #Allows for us to manipulate the data structure
+library(data.table) #Allows for us to manipulate the data structure
+library(ggplot2) #this makes better looking plots in R
+
+#new packages for models
+library(nlme) #used for the gls() function
+library(gee) # install.packages("gee"), used for the gee() function
+library(geepack) # install.packages("geepack"), used for the geeglm() function
+library(geeM) # install.packages("geeM"), used for the geeglm() function
+theme_set(theme_minimal())
+```
+
+## Constructing Marginal Models
+Consider a continuous outcome $Y$ which indicates a patient's blood lead level (in micrograms per deciLiter $\mu$g/dL). The correct way to write Y when doing a model like this would be as $Y_{ij}$. $Y_{ij}$ is the lead blood level of patient i at time point j. Likewise the covariates $X = (1,X^1, \dots,X^p)$ would be as $X_{ij} = (1,X^1_{ij},\dots X^p_{ij})$, the p covariates for individual i measured at time point j. 1 is simply the intercept. The superscript here just represents the $k-th$ covariate in the analysis  (i.e. in other words we have p covariates).
+
+
+In these different modelling strategies we always specify a link between the mean of our distribution and the data, $E(y_{ij} \mid X_{ij}) = \mu_{ij} = g^{-1}(X^T_{ij}\beta)$. Here $g^{-1}$ is what is commonly referred to as a link function. It is exactly what it sounds like. A function which links the mean of your distribution to your data. There are many common link functions that you've probably already dealt with in other regression courses. For example there is the logit link function $g(\mu) =log(\frac{\mu}{1-\mu}) = X^T\beta$ that one uses when doing logistic function. 
+
+
+When one is doing linear regression a common link function is just the identity link $g(\mu) =\mu = X^T\beta$. 
+
+**Here we introduce a few functions and corresponding packages to fit these models:**
+
+**1. Using the gls() function to fit a linear model using generalized least squares**
+
+The syntax for the function `gls()` in `nlme` package is 
+
+gls(model, data, correlation, weights, subset, method, na.action,
+    control, verbose)
+
+* Description
+  + `model`: A two-sided linear formula object describing the model
+  + `data`: Optional dataframe
+  + `correlation`: See description for details. 
+    + The corStruct object describes the within-group correlation structure. 
+    + Note we use `corCompSymm` which has the following syntax: corCompSymm(value, form, fixed) compound symmetry structure corresponding to a constant correlation.
+  + `weights`: See description for details. 
+    + Describes the variance function.
+    + Note we use `varClasses` which defines standard classes of variance function structures and use `varIdent` which describes constant variance(s), that is generally used to allow different variances.
+
+
+We consider the first model discussed in lecture. This model includes time as a categorical covariate and also includes an interaction term to account and adjust for any possible discrepancies between the treatment and control.
+
+
+Model 1: $$E(y_{ij} \mid X_{ij}) = \beta_0 +  \beta_{trt}trt +  \beta_{T_1}T_1 +  \beta_{T_4}T_4 +  \beta_{T_6}T_6 +  $$
+$$\beta_{trt:T_1}trt*T_1+ \beta_{trt:T_4}trt*T_4 + \beta_{trt:T_6}trt*T_6$$
+
+```{r}
+#Model fit with compound symmetry heterogeneous variances
+
+# Model 1: Response Profiles (time T categorical)
+fit.compsym <- gls(measurements ~ factor(group)*factor(level), data = long_TLC,
+                   corr = corCompSymm(, form = ~ factor(level)| id),
+                   weights = varIdent(form = ~1 |factor(level)))
+summary(fit.compsym)
+```
+
+
+```{r}
+anova(fit.compsym)
+```
+
+**2. Next, we discuss Marginal Models (GEE) and three R Packages **
+
+    1. Using the `gee` package
+    
+The syntax for the function `gee()` in `gee` package is
+
+gee(formula, id, data, family = gaussian, constr = 'independence',Mv)
+
+* Using the `GEE` Package
+  + `formula`: Symbolic description of the model to be fitted
+  + `family`: Description of the error distribution and link function
+  + `data`: Optional dataframe
+  + `id`: Vector that identifies the clusters
+  + `constr`: Working correlation structure: "independence", "exchangeable", "AR-M", "unstructured"
+  + `Mv`: order of AR correlation (AR1: Mv = 1)
+  
+Consider the same model 1 defined earlier:
+```{r}
+# Model 1: Response Profiles (time T categorical)
+mod_tlc_gee <- gee(measurements ~ level + group + level*group, id = id, data = long_TLC, 
+                   family = gaussian(link = "identity"), corstr = "unstructured")
+
+summary(mod_tlc_gee)
+```
+
+    2. Using the `geepack` package
+    
+The syntax for the function `geeglm()` in `geepack` package is
+
+geeglm(formula, family = gaussian, data, id, zcor = NULL, constr, std.err = 'san.se')
+
+* Using the `geepack` package
+  + `formula`: Symbolic description of the model to be fitted
+  + `family`: Description of the error distribution and link function
+  + `data`: Optional dataframe
+  + `id`: Vector that identifies the clusters
+  + `contr`: A character string specifying the correlation structure. The following are permitted: "independence", "exchangeable", "ar1", "unstructured" and "userdefined"
+  + `zcor`: Enter a user defined correlation structure
+
+Consider the same model 1 defined earlier
+
+```{r}
+# Model 1: Response Profiles (time T categorical)
+mod_tlc_geep <- geeglm(measurements ~ level + group + level*group, id = id, data = long_TLC,
+family = gaussian(link = "identity"), corstr = "unstructured")
+
+summary(mod_tlc_geep)
+```
+
+We can use the QIC() function from the geepack package.
+
+```{r}
+QIC(mod_tlc_geep)
+```
+
+    3. Using the geeM package
+
+The syntax for the function `geem()` in `geeM` package is
+
+geem(formula, id, waves = NULL, data, family = gaussian, constr = "independence", Mv = 1)
+
+* Using the `geeM` package
+  + `formula`: Symbolic description of the model to be fitted
+  + `id`: Vector that identifies the clusters
+  + `data`: Optional dataframe
+  + `family`: Description of the error distribution and link function
+  + `constr`: A character string specifying the correlation structure. Allowed structures are: "independence", "exchangeable" (equal correlation), "ar1" (exponential decay), "m-dependent" (m-diagonal), "unstructured", "fixed", and "userdefined".
+  + `Mv`: for "m-dependent", the value for m.
+
+
+Consider the same model 1 defined earlier
+
+
+```{r}
+# Model 1: Response Profiles (time T categorical)
+mod_tlc_geeM <- geem(measurements ~ level + group + level*group, id = id, data = long_TLC, 
+                     family = gaussian(link = "identity"),corstr = "unstructured")
+
+summary(mod_tlc_geeM)
+```
+
+## Response Profile Analysis
+
+Model 1: $E(y_{ij} \mid X_{ij}) = \beta_0 +  \beta_{trt}trt +  \beta_{T_1}T_1 +  \beta_{T_4}T_4 +  \beta_{T_6}T_6 +  \beta_{trt:T_1}trt*T_1+ \beta_{trt:T_4}trt*T_4 + \beta_{trt:T_6}trt*T_6$.
+
+This model includes time as a categorical covariate and also includes an interaction term to account and adjust for any possible discrepancies between the treatment and control.
+
+Using the GLS approach,  we can fit a model to include time, treatment, and their interaction as categorical variables (use dummy variables). What is your overall conclusion?
+
+```{r}
+# Recall the example above from the nlme package
+
+# Model 1: Response Profiles (time T categorical)
+resprof_gls_mod_1 <- gls(measurements ~ factor(group)*factor(level), data=long_TLC,
+                   corr=corCompSymm(, form= ~ factor(level)| id),
+                   weights=varIdent(form = ~1 |factor(level)))
+
+# Print summary
+summary(resprof_gls_mod_1)
+
+```
+
+Using the GEE approach, we can fit a model to include time, treatment, and their interaction as categorical variables (use dummy variables). Assume unstructured covariance model. Compare model estimates, standard errors, and covariance matrices with those from the methods you used in the previous question. 
+
+```{r}
+model_1 <- geeglm(measurements ~ group + as.factor(time) + as.factor(time)*group, 
+              id = id, data = long_TLC,
+              family = gaussian(link = "identity"), corstr = "unstructured")
+summary(model_1)
+```
+
+```{r}
+# Recall the example above from the geepack package
+
+# Model 1: Response Profiles (time T categorical)
+resprof_gee_mod_1 <- geeglm(measurements ~ level + group + level*group, id = id, data = long_TLC, 
+                       family = gaussian(link = "identity"), corstr = "unstructured")
+
+# Print summary
+summary(resprof_gee_mod_1)
+
+# Print QIC
+QIC(resprof_gee_mod_1)
+```
+
+## Parametric Curves
+
+```{r}
+# create new variable to make time continuous
+long_TLC$week = 0 #baseline, week 0 
+long_TLC$week[long_TLC$level == "lead1"] = 1 #week 1
+long_TLC$week[long_TLC$level == "lead4"] = 4 #week 4
+long_TLC$week[long_TLC$level == "lead6"] = 6 #week 6
+```
+
+```{r}
+parcurv_mod_2 <- gls(measurements ~ factor(group) + week, data=long_TLC,
+                   corr=corCompSymm(, form= ~ week | id),
+                   weights=varIdent(form = ~1 | week),
+                   method="REML")
+
+# Print summary
+summary(parcurv_mod_2)
+```
+
+## Constructing Marginal Models
+
+*Model 1: time is categorical, main effects, interaction terms*
+
+Model 1: $E(y_{ij} \mid X_{ij}) = \beta_0 +  \beta_{trt}trt +  \beta_{T_1}T_1 +  \beta_{T_4}T_4 +  \beta_{T_6}T_6 +  \beta_{trt:T_1}trt*T_1+ \beta_{trt:T_4}trt*T_4 + \beta_{trt:T_6}trt*T_6$
+
+This model includes time as a categorical covariate and also includes an interaction term to account and adjust for any possible discrepancies between the treatment and control.
+
+```{r}
+model_1 <- geeglm(measurements ~ group + as.factor(time) + as.factor(time)*group, 
+              id = id, data = long_TLC,
+              family = gaussian(link = "identity"), corstr = "unstructured")
+
+# Print summary
+summary(model_1)
+```
+
+*Model 2: time is continuous, main effects*
+
+Model 2: $E(y_{ij} \mid X_{ij}) = \beta_0 +  \beta_{trt}trt +  \beta_{T}T$
+
+This model includes time as a continuous covariate and doesn't specify any interaction between treatment and control groups.
+
+```{r}
+model_2 <- geeglm(measurements ~ group + time, id = id, data = long_TLC,
+family = gaussian(link = "identity"), corstr = "unstructured")
+
+# Print summary
+summary(model_2)
+```
+
+*Model 3: time is continuous, main effects, interaction term*
+
+Model 3: $E(y_{ij} \mid X_{ij}) = \beta_0 +  \beta_{trt}trt +  \beta_{T}T + \beta_{trt:T}trt*T$
+
+This model includes time as a continuous covariate and also includes an interaction term to account and adjust for any possible discrepancies between the treatment and control.
+
+```{r}
+# Define Model 3 and label it as: model_3 
+model_3 <- geeglm(measurements ~ group + time + time*group, id = id, data = long_TLC,
+                  family = gaussian(link = "identity"), corstr = "unstructured")
+
+# Print summary
+summary(model_3)
+```
+
+*Model 4: time is continuous, time^2, main effects*
+
+Model 4: $E(y_{ij} \mid X_{ij}) = \beta_0 +  \beta_{trt}trt +  \beta_{T}T + \beta_{T^2}T^2$
+
+This model treats time as a continuous covariate and also introduces a quadratic term. As a general note when adding quadratic, or higher power terms, into your regression you can either create a new covariate in your dataframe and put that into your formula, or you can take the existing one and specify the term as "I(x^2)". 
+
+```{r}
+# Define Model 4 and label it as: model_4
+model_4 <- geeglm(measurements ~ group + time + I(time^2), id = id, data = long_TLC,
+                  family = gaussian(link = "identity"), corstr = "unstructured")
+
+# Print summary
+summary(model_4)
+```
+
+
+*Model 5: time is continuous, time^2, main effects, interaction*
+
+Model 5: $E(y_{ij} \mid X_{ij}) = \beta_0 +  \beta_{trt}trt +  \beta_{T}T + \beta_{T^2}T^2 + \beta_{trt:T}trt*T+\beta_{trt:T^2}trt*T^2$
+
+This model includes time as a continuous covariate and also includes a quadratic term to capture any possible non-linearity in time and an interaction term to account and adjust for any possible discrepancies between the treatment and control.
+
+```{r}
+# Define Model 5 and label it as: model_5 
+
+model_5 <- geeglm(measurements ~ group + time + I(time^2) + group:(time+ I(time^2)), 
+                  id = id, data = long_TLC, family = gaussian(link = "identity"), 
+                  corstr = "unstructured")
+# Print summary
+summary(model_5)
+```
+
+Now that we have our five models how exactly can we go about choosing which one is the best? 
+
+A common method of model selection is using the Akaike Information Criterion (AIC) or the Bayesian Information Criterion (BIC). For reference $AIC = 2p - 2log(L)$ where $L$ is the likelihood and p is the number of covariates (excluding the intercept). Similarly  $BIC = plog(n) - 2log(L) $ where n is the sample size of the data. As an aside when we say log() we are strictly talking about the natural logarithm.
+
+Given a collection of models $\{ \mathcal{M}_m \}^M_{m=1}$ we would like to know which one to choose. AIC and BIC both reward goodness of fit (as assessed by the likelihood function), but this can lead to problems in overfitting (i.e. using too much information that makes a model too specific). Overfitting could arise because increasing the number of covariates could cause the likelihood $\hat{L}$ to increase. To counteract this problem both the AIC and BIC introduce a penalty term that is meant to punish models that are built with a high number of predictors (predictors is synonymous with covariates). AIC uses the $2p$ penalty and BIC uses the $plog(n)$ penalty. Unfortunately for us using the AIC and BIC requires for their to be an actual likelihood. GEE's don't have likelihood's attached to them so it would be non-sensical for us to use either AIC or BIC to select a model. 
+
+One way to work around this issue is through the introduction of the Quasi-likelihood Information Criterion (QIC). Developed by Pan (2001), the QIC is a modification of the AIC for models fitted by GEE. Using the QIC() function from the geepack package we can calculate the QIC's of each model and see which of the five has the minimum QIC.
+
+```{r}
+QIC_comparisons <- data.frame("Model Name" = c("Model 1","Model 2","Model 3","Model 4","Model 5"),
+                              "QIC" = c(QIC(model_1)[1],QIC(model_2)[1],QIC(model_3)[1],
+                                        QIC(model_4)[1],QIC(model_5)[1]))
+QIC_comparisons
+```
+
+From the above we can see that Model 1 has the smallest QIC out of the five models.
