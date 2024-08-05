@@ -1,1 +1,94 @@
 # Modeling the Covariance {#sec-longi-covmodel}
+
+```{r setup, include=FALSE, echo=TRUE}
+knitr::opts_chunk$set(message = F)
+knitr::opts_chunk$set(warning = F)
+knitr::opts_chunk$set(tidy.opts=list(width.cutoff=80),tidy=TRUE)
+knitr::opts_chunk$set(fig.height = 4)
+knitr::opts_chunk$set(fig.width = 6)
+knitr::opts_chunk$set(fig.align="center")
+`%notin%` <- Negate(`%in%`)
+```
+
+```{r, echo=FALSE, warning=FALSE}
+suppressPackageStartupMessages(library(tidyr))
+suppressPackageStartupMessages(library(data.table))
+suppressPackageStartupMessages(library(ggplot2))
+suppressPackageStartupMessages(library(haven))
+suppressPackageStartupMessages(library(dplyr))
+suppressPackageStartupMessages(library(GGally))
+suppressPackageStartupMessages(library(kableExtra))
+```
+
+```{r, echo=FALSE}
+TLC <- read.csv("Data/TLC.csv")
+
+### Convert Data from wide to Long
+long_TLC <- tidyr::gather(TLC, level, measurements, lead0:lead6, factor_key=TRUE)
+long_TLC <- long_TLC[order(long_TLC$id),]
+
+#create new time variable for analyses
+long_TLC$time <- c(0,1,4,6)[long_TLC$level]
+
+#Note: other ways to code for time as continuous
+# create new variable to make time continuous
+long_TLC$week = 0 #baseline, week 0
+long_TLC$week[long_TLC$level == "lead1"] = 1 #week 1
+long_TLC$week[long_TLC$level == "lead4"] = 4 #week 4
+long_TLC$week[long_TLC$level == "lead6"] = 6 #week 6
+```
+
+```{r}
+library(tidyr) #Allows for us to manipulate the data structure
+library(data.table) #Allows for us to manipulate the data structure
+library(lme4) #Allows us to fit mixed effects models
+library(lattice) #for plotting random effects
+library(nlme)
+```
+
+Recall (from \textcolor{red}{Lab 2} notes): Using the `gls()` function to fit a linear model using generalized least squares. The syntax for the function `gls()` in `nlme` package is
+
+gls(model, data, correlation, weights, subset, method, na.action, control, verbose)
+
+* Description
+  + `model`: A two-sided linear formula object describing the model
+  + `data`: Optional dataframe
+  + `correlation`: See description for details. 
+    + The `corStruct` object describes the within-group correlation structure. 
+    + Note we use `corCompSymm` which has the following syntax: corCompSymm(value, form, fixed)
+compound symmetry structure corresponding to a constant correlation.
+  + `weights`: See description for details. 
+    + Describes the variance function.
+    + Note we use `varClasses` which defines standard classes of variance function structures and use "varIdent" which describes constant variance(s), that is generally used to allow different variances.
+    
+
+Model 1: $E(y_{ij} \mid X_{ij}) = \beta_0 + \beta_{trt}trt + \beta_{T_1}T_1 + \beta_{T_4}T_4 + \beta_{T_6}T_6 + \beta_{trt:T_1}trt*T_1 + \beta_{trt:T_4}trt*T_4 + \beta_{trt:T_6}trt*T_6$.
+
+This model includes time as a categorical covariate and also includes an interaction term to account and adjust for any possible discrepancies between the treatment and control.
+
+```{r}
+# unstructured covariance  
+mod_1_unstruc <- gls(measurements ~ factor(group) + factor(level) + factor(group):factor(level), 
+                     data = long_TLC, corr = corSymm(form = ~ 1 | id),
+                     weights = varIdent(form = ~1 | as.factor(level)), method = "REML")
+summary(mod_1_unstruc)
+```
+
+```{r}
+# exchangeable (constant variances) 
+mod_1_exch_const <- gls(measurements ~ factor(group) + factor(level) + factor(group):factor(level), 
+                        data = long_TLC, corr = corCompSymm(form =  ~ factor(level)| id),
+                        weights = varIdent(form = ~1), method = "REML")
+
+summary(mod_1_exch_const)
+```
+
+
+```{r}
+# exchangeable (heterogeneous variances) 
+mod_1_exch_heter <- gls(measurements ~ factor(group) + factor(level) + factor(group):factor(level), 
+                        data = long_TLC, corr = corCompSymm(form = ~ factor(level)| id),
+                   weights = varIdent(form = ~ 1 | factor(level)), method = "REML")
+
+summary(mod_1_exch_heter)
+```

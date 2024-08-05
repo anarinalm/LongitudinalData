@@ -1,1 +1,232 @@
 # Mixed Effects Model {#sec-longi-mixeffect}
+
+```{r setup, include=FALSE, echo=TRUE}
+knitr::opts_chunk$set(message = F)
+knitr::opts_chunk$set(warning = F)
+knitr::opts_chunk$set(tidy.opts=list(width.cutoff=80),tidy=TRUE)
+knitr::opts_chunk$set(fig.height = 4)
+knitr::opts_chunk$set(fig.width = 6)
+knitr::opts_chunk$set(fig.align="center")
+`%notin%` <- Negate(`%in%`)
+```
+
+```{r, echo=FALSE, warning=FALSE}
+suppressPackageStartupMessages(library(tidyr))
+suppressPackageStartupMessages(library(data.table))
+suppressPackageStartupMessages(library(ggplot2))
+suppressPackageStartupMessages(library(haven))
+suppressPackageStartupMessages(library(dplyr))
+suppressPackageStartupMessages(library(GGally))
+suppressPackageStartupMessages(library(kableExtra))
+```
+
+```{r, echo=FALSE}
+TLC <- read.csv("Data/TLC.csv")
+
+### Convert Data from wide to Long
+long_TLC <- tidyr::gather(TLC, level, measurements, lead0:lead6, factor_key=TRUE)
+long_TLC <- long_TLC[order(long_TLC$id),]
+
+#create new time variable for analyses
+long_TLC$time <- c(0,1,4,6)[long_TLC$level]
+
+#Note: other ways to code for time as continuous
+# create new variable to make time continuous
+long_TLC$week = 0 #baseline, week 0
+long_TLC$week[long_TLC$level == "lead1"] = 1 #week 1
+long_TLC$week[long_TLC$level == "lead4"] = 4 #week 4
+long_TLC$week[long_TLC$level == "lead6"] = 6 #week 6
+```
+
+**Learning Objectives**
+
+1. Understand how to fit mixed effects models to longitudinal data
+2. Understand how to interpret results
+
+## Introduction
+Lets consider a few simple cases in understanding the Mixed-Effect Model:
+
+$$\mu_{ij} = E(Y_{ij} \mid {X_{ij},t_{ij}})$$
+
+where $X_{ij}$ are the explanatory variables and $t_{ij}$ is time. 
+
+
+**Individual intercepts:** The coefficient $b_i$ represents each $i$th individual starting level.
+
+Consider the three following cases:
+
+a) $\mu_{ij} = \mu + b_i$
+
+b) Model with only time: $\mu_{ij} = \beta_0 + \beta_1 t_{ij} + b_i$. The systematic component is $\beta_0 + \beta_1 t_{ij}$ and random component is $b_i$
+
+c) Model with only covariates: $\mu_{ij} = \beta_0 + b_i + \beta_1 X_{ij}$. The systematic component is $\beta_0 + \beta_1 X_{ij}$ and random component is $b_i$
+
+In all of these cases (a-c), the coefficient $b_i$ represents the difference between the overall mean intercept and an individual's intercept. For example, if $b_i = -2$ then the individual $i$ starts at $2$ units lower in their outcome on average.
+
+In the Mixed-Effects model, we assume that each individual has their own intercept $b_i$, where $b_i \overset{\text{iid}}{\sim} N(0,\sigma^2_b)$ and where $\sigma^2_b$ can be obtained from the summary R output. In addition, we assume that errors have constant variance $e_{ij} \overset{\text{iid}}{\sim} N(0,\sigma^2_e)$ where $\sigma^2_e$ can be obtained from the summary R output. 
+
+Using the TLC data as an example, consider the two models
+
+1) a simple Mixed-Effects model with a random  intercept is defined as:
+
+$$E(y_{ij} \mid X_{ij}) = \beta_0 +  \beta_{trt}trt +  \beta_{T}T + b_{0,i}$$
+
+**Individual slopes:** The interpretation of a random slope in the model is that each individual has a unique growth rate or trajectory.
+
+2) a simple Mixed-Effects model with a random  intercept and random slope for time is defined as:
+
+$$E(y_{ij} \mid X_{ij}) = \beta_0 +  \beta_{trt}trt +  \beta_{T}T + b_{0,i} + b_{T,i}T$$
+
+The systematic component is $\beta_0 +  \beta_{trt}trt + \beta_{T}T$ and random component is $b_{0,i} + b_{T,i}T$. Here every $i$th individual has a unique starting point $b_{0,i}$, hence the average starting point of blood lead levels (BLL) for each individual is $\beta_0  + b_{0,i}$. Further, each $i$th individual has a unique growth trajectory of BLL $b_{T,i}$ where the average changes in BLL is given by $\beta_1  + b_{T,i}$.Thus, the new slope for time is $(\beta_{T} + b_{T,i})T$
+
+Note: If the growth rate is explained by explanatory variables ($X_{ij}$) then include an interaction term. Remember that explanatory variables in the random component of the Mixed-Effects model **must be time-varying**. 
+
+## Brief Review of what we learned so far 
+
+**Models for LDA with Continuous Outcomes**
+
+* Marginal Models
+  + GLS
+    + Define covariance model
+    + Compare models using AIC, BIC, likelihood ratio test
+  + GEE
+    + Compare models using QIC
+    + Define covariance model and link function
+
+
+* \textcolor{blue}{Mixed-Effects Models}
+  + Specify random effects
+  + Compare models using AIC, BIC 
+  + Other packages allow you to specify the covariance model
+
+
+## Section 4: Fitting Mixed Effect Models to the TLC data
+
+```{r}
+library(tidyr) #Allows for us to manipulate the data structure
+library(data.table) #Allows for us to manipulate the data structure
+library(lme4) #Allows us to fit mixed effects models
+library(lattice) #for plotting random effects
+```
+
+Here we will learn how to use R to fit Mixed-Effects (subject-specific) Models for longitudinal data, when the outcome of interest is a continuous variable (linear models).
+
+\begin{center}
+Model 1: $E(y_{ij} \mid X_{ij}) = \beta_0 +  \beta_{trt}trt +  \beta_{T}T + b_{0,i}$
+\end{center}
+
+The (1|id) means that we are allowing the intercept, represented by 1, to vary by patient.
+
+```{r}
+#label this model object as mod_1
+mod_1 <- lmer(measurements ~ 1 + group + time + (1|id), 
+              data = long_TLC, REML=TRUE)
+summary(mod_1)
+```
+
+
+```{r, eval=TRUE}
+# added  - some helpful functions
+coef(mod_1) # plot all coefficients for each individual
+ranef(mod_1) # print random effects, in this case, random intercept
+```
+
+
+```{r}
+# added  - some helpful functions
+fixef(mod_1) # print all fixed effects
+AIC(mod_1) #print model AIC
+summary(ranef(mod_1)$id) # calculate summary statistics of random intercept
+boxplot(ranef(mod_1)$id) # create boxplot of estimated random intercept
+```
+
+
+```{r}
+# added  - some helpful functions
+summary(resid(mod_1))  # calculate summary statistics of residuals
+hist(resid(mod_1)) # create histogram to assess distribution of residuals
+```
+
+
+```{r}
+# add plot to visualize individual intercepts using dotplot() from the lattice package
+dotplot(ranef(mod_1))
+```
+
+
+\begin{center}
+Model 2: $E(y_{ij} \mid X_{ij}) = \beta_0 +  \beta_{trt}trt +  \beta_{T}T + b_{0,i} + b_{T,i}T$
+\end{center}
+
+Here the term (1+time|id) specifies the random intercept and random slope for time.
+
+```{r}
+#label this model object as mod_2
+mod_2 <- lmer(measurements ~  1 + group + time+ (1 + time|id),
+              data = long_TLC, REML = TRUE)
+summary(mod_2)
+```
+
+\begin{center}
+Model 3: $E(y_{ij} \mid X_{ij}) = \beta_0 + \beta_{trt}trt + \beta_{T}T + \beta_{trt:T}trt*T + b_{0,i}$
+\end{center}
+
+This model includes time as a continuous covariate and also includes an interaction term to account and adjust for any possible discrepancies between the treatment and control.
+
+```{r}
+#label this model object as mod_3
+mod_3 <- lmer(measurements ~ 1 + group + time + group:time + (1|id),
+              data = long_TLC, REML = TRUE)
+summary(mod_3)
+```
+
+\begin{center}
+Model 4: $E(y_{ij} \mid X_{ij}) = \beta_0 +  \beta_{trt}trt +  \beta_{T}T + \beta_{trt:T}T*trt+b_{0,i} + b_{T,i}T$
+\end{center}
+
+This model treats time as a continuous covariate and also introduces a quadratic term.
+
+```{r}
+#label this model object as mod_4
+mod_4 <- lmer(measurements ~ 1 + group + time + time:group + (1 + time|id), 
+              data = long_TLC, REML = TRUE)
+summary(mod_4)
+```
+
+
+\begin{center}
+Model 5: $E(y_{ij} \mid X_{ij}) = \beta_0 + \beta_{trt}trt + \beta_{T}T + \beta_{T^2}T^2 + \beta_{trt:T}trt*T+\beta_{trt:T^2}trt*T^2+b_{0,i} + b_{T,i}T$
+\end{center}
+
+This model includes time as a continuous covariate and also includes a quadratic term to capture any possible non-linearity in time and an interaction term to account and adjust for any possible discrepancies between the treatment and control.
+
+```{r}
+#label this model object as mod_5
+mod_5 <- lmer(measurements ~  1 + group + time + I(time^2) + group:(time + I(time^2)) +
+                (1+time|id) + (I(time^2)|id),  data = long_TLC, REML = TRUE)
+summary(mod_5)
+```
+
+```{r}
+mod_5_test <- lmer(measurements ~  1 + group + time + I(time^2) + group:(time + I(time^2)) +
+                   (1 + time + I(time^2)|id),  data = long_TLC, REML = TRUE)
+summary(mod_5_test)
+```
+
+## Model Comparison
+
+We are able to compare the models using AIC and BIC. After you write the other models above, run this chunk below.
+
+```{r}
+Mixed_Model_comparisons <- data.frame("Model Name" = c("Mixed Model 1", "Mixed Model 2", "Mixed Model 3",
+                                                       "Mixed Model 4", "Mixed Model 5"),
+                                      "AIC" = c(AIC(mod_1), AIC(mod_2), AIC(mod_3),
+                                                AIC(mod_4), AIC(mod_5)),
+                                      "BIC" = c(BIC(mod_1), BIC(mod_2), BIC(mod_3),
+                                                BIC(mod_4), BIC(mod_5)))
+Mixed_Model_comparisons
+```
+
+Which model would you select?
+
+**Answer: We would pick Model 5 because it has the lowest AIC and lowest BIC value.**

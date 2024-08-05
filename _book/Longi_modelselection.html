@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Longitudinal Tutorial - 6&nbsp; Model Selection</title>
+<title>Longitudinal Tutorial - 7&nbsp; Model Selection</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -19,6 +19,40 @@ ul.task-list li input[type="checkbox"] {
   width: 0.8em;
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 </style>
 
@@ -61,6 +95,8 @@ ul.task-list li input[type="checkbox"] {
   }
 }</script>
 
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
 </head>
 
@@ -73,7 +109,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./Longi_intro.html">Longitudinal Data Analysis</a></li><li class="breadcrumb-item"><a href="./Longi_modelselection.html"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Model Selection</span></a></li></ol></nav>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./Longi_intro.html">Longitudinal Data Analysis</a></li><li class="breadcrumb-item"><a href="./Longi_modelselection.html"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Model Selection</span></a></li></ol></nav>
       <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
       </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -133,121 +169,56 @@ ul.task-list li input[type="checkbox"] {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="./Longi_GEEinterpretation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Marginal Model Interpretation</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="./Longi_mixeffect.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Mixed Effects Model</span></span></a>
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Mixed Effects Model</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./Longi_comparison.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Comparison Between GEE and Mixed Effects Model</span></span></a>
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Comparison Between GEE and Mixed Effects Model</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./Longi_covmodel.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Modeling the Covariance</span></span></a>
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Modeling the Covariance</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./Longi_modelselection.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Model Selection</span></span></a>
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Model Selection</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./Longi_prediction.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Prediction</span></span></a>
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Prediction</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./Longi_interpretation.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Interpretation</span></span></a>
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Interpretation</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./Longi_noncontinuous.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Models for Non-Continuous Outcomes (Longitudinal)</span></span></a>
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Models for Non-Continuous Outcomes</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./Longi_missingdata.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Missing Data</span></span></a>
-  </div>
-</li>
-      </ul>
-  </li>
-        <li class="sidebar-item sidebar-item-section">
-      <div class="sidebar-item-container"> 
-            <a href="./Multi_intro.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Multilevel Data Analysis</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true" aria-label="Toggle section">
-            <i class="bi bi-chevron-right ms-2"></i>
-          </a> 
-      </div>
-      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./Multi_hierarchicalstructure.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Hierarchical Structure</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./Multi_EDA.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Exploratory Data Analysis</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./Multi_MLM.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Multilevel Linear Models (MLM)</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./Multi_modeldiagnostic.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Model Diagnostic</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./Multi_interpretation.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Interpretation</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./Multi_prediction.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Prediction</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./Multi_varying.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Multilevel Models with Varying Intercepts and Slopes</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./Multi_nonnested.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Non-nested Model (Crossed Effects)</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./Multi_noncontinuous.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">Models for Non-Continuous Outcomes (Multilevel)</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./Multi_categoricalvar.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">20</span>&nbsp; <span class="chapter-title">Multilevel Models for Categorical Variables</span></span></a>
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Missing Data</span></span></a>
   </div>
 </li>
       </ul>
@@ -262,7 +233,8 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#backward-forward-stepwise-model-selection" id="toc-backward-forward-stepwise-model-selection" class="nav-link active" data-scroll-target="#backward-forward-stepwise-model-selection"><span class="header-section-number">6.1</span> Backward, Forward, Stepwise Model Selection</a></li>
+  <li><a href="#comparing-mean-models" id="toc-comparing-mean-models" class="nav-link active" data-scroll-target="#comparing-mean-models"><span class="header-section-number">7.1</span> Comparing Mean Models</a></li>
+  <li><a href="#comparing-covariance-models" id="toc-comparing-covariance-models" class="nav-link" data-scroll-target="#comparing-covariance-models"><span class="header-section-number">7.2</span> Comparing Covariance Models</a></li>
   </ul>
 </nav>
     </div>
@@ -271,7 +243,7 @@ ul.task-list li input[type="checkbox"] {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title"><span id="sec-longi-modelselection" class="quarto-section-identifier"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Model Selection</span></span></h1>
+<h1 class="title"><span id="sec-longi-modelselection" class="quarto-section-identifier"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Model Selection</span></span></h1>
 </div>
 
 
@@ -286,8 +258,184 @@ ul.task-list li input[type="checkbox"] {
 
 </header>
 
-<section id="backward-forward-stepwise-model-selection" class="level2" data-number="6.1">
-<h2 data-number="6.1" class="anchored" data-anchor-id="backward-forward-stepwise-model-selection"><span class="header-section-number">6.1</span> Backward, Forward, Stepwise Model Selection</h2>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyr)  <span class="co">#Allows for us to manipulate the data structure</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(data.table)  <span class="co">#Allows for us to manipulate the data structure</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lme4)  <span class="co">#Allows us to fit mixed effects models</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lattice)  <span class="co">#for plotting random effects</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(nlme)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<section id="comparing-mean-models" class="level2" data-number="7.1">
+<h2 data-number="7.1" class="anchored" data-anchor-id="comparing-mean-models"><span class="header-section-number">7.1</span> Comparing Mean Models</h2>
+<p>In this section, we will apply the backward selection method to</p>
+<p>Mod_base: <span class="math inline">\(E(y_{ij} \mid X_{ij}) = \beta_0 + \beta_{trt}trt + \beta_{T}T + \beta_{T^2}T^2 + \beta_{trt:T}trt*T+\beta_{trt:T^2}trt*T^2\)</span>.</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># start off with baseline model including all terms</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>mod_base_unstruc <span class="ot">&lt;-</span> <span class="fu">gls</span>(measurements <span class="sc">~</span> <span class="fu">factor</span>(group) <span class="sc">+</span> time <span class="sc">+</span> <span class="fu">I</span>(time<span class="sc">^</span><span class="dv">2</span>) <span class="sc">+</span> <span class="fu">factor</span>(group)<span class="sc">:</span>(time <span class="sc">+</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">I</span>(time<span class="sc">^</span><span class="dv">2</span>)), <span class="at">data =</span> long_TLC, <span class="at">corr =</span> <span class="fu">corSymm</span>(<span class="at">form =</span> <span class="sc">~</span><span class="dv">1</span> <span class="sc">|</span> id), <span class="at">weights =</span> <span class="fu">varIdent</span>(<span class="at">form =</span> <span class="sc">~</span><span class="dv">1</span> <span class="sc">|</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>    time), <span class="at">method =</span> <span class="st">"REML"</span>)</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(mod_base_unstruc)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Generalized least squares fit by REML
+  Model: measurements ~ factor(group) + time + I(time^2) + factor(group):(time +      I(time^2)) 
+  Data: long_TLC 
+       AIC     BIC    logLik
+  2551.458 2615.08 -1259.729
+
+Correlation Structure: General
+ Formula: ~1 | id 
+ Parameter estimate(s):
+ Correlation: 
+  1     2     3    
+2 0.383            
+3 0.554 0.674      
+4 0.479 0.645 0.561
+Variance function:
+ Structure: Different standard deviations per stratum
+ Formula: ~1 | time 
+ Parameter estimates:
+       0        1        4        6 
+1.000000 1.559262 1.353064 1.599958 
+
+Coefficients:
+                                     Value Std.Error  t-value p-value
+(Intercept)                      26.131925 0.7026919 37.18831  0.0000
+factor(group)Treatment           -0.780537 0.9937564 -0.78544  0.4327
+time                             -0.833455 0.5657089 -1.47329  0.1415
+I(time^2)                         0.082736 0.0983326  0.84138  0.4006
+factor(group)Treatment:time      -5.996169 0.8000332 -7.49490  0.0000
+factor(group)Treatment:I(time^2)  1.037345 0.1390632  7.45952  0.0000
+
+ Correlation: 
+                                 (Intr) fct()T time   I(t^2) fc()T:
+factor(group)Treatment           -0.707                            
+time                             -0.169  0.119                     
+I(time^2)                         0.156 -0.110 -0.976              
+factor(group)Treatment:time       0.119 -0.169 -0.707  0.690       
+factor(group)Treatment:I(time^2) -0.110  0.156  0.690 -0.707 -0.976
+
+Standardized residuals:
+       Min         Q1        Med         Q3        Max 
+-2.5279799 -0.7879764 -0.2643423  0.4368115  4.8117579 
+
+Residual standard error: 5.092277 
+Degrees of freedom: 400 total; 394 residual</code></pre>
+</div>
+</div>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># If there were higher order terms that were significant we would remove them,</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="co"># but in this case both interaction terms are significant so we want to keep</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="co"># them in the model</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="co"># However, suppose the quadratic terms were not significant, lets remove them</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="co"># here in this example</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>mod_second_unstruc <span class="ot">&lt;-</span> <span class="fu">gls</span>(measurements <span class="sc">~</span> <span class="fu">factor</span>(group) <span class="sc">+</span> time <span class="sc">+</span> <span class="fu">factor</span>(group)<span class="sc">:</span>(time),</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">data =</span> long_TLC, <span class="at">corr =</span> <span class="fu">corSymm</span>(<span class="at">form =</span> <span class="sc">~</span><span class="dv">1</span> <span class="sc">|</span> id), <span class="at">weights =</span> <span class="fu">varIdent</span>(<span class="at">form =</span> <span class="sc">~</span><span class="dv">1</span> <span class="sc">|</span></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>        time), <span class="at">method =</span> <span class="st">"REML"</span>)</span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(mod_second_unstruc)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Generalized least squares fit by REML
+  Model: measurements ~ factor(group) + time + factor(group):(time) 
+  Data: long_TLC 
+       AIC      BIC    logLik
+  2586.646 2642.386 -1279.323
+
+Correlation Structure: General
+ Formula: ~1 | id 
+ Parameter estimate(s):
+ Correlation: 
+  1     2     3    
+2 0.132            
+3 0.271 0.846      
+4 0.543 0.406 0.495
+Variance function:
+ Structure: Different standard deviations per stratum
+ Formula: ~1 | time 
+ Parameter estimates:
+       0        1        4        6 
+1.000000 1.833984 1.551842 1.439514 
+
+Coefficients:
+                                Value Std.Error  t-value p-value
+(Intercept)                 26.039582 0.6940593 37.51780  0.0000
+factor(group)Treatment      -1.938410 0.9815481 -1.97485  0.0490
+time                        -0.368743 0.1223416 -3.01404  0.0027
+factor(group)Treatment:time -0.169559 0.1730172 -0.98001  0.3277
+
+ Correlation: 
+                            (Intr) fct()T time  
+factor(group)Treatment      -0.707              
+time                        -0.077  0.054       
+factor(group)Treatment:time  0.054 -0.077 -0.707
+
+Standardized residuals:
+       Min         Q1        Med         Q3        Max 
+-2.2991338 -0.7973523 -0.2854753  0.3570825  5.6284768 
+
+Residual standard error: 5.310688 
+Degrees of freedom: 400 total; 396 residual</code></pre>
+</div>
+</div>
+<p>Note that all terms are now significant, including the interaction term. We used the backwards selection method to obtain the “best” model. Suppose we wanted to compare the mean models of mod_base_unstruc and mod_second_unstruc. We can compare model means using anova()</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(mod_base_unstruc, mod_second_unstruc)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>                   Model df      AIC      BIC    logLik   Test  L.Ratio p-value
+mod_base_unstruc       1 16 2551.458 2615.080 -1259.729                        
+mod_second_unstruc     2 14 2586.646 2642.386 -1279.323 1 vs 2 39.18782  &lt;.0001</code></pre>
+</div>
+</div>
+<p>Based on these results, which is the best model?</p>
+<p><strong>Answer: The model called “mod_base_unstruc” is the best model which is consistent with our previous results</strong></p>
+</section>
+<section id="comparing-covariance-models" class="level2" data-number="7.2">
+<h2 data-number="7.2" class="anchored" data-anchor-id="comparing-covariance-models"><span class="header-section-number">7.2</span> Comparing Covariance Models</h2>
+<p>In previous section, we fit three models on our data using various covariance structure below:</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># unstructured covariance</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>mod_1_unstruc <span class="ot">&lt;-</span> <span class="fu">gls</span>(measurements <span class="sc">~</span> <span class="fu">factor</span>(group) <span class="sc">+</span> <span class="fu">factor</span>(level) <span class="sc">+</span> <span class="fu">factor</span>(group)<span class="sc">:</span><span class="fu">factor</span>(level),</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">data =</span> long_TLC, <span class="at">corr =</span> <span class="fu">corSymm</span>(<span class="at">form =</span> <span class="sc">~</span><span class="dv">1</span> <span class="sc">|</span> id), <span class="at">weights =</span> <span class="fu">varIdent</span>(<span class="at">form =</span> <span class="sc">~</span><span class="dv">1</span> <span class="sc">|</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>        <span class="fu">as.factor</span>(level)), <span class="at">method =</span> <span class="st">"REML"</span>)</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a><span class="co"># exchangeable (constant variances)</span></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>mod_1_exch_const <span class="ot">&lt;-</span> <span class="fu">gls</span>(measurements <span class="sc">~</span> <span class="fu">factor</span>(group) <span class="sc">+</span> <span class="fu">factor</span>(level) <span class="sc">+</span> <span class="fu">factor</span>(group)<span class="sc">:</span><span class="fu">factor</span>(level),</span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">data =</span> long_TLC, <span class="at">corr =</span> <span class="fu">corCompSymm</span>(<span class="at">form =</span> <span class="sc">~</span><span class="fu">factor</span>(level) <span class="sc">|</span> id), <span class="at">weights =</span> <span class="fu">varIdent</span>(<span class="at">form =</span> <span class="sc">~</span><span class="dv">1</span>),</span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">method =</span> <span class="st">"REML"</span>)</span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a><span class="co"># exchangeable (heterogeneous variances)</span></span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>mod_1_exch_heter <span class="ot">&lt;-</span> <span class="fu">gls</span>(measurements <span class="sc">~</span> <span class="fu">factor</span>(group) <span class="sc">+</span> <span class="fu">factor</span>(level) <span class="sc">+</span> <span class="fu">factor</span>(group)<span class="sc">:</span><span class="fu">factor</span>(level),</span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">data =</span> long_TLC, <span class="at">corr =</span> <span class="fu">corCompSymm</span>(<span class="at">form =</span> <span class="sc">~</span><span class="fu">factor</span>(level) <span class="sc">|</span> id), <span class="at">weights =</span> <span class="fu">varIdent</span>(<span class="at">form =</span> <span class="sc">~</span><span class="dv">1</span> <span class="sc">|</span></span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>        <span class="fu">factor</span>(level)), <span class="at">method =</span> <span class="st">"REML"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>We can compare these models using <code>anova</code>.</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># compare three models together</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(mod_1_unstruc, mod_1_exch_const, mod_1_exch_heter)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>                 Model df      AIC      BIC    logLik   Test  L.Ratio p-value
+mod_1_unstruc        1 18 2452.076 2523.559 -1208.038                        
+mod_1_exch_const     2 10 2480.621 2520.334 -1230.311 1 vs 2 44.54508  &lt;.0001
+mod_1_exch_heter     3 13 2459.960 2511.587 -1216.980 2 vs 3 26.66058  &lt;.0001</code></pre>
+</div>
+</div>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># or compare two models at a time</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(mod_1_unstruc, mod_1_exch_const)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>                 Model df      AIC      BIC    logLik   Test  L.Ratio p-value
+mod_1_unstruc        1 18 2452.076 2523.559 -1208.038                        
+mod_1_exch_const     2 10 2480.621 2520.334 -1230.311 1 vs 2 44.54508  &lt;.0001</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(mod_1_exch_const, mod_1_exch_heter)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>                 Model df      AIC      BIC    logLik   Test  L.Ratio p-value
+mod_1_exch_const     1 10 2480.621 2520.334 -1230.311                        
+mod_1_exch_heter     2 13 2459.960 2511.587 -1216.980 1 vs 2 26.66058  &lt;.0001</code></pre>
+</div>
+</div>
+<p>For model selection, we want to compare AIC and BIC. The model with the unstructured covariance (e.g., mod_1_unstruc) has the lowest AIC. The model with the exchangeable (heterogeneous variances) (e.g., mod_1_exch_heter) has the lowest BIC. These results suggest that the exchangeable (heterogeneous variances) fits the data best since it is more parsimonious and has low information. Based on the likelihood ratio test, the mod_1_exch_heter model is a significantly better fit than the other two models.</p>
 
 
 </section>
@@ -529,12 +677,12 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
       <a href="./Longi_covmodel.html" class="pagination-link">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Modeling the Covariance</span></span>
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Modeling the Covariance</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
       <a href="./Longi_prediction.html" class="pagination-link">
-        <span class="nav-page-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Prediction</span></span> <i class="bi bi-arrow-right-short"></i>
+        <span class="nav-page-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Prediction</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

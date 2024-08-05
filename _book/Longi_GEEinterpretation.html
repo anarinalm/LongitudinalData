@@ -212,7 +212,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./Longi_noncontinuous.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Models for Non-Continuous Outcomes (Longitudinal)</span></span></a>
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Models for Non-Continuous Outcomes</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -352,8 +352,7 @@ Degrees of freedom: 400 total; 397 residual</code></pre>
 <p><span class="math inline">\(\beta_{trt}\)</span>: Among the treatment group, the average population change of blood lead levels (BLL) decreases by 2 in comparison to the control group.</p>
 <p><span class="math inline">\(\beta_{T}\)</span>: Among the control and treatment groups, blood lead levels (BLL) decreases by 0.40 (<span class="math inline">\(\beta_{T}\)</span>) for every one-unit increase in time (<span class="math inline">\(T\)</span>).</p>
 <p><span class="math inline">\(\beta_{0}\)</span>: Among the control and treatment group, the average population change of blood lead levels (BLL) increases by 26 and is constant over time.</p>
-<div style="page-break-after: always;"></div>
-<p></p>
+<p><strong>How would our interpretation change after adding an interaction term?</strong></p>
 <p>Consider the following model:</p>
 <div class="cell" data-layout-align="center">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># unstructured covariance</span></span>
@@ -411,8 +410,7 @@ Degrees of freedom: 400 total; 396 residual</code></pre>
 <p><span class="math inline">\(\beta_{T}\)</span>: Among the control group, blood lead levels (BLL) decreases by 0.40 (<span class="math inline">\(\beta_{T}\)</span>) for every one-unit increase in time (<span class="math inline">\(T\)</span>).</p>
 <p><span class="math inline">\(\beta_{T} + \beta_{trt:T}\)</span>: Among the treatment groups, blood lead levels (BLL) decreases by 2.09 for every one-unit increase in time (<span class="math inline">\(T\)</span>).</p>
 <p><span class="math inline">\(\beta_{trt:T}\)</span>: Comparing the treatment and control groups, the difference in the mean change of blood lead levels (BLL) is 0.20 less among the patients in the treatment group compared to the control group for every one-unit increase in time (<span class="math inline">\(T\)</span>).</p>
-<div style="page-break-after: always;"></div>
-<p></p>
+<p><strong>How would this change if time was categorical?</strong></p>
 <p>Consider the Response Profiles Analysis case with no interaction terms first:</p>
 <div class="cell" data-layout-align="center">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># unstructured covariance</span></span>
@@ -471,8 +469,7 @@ Degrees of freedom: 400 total; 395 residual</code></pre>
 <p><span class="math inline">\(\beta_{trt}\)</span>: Among the treatment group, the average population change of blood lead levels (BLL) decreases by 2.01 in comparison to the control group.</p>
 <p><span class="math inline">\(\beta_{T_1}, \beta_{T_4}, \beta_{T_6}\)</span>: represent the average change in blood lead levels (BLL) among the population (e.g.&nbsp;both control and treatment groups) relative to baseline which is the reference group for each time variable (dichotomous indicator variable).</p>
 <p>For example, the average change in blood lead levels (BLL) among the population is 7.31 less compared to the baseline measure.</p>
-<div style="page-break-after: always;"></div>
-<p></p>
+<p><strong>How would this change if an interaction term was included in the model?</strong></p>
 <p>Consider the Response Profiles Analysis case with no interaction terms first:</p>
 <div class="cell" data-layout-align="center">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># unstructured covariance</span></span>

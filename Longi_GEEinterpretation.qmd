@@ -87,7 +87,7 @@ $E(y_{ij} \mid X_{ij}) = \beta_0 +  \beta_{trt}trt +  \beta_{T}T$
 ```{r}
 # unstructured covariance  
 marg_mod <- gls(measurements ~ factor(group) + time, 
-                data = long_TLC, corr = corSymm(form = ~1 | id),
+                data = long_TLC, corr = corSymm(form = ~ 1 | id),
                 weights = varIdent(form = ~1 | as.factor(level)), method = "REML")
 
 summary(marg_mod)
@@ -112,9 +112,7 @@ $\beta_{T}$: Among the control and treatment groups, blood lead levels (BLL) dec
 $\beta_{0}$: Among the control and treatment group, the average population change of blood lead levels (BLL) increases by 26 and is constant over time.
 
 
-\newpage
-
-\textbf{How would our interpretation change after adding an interaction term?}
+**How would our interpretation change after adding an interaction term?**
 
 Consider the following model: 
 
@@ -126,7 +124,7 @@ $E(y_{ij} \mid X_{ij}) = \beta_0 +  \beta_{trt}trt +  \beta_{T}T + \beta_{trt:T}
 ```{r}
 # unstructured covariance  
 marg_mod_inter <- gls(measurements ~ factor(group) + time + factor(group):time, 
-                      data = long_TLC, corr = corSymm(form = ~1 | id),
+                      data = long_TLC, corr = corSymm(form = ~ 1 | id),
                       weights = varIdent(form = ~1 | as.factor(level)), method = "REML")
 
 summary(marg_mod_inter)
@@ -145,9 +143,8 @@ $\beta_{T} + \beta_{trt:T}$: Among the treatment groups, blood lead levels (BLL)
 
 $\beta_{trt:T}$: Comparing the treatment and control groups, the difference in the mean change of blood lead levels (BLL) is 0.20 less among the patients in the treatment group compared to the control group for every one-unit increase in time ($T$).
 
-\newpage
 
-\textbf{How would this change if time was categorical?}
+**How would this change if time was categorical?**
 
 Consider the Response Profiles Analysis case with no interaction terms first:
 
@@ -158,7 +155,7 @@ $E(y_{ij} \mid X_{ij}) = \beta_0 +  \beta_{trt}trt +  \beta_{T_1}T_1 +  \beta_{T
 ```{r}
 # unstructured covariance  
 marg_mod_resp_prof <- gls(measurements ~ factor(group) + factor(level), 
-                          data = long_TLC, corr = corSymm(form = ~1 | id),
+                          data = long_TLC, corr = corSymm(form = ~ 1 | id),
                           weights = varIdent(form = ~1 | as.factor(level)), method = "REML")
 
 summary(marg_mod_resp_prof)
@@ -176,9 +173,7 @@ $\beta_{T_1}, \beta_{T_4}, \beta_{T_6}$: represent the average change in blood l
 For example, the average change in blood lead levels (BLL) among the population is 7.31 less compared to the baseline measure.
 
 
-\newpage
-
-\textbf{How would this change if an interaction term was included in the model?}
+**How would this change if an interaction term was included in the model?**
 
 Consider the Response Profiles Analysis case with no interaction terms first:
 

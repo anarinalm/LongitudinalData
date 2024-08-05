@@ -39,7 +39,7 @@ long_TLC$week[long_TLC$level == "lead6"] = 6 #week 6
 ```
 
 ## Introduction
-For this lab we will return to the TLC dataset with N=100 participants in order to better understand marginal models for longitudinal data when the outcome is continuous.
+For this section we will return to the TLC dataset with N = 100 participants in order to better understand marginal models for longitudinal data when the outcome is continuous.
 
 ## Required Packages
 
@@ -122,7 +122,7 @@ anova(fit.compsym)
 
 **2. Next, we discuss Marginal Models (GEE) and three R Packages **
 
-    1. Using the `gee` package
+    **1. Using the `gee` package**
     
 The syntax for the function `gee()` in `gee` package is
 
@@ -145,7 +145,7 @@ mod_tlc_gee <- gee(measurements ~ level + group + level*group, id = id, data = l
 summary(mod_tlc_gee)
 ```
 
-    2. Using the `geepack` package
+    **2. Using the `geepack` package**
     
 The syntax for the function `geeglm()` in `geepack` package is
 
@@ -175,7 +175,7 @@ We can use the QIC() function from the geepack package.
 QIC(mod_tlc_geep)
 ```
 
-    3. Using the geeM package
+**3. Using the geeM package**
 
 The syntax for the function `geem()` in `geeM` package is
 
@@ -192,7 +192,6 @@ geem(formula, id, waves = NULL, data, family = gaussian, constr = "independence"
 
 Consider the same model 1 defined earlier
 
-
 ```{r}
 # Model 1: Response Profiles (time T categorical)
 mod_tlc_geeM <- geem(measurements ~ level + group + level*group, id = id, data = long_TLC, 
@@ -203,7 +202,7 @@ summary(mod_tlc_geeM)
 
 ## Response Profile Analysis
 
-Model 1: $E(y_{ij} \mid X_{ij}) = \beta_0 +  \beta_{trt}trt +  \beta_{T_1}T_1 +  \beta_{T_4}T_4 +  \beta_{T_6}T_6 +  \beta_{trt:T_1}trt*T_1+ \beta_{trt:T_4}trt*T_4 + \beta_{trt:T_6}trt*T_6$.
+Model 1: $E(y_{ij} \mid X_{ij}) = \beta_0 +  \beta_{trt}trt +  \beta_{T_1}T_1 +  \beta_{T_4}T_4 +  \beta_{T_6}T_6 +  \beta_{trt:T_1}trt*T_1+ \beta_{trt:T_4}trt*T_4 + \beta_{trt:T_6}trt*T_6$
 
 This model includes time as a categorical covariate and also includes an interaction term to account and adjust for any possible discrepancies between the treatment and control.
 
@@ -265,7 +264,7 @@ parcurv_mod_2 <- gls(measurements ~ factor(group) + week, data=long_TLC,
 summary(parcurv_mod_2)
 ```
 
-## Constructing Marginal Models
+## More Marginal Models
 
 *Model 1: time is categorical, main effects, interaction terms*
 

@@ -170,7 +170,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./Longi_GEEinterpretation.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Marginal Model (GEE) Interpretation</span></span></a>
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Marginal Model Interpretation</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -212,7 +212,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./Longi_noncontinuous.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Models for Non-Continuous Outcomes (Longitudinal)</span></span></a>
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Models for Non-Continuous Outcomes</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -238,7 +238,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#constructing-marginal-models" id="toc-constructing-marginal-models" class="nav-link" data-scroll-target="#constructing-marginal-models"><span class="header-section-number">2.3</span> Constructing Marginal Models</a></li>
   <li><a href="#response-profile-analysis" id="toc-response-profile-analysis" class="nav-link" data-scroll-target="#response-profile-analysis"><span class="header-section-number">2.4</span> Response Profile Analysis</a></li>
   <li><a href="#parametric-curves" id="toc-parametric-curves" class="nav-link" data-scroll-target="#parametric-curves"><span class="header-section-number">2.5</span> Parametric Curves</a></li>
-  <li><a href="#constructing-marginal-models-1" id="toc-constructing-marginal-models-1" class="nav-link" data-scroll-target="#constructing-marginal-models-1"><span class="header-section-number">2.6</span> Constructing Marginal Models</a></li>
+  <li><a href="#more-marginal-models" id="toc-more-marginal-models" class="nav-link" data-scroll-target="#more-marginal-models"><span class="header-section-number">2.6</span> More Marginal Models</a></li>
   </ul>
 </nav>
     </div>
@@ -396,7 +396,7 @@ factor(group):factor(level)     3   46.9289  &lt;.0001</code></pre>
 </div>
 </div>
 <p><strong>2. Next, we discuss Marginal Models (GEE) and three R Packages </strong></p>
-<pre><code>1. Using the `gee` package</code></pre>
+<pre><code>**1. Using the `gee` package**</code></pre>
 <p>The syntax for the function <code>gee()</code> in <code>gee</code> package is</p>
 <p>gee(formula, id, data, family = gaussian, constr = ‘independence’,Mv)</p>
 <ul>
@@ -474,7 +474,7 @@ Working Correlation
 [4,] 0.5057310 0.6759677 0.6975035 1.0000000</code></pre>
 </div>
 </div>
-<pre><code>2. Using the `geepack` package</code></pre>
+<pre><code>**2. Using the `geepack` package**</code></pre>
 <p>The syntax for the function <code>geeglm()</code> in <code>geepack</code> package is</p>
 <p>geeglm(formula, family = gaussian, data, id, zcor = NULL, constr, std.err = ‘san.se’)</p>
 <ul>
@@ -541,7 +541,7 @@ Number of clusters:   100  Maximum cluster size: 4 </code></pre>
     17225     17225     -8604         8         8     17230 </code></pre>
 </div>
 </div>
-<pre><code>3. Using the geeM package</code></pre>
+<pre><code>**3. Using the geeM package**</code></pre>
 <p>The syntax for the function <code>geem()</code> in <code>geeM</code> package is</p>
 <p>geem(formula, id, waves = NULL, data, family = gaussian, constr = “independence”, Mv = 1)</p>
 <ul>
@@ -590,7 +590,7 @@ levellead6:groupTreatment    -3.152    1.795    1.2440  -2.5340 1.128e-02
 </section>
 <section id="response-profile-analysis" class="level2" data-number="2.4">
 <h2 data-number="2.4" class="anchored" data-anchor-id="response-profile-analysis"><span class="header-section-number">2.4</span> Response Profile Analysis</h2>
-<p>Model 1: <span class="math inline">\(E(y_{ij} \mid X_{ij}) = \beta_0 + \beta_{trt}trt + \beta_{T_1}T_1 + \beta_{T_4}T_4 + \beta_{T_6}T_6 + \beta_{trt:T_1}trt*T_1+ \beta_{trt:T_4}trt*T_4 + \beta_{trt:T_6}trt*T_6\)</span>.</p>
+<p>Model 1: <span class="math inline">\(E(y_{ij} \mid X_{ij}) = \beta_0 + \beta_{trt}trt + \beta_{T_1}T_1 + \beta_{T_4}T_4 + \beta_{T_6}T_6 + \beta_{trt:T_1}trt*T_1+ \beta_{trt:T_4}trt*T_4 + \beta_{trt:T_6}trt*T_6\)</span></p>
 <p>This model includes time as a categorical covariate and also includes an interaction term to account and adjust for any possible discrepancies between the treatment and control.</p>
 <p>Using the GLS approach, we can fit a model to include time, treatment, and their interaction as categorical variables (use dummy variables). What is your overall conclusion?</p>
 <div class="cell" data-layout-align="center">
@@ -810,8 +810,8 @@ Degrees of freedom: 400 total; 397 residual</code></pre>
 </div>
 </div>
 </section>
-<section id="constructing-marginal-models-1" class="level2" data-number="2.6">
-<h2 data-number="2.6" class="anchored" data-anchor-id="constructing-marginal-models-1"><span class="header-section-number">2.6</span> Constructing Marginal Models</h2>
+<section id="more-marginal-models" class="level2" data-number="2.6">
+<h2 data-number="2.6" class="anchored" data-anchor-id="more-marginal-models"><span class="header-section-number">2.6</span> More Marginal Models</h2>
 <p><em>Model 1: time is categorical, main effects, interaction terms</em></p>
 <p>Model 1: <span class="math inline">\(E(y_{ij} \mid X_{ij}) = \beta_0 + \beta_{trt}trt + \beta_{T_1}T_1 + \beta_{T_4}T_4 + \beta_{T_6}T_6 + \beta_{trt:T_1}trt*T_1+ \beta_{trt:T_4}trt*T_4 + \beta_{trt:T_6}trt*T_6\)</span></p>
 <p>This model includes time as a categorical covariate and also includes an interaction term to account and adjust for any possible discrepancies between the treatment and control.</p>
@@ -1298,7 +1298,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   </div>
   <div class="nav-page nav-page-next">
       <a href="./Longi_GEEinterpretation.html" class="pagination-link">
-        <span class="nav-page-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Marginal Model (GEE) Interpretation</span></span> <i class="bi bi-arrow-right-short"></i>
+        <span class="nav-page-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Marginal Model Interpretation</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
