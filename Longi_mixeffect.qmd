@@ -100,7 +100,7 @@ Note: If the growth rate is explained by explanatory variables ($X_{ij}$) then i
   + Other packages allow you to specify the covariance model
 
 
-## Section 4: Fitting Mixed Effect Models to the TLC data
+## Fitting Mixed Effect Models to the TLC data
 
 ```{r}
 library(tidyr) #Allows for us to manipulate the data structure
