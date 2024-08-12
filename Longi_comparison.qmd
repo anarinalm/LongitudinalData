@@ -1,1 +1,1 @@
-# Comparison Between GEE and Mixed Effects Model {#sec-longi-compare}
+# Comparison Covariance and Marginal Model {#sec-longi-compare}

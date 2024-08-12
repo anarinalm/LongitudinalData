@@ -1,10 +1,14 @@
 # Exploratory Data Analysis {#sec-longi-EDA}
 
 **Learning Objectives**
-1. Understand how to conduct exploratory data analysis for longitudinal data
-2. Understand how to create plots to visualize trends over time and interpret results
-3. Understand how to calculate descriptive statistics (mean, standard deviation, variance-covariance matrix, correlation matrix) and interpret results
-4. Understand how to identify characteristics of longitudinal data
+
+1. Understand how to conduct exploratory data analysis for longitudinal data.
+
+2. Understand how to create plots to visualize trends over time and interpret results.
+
+3. Understand how to calculate descriptive statistics (mean, standard deviation, variance-covariance matrix, correlation matrix) and interpret results.
+
+4. Understand how to identify characteristics of longitudinal data.
 
 ## Converting between data formats (wide and long format)
 
