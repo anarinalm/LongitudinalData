@@ -202,7 +202,8 @@ summary(mod_tlc_geeM)
 
 ## Response Profile Analysis
 
-Model 1: $E(y_{ij} \mid X_{ij}) = \beta_0 +  \beta_{trt}trt +  \beta_{T_1}T_1 +  \beta_{T_4}T_4 +  \beta_{T_6}T_6 +  \beta_{trt:T_1}trt*T_1+ \beta_{trt:T_4}trt*T_4 + \beta_{trt:T_6}trt*T_6$
+Model 1: $$E(y_{ij} \mid X_{ij}) = \beta_0 +  \beta_{trt}trt +  \beta_{T_1}T_1 +  \beta_{T_4}T_4 +  \beta_{T_6}T_6 +  $$
+$$\beta_{trt:T_1}trt*T_1+ \beta_{trt:T_4}trt*T_4 + \beta_{trt:T_6}trt*T_6$$
 
 This model includes time as a categorical covariate and also includes an interaction term to account and adjust for any possible discrepancies between the treatment and control.
 
@@ -266,9 +267,10 @@ summary(parcurv_mod_2)
 
 ## More Marginal Models
 
-*Model 1: time is categorical, main effects, interaction terms*
+**Model 1: time is categorical, main effects, interaction terms**
 
-Model 1: $E(y_{ij} \mid X_{ij}) = \beta_0 +  \beta_{trt}trt +  \beta_{T_1}T_1 +  \beta_{T_4}T_4 +  \beta_{T_6}T_6 +  \beta_{trt:T_1}trt*T_1+ \beta_{trt:T_4}trt*T_4 + \beta_{trt:T_6}trt*T_6$
+Model 1: $$E(y_{ij} \mid X_{ij}) = \beta_0 +  \beta_{trt}trt +  \beta_{T_1}T_1 +  \beta_{T_4}T_4 +  \beta_{T_6}T_6 +  \beta_{trt:T_1}trt*T_1+ $$
+$$\beta_{trt:T_4}trt*T_4 + \beta_{trt:T_6}trt*T_6$$
 
 This model includes time as a categorical covariate and also includes an interaction term to account and adjust for any possible discrepancies between the treatment and control.
 
@@ -281,7 +283,7 @@ model_1 <- geeglm(measurements ~ group + as.factor(time) + as.factor(time)*group
 summary(model_1)
 ```
 
-*Model 2: time is continuous, main effects*
+**Model 2: time is continuous, main effects**
 
 Model 2: $E(y_{ij} \mid X_{ij}) = \beta_0 +  \beta_{trt}trt +  \beta_{T}T$
 
@@ -295,7 +297,7 @@ family = gaussian(link = "identity"), corstr = "unstructured")
 summary(model_2)
 ```
 
-*Model 3: time is continuous, main effects, interaction term*
+**Model 3: time is continuous, main effects, interaction term**
 
 Model 3: $E(y_{ij} \mid X_{ij}) = \beta_0 +  \beta_{trt}trt +  \beta_{T}T + \beta_{trt:T}trt*T$
 
@@ -310,7 +312,7 @@ model_3 <- geeglm(measurements ~ group + time + time*group, id = id, data = long
 summary(model_3)
 ```
 
-*Model 4: time is continuous, time^2, main effects*
+**Model 4: time is continuous, time^2, main effects**
 
 Model 4: $E(y_{ij} \mid X_{ij}) = \beta_0 +  \beta_{trt}trt +  \beta_{T}T + \beta_{T^2}T^2$
 
@@ -326,7 +328,7 @@ summary(model_4)
 ```
 
 
-*Model 5: time is continuous, time^2, main effects, interaction*
+**Model 5: time is continuous, time^2, main effects, interaction**
 
 Model 5: $E(y_{ij} \mid X_{ij}) = \beta_0 +  \beta_{trt}trt +  \beta_{T}T + \beta_{T^2}T^2 + \beta_{trt:T}trt*T+\beta_{trt:T^2}trt*T^2$
 
