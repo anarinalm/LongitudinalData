@@ -122,7 +122,7 @@ anova(fit.compsym)
 
 **2. Next, we discuss Marginal Models (GEE) and three R Packages **
 
-    **1. Using the `gee` package**
+**1. Using the `gee` package**
     
 The syntax for the function `gee()` in `gee` package is
 
@@ -145,7 +145,7 @@ mod_tlc_gee <- gee(measurements ~ level + group + level*group, id = id, data = l
 summary(mod_tlc_gee)
 ```
 
-    **2. Using the `geepack` package**
+**2. Using the `geepack` package**
     
 The syntax for the function `geeglm()` in `geepack` package is
 
