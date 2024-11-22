@@ -296,16 +296,16 @@ Variance function:
  Formula: ~1 | time 
  Parameter estimates:
        0        1        4        6 
-1.000000 1.559262 1.353064 1.599958 
+1.000000 1.559260 1.353064 1.599957 
 
 Coefficients:
                                      Value Std.Error  t-value p-value
-(Intercept)                      26.131925 0.7026919 37.18831  0.0000
-factor(group)Treatment           -0.780537 0.9937564 -0.78544  0.4327
-time                             -0.833455 0.5657089 -1.47329  0.1415
-I(time^2)                         0.082736 0.0983326  0.84138  0.4006
-factor(group)Treatment:time      -5.996169 0.8000332 -7.49490  0.0000
-factor(group)Treatment:I(time^2)  1.037345 0.1390632  7.45952  0.0000
+(Intercept)                      26.131925 0.7026920 37.18830  0.0000
+factor(group)Treatment           -0.780544 0.9937566 -0.78545  0.4327
+time                             -0.833454 0.5657092 -1.47329  0.1415
+I(time^2)                         0.082735 0.0983326  0.84138  0.4006
+factor(group)Treatment:time      -5.996162 0.8000336 -7.49489  0.0000
+factor(group)Treatment:I(time^2)  1.037344 0.1390633  7.45951  0.0000
 
  Correlation: 
                                  (Intr) fct()T time   I(t^2) fc()T:
@@ -317,9 +317,9 @@ factor(group)Treatment:I(time^2) -0.110  0.156  0.690 -0.707 -0.976
 
 Standardized residuals:
        Min         Q1        Med         Q3        Max 
--2.5279799 -0.7879764 -0.2643423  0.4368115  4.8117579 
+-2.5279798 -0.7879764 -0.2643423  0.4368118  4.8117601 
 
-Residual standard error: 5.092277 
+Residual standard error: 5.092279 
 Degrees of freedom: 400 total; 394 residual</code></pre>
 </div>
 </div>
@@ -372,7 +372,7 @@ factor(group)Treatment:time  0.054 -0.077 -0.707
 
 Standardized residuals:
        Min         Q1        Med         Q3        Max 
--2.2991338 -0.7973523 -0.2854753  0.3570825  5.6284768 
+-2.2991338 -0.7973523 -0.2854752  0.3570825  5.6284768 
 
 Residual standard error: 5.310688 
 Degrees of freedom: 400 total; 396 residual</code></pre>
@@ -430,9 +430,9 @@ mod_1_exch_const     2 10 2480.621 2520.334 -1230.311 1 vs 2 44.54508  &lt;.0001
 </div>
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(mod_1_exch_const, mod_1_exch_heter)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>                 Model df      AIC      BIC    logLik   Test  L.Ratio p-value
-mod_1_exch_const     1 10 2480.621 2520.334 -1230.311                        
-mod_1_exch_heter     2 13 2459.960 2511.587 -1216.980 1 vs 2 26.66058  &lt;.0001</code></pre>
+<pre><code>                 Model df      AIC      BIC   logLik   Test  L.Ratio p-value
+mod_1_exch_const     1 10 2480.621 2520.334 -1230.31                        
+mod_1_exch_heter     2 13 2459.960 2511.587 -1216.98 1 vs 2 26.66058  &lt;.0001</code></pre>
 </div>
 </div>
 <p>For model selection, we want to compare AIC and BIC. The model with the unstructured covariance (e.g., mod_1_unstruc) has the lowest AIC. The model with the exchangeable (heterogeneous variances) (e.g., mod_1_exch_heter) has the lowest BIC. These results suggest that the exchangeable (heterogeneous variances) fits the data best since it is more parsimonious and has low information. Based on the likelihood ratio test, the mod_1_exch_heter model is a significantly better fit than the other two models.</p>

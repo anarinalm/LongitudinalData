@@ -1,0 +1,31 @@
+project:
+  type: book
+
+website:
+  title: "Longitudinal Data Analysis Tutorial"
+  author: "Anarina Murillo, Yingxi Kong, Monica Colon Vargas"
+  date: "7/8/2024"
+  chapters:
+    - index.qmd
+    - preface.qmd
+    - part: Longi_intro.qmd
+      chapters: 
+        - Longi_EDA.qmd
+        - Longi_GEE.qmd
+        - Longi_GEEinterpretation.qmd
+        - Longi_mixeffect.qmd
+        - Longi_comparison.qmd
+        - Longi_covmodel.qmd
+        - Longi_modelselection.qmd
+        - Longi_prediction.qmd
+        - Longi_interpretation.qmd
+        - Longi_noncontinuous.qmd
+        - Longi_missingdata.qmd
+
+bibliography: references.bib
+
+format:
+  html:
+    theme: cosmo
+    toc: true
+    code-copy: true
