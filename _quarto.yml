@@ -1,9 +1,10 @@
 project:
-  type: book
+  type: book  
+  output-dir: docs
 
 book:
   title: "Longitudinal Tutorial"
-  author: "Yingxi Kong"
+  author: "Anarina Murillo, Yingxi Kong, Monica Colon Vargas"
   date: "7/8/2024"
   chapters:
     - index.qmd

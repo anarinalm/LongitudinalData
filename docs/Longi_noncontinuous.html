@@ -1,0 +1,1075 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.3.353">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Longitudinal Tutorial - 10&nbsp; Models for Non-Continuous Outcomes</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./Longi_missingdata.html" rel="next">
+<link href="./Longi_interpretation.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+</head>
+
+<body class="nav-sidebar floating">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./Longi_intro.html">Longitudinal Data Analysis</a></li><li class="breadcrumb-item"><a href="./Longi_noncontinuous.html"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Models for Non-Continuous Outcomes</span></a></li></ol></nav>
+      <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+      </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Longitudinal Tutorial</a> 
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Welcome</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./preface.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Preface</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="./Longi_intro.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Longitudinal Data Analysis</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Longi_EDA.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Exploratory Data Analysis</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Longi_GEE.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Marginal Model (GEE)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Longi_GEEinterpretation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Marginal Model Interpretation</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Longi_mixeffect.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Mixed Effects Model</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Longi_comparison.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Comparison Covariance and Marginal Model</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Longi_covmodel.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Modeling the Covariance</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Longi_modelselection.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Model Selection</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Longi_prediction.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Prediction</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Longi_interpretation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Interpretation</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Longi_noncontinuous.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Models for Non-Continuous Outcomes</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Longi_missingdata.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Missing Data</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#background" id="toc-background" class="nav-link active" data-scroll-target="#background"><span class="header-section-number">10.1</span> Background</a></li>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link" data-scroll-target="#introduction"><span class="header-section-number">10.2</span> Introduction</a></li>
+  <li><a href="#loading-the-data-into-rstudio" id="toc-loading-the-data-into-rstudio" class="nav-link" data-scroll-target="#loading-the-data-into-rstudio"><span class="header-section-number">10.3</span> Loading the Data into RStudio</a></li>
+  <li><a href="#exploratory-data-analysis" id="toc-exploratory-data-analysis" class="nav-link" data-scroll-target="#exploratory-data-analysis"><span class="header-section-number">10.4</span> Exploratory Data Analysis</a></li>
+  <li><a href="#marginal-models" id="toc-marginal-models" class="nav-link" data-scroll-target="#marginal-models"><span class="header-section-number">10.5</span> Marginal Models</a></li>
+  <li><a href="#mixed-effect-models" id="toc-mixed-effect-models" class="nav-link" data-scroll-target="#mixed-effect-models"><span class="header-section-number">10.6</span> Mixed Effect Models</a></li>
+  <li><a href="#binary-outcome" id="toc-binary-outcome" class="nav-link" data-scroll-target="#binary-outcome"><span class="header-section-number">10.7</span> Binary Outcome</a></li>
+  <li><a href="#count-outcome" id="toc-count-outcome" class="nav-link" data-scroll-target="#count-outcome"><span class="header-section-number">10.8</span> Count Outcome</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title"><span id="sec-longi-noncontinuous" class="quarto-section-identifier"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Models for Non-Continuous Outcomes</span></span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+</header>
+
+<p><strong>Learning Objectives</strong></p>
+<ol type="1">
+<li>Understand how to conduct fit models with non-continuous outcomes</li>
+<li>Understand how to interpret results</li>
+</ol>
+<section id="background" class="level2" data-number="10.1">
+<h2 data-number="10.1" class="anchored" data-anchor-id="background"><span class="header-section-number">10.1</span> Background</h2>
+<p>The purpose of this lab is to learn how to use R software to fit regression models for longitudinal data when the outcome is non-continuous. We will discuss Marginal and Mixed-Effects models.</p>
+<p>There are two main types of non-continuous outcomes. The first outcome, which will be the focus of this lab, are binary outcomes where the response variable <span class="math inline">\(Y \in \{0,1\}\)</span>. For examples consider the scenarios: Predict whether or not a person will have diabetes or not, predict whether or not a person is positive for COVID-19 or not.</p>
+<p>The response variable is dichotomous coded with 0’s and 1’s, where observations labeled as 1’s represent the occurrence of an event or outcome of interest. Observations labeled with 0 are labeled as belonging to the negative class, where the event or outcome was not observed.</p>
+<p>Here we only have two options which is usually why it’s a popular approach to build probabilistic models <span class="math inline">\(P(Y=1 \mid X)=g^{-1}(X\beta)\)</span> to model the outcome. g is what we call a link function, and common link functions are the logistic link function <span class="math inline">\(g(p) = log(\frac{p}{1-p})\)</span>, the standard normal cumulative density function <span class="math inline">\(\Phi(p)\)</span>, and the complementary log-log function <span class="math inline">\(g(p) = log(-log(1-p))\)</span>. log refers to the natural log.</p>
+<p>For these outcomes, we need to build probabilistic models. Why? Because we cannot use a linear model to estimate the classes. We cannot interpret the output of a linear regression model with these non-continuous outcomes.</p>
+<p>Statisticians prefer probabilistic estimation as it gives us a way to quantify an individual’s level of association to a certain occurrence of event. Probabilities are always bounded between 0 and 1. This boundedness property allows us to know for certain how extreme your estimates are. For instance if your predicted probability is 0.90 then you know there’s an extremely high chance this individual belongs to the positive class. If <span class="math inline">\(P(Y=1 \mid X)\)</span> is high (e.g.&nbsp;greater than 0.5) then we say it’s more likely that they’re in the positive class than in the negative class. As an aside, but not relevant to the lab, this can also be extended to categorical outcomes where instead of two outcomes there are K outcomes, where <span class="math inline">\(K \ge 2\)</span> (i.e.&nbsp;multinomial logistic regression). We will not discuss this further.</p>
+<p>Another type of non-continuous outcome variable takes on discrete values (i.e.&nbsp;integer values like 0,1,2,3,). This is defined as “count data” which represents the number of occurrences of an event within a fixed period. Examples include the number of accidents on a freeway over a year or number of cancer cases in a month. Usually models with count responses are estimated using, though not limited to, Poisson and Negative Binomial distributions.</p>
+<p>The main rules that we learnt in previous labs for continuous outcomes also apply for non-continuous outcomes. For instance Marginal models for non-continuous outcomes are also population level while Mixed Effect models for non-continuous outcomes are individual (or subject-specific) level.</p>
+<p>Analogous overall model-selection procedures also remain the same. For instance when doing Maximum Likelihood Estimation we can still use the Akaike Information Criterion (AIC) and the Bayesian Information Criterion (BIC) to select our final model. For reference <span class="math inline">\(AIC = 2p - 2log(L)\)</span> where <span class="math inline">\(L\)</span> is the likelihood and p is the number of covariates (excluding the intercept). Similarly <span class="math inline">\(BIC = plog(n) - 2log(L)\)</span> where n is the sample size of the data.</p>
+<p>While model comparisons remain the same we need to be careful when intepreting the coefficients that we derive from such models. There is a non-linear relationship being imposed now and we need to adjust our understanding accordlingly. Of course though the above sentence needs some explanation for one to truly grasp what the difference is. In a linear regression <span class="math inline">\(y = X^T\beta\)</span> so we’d interpret the <span class="math inline">\(\beta\)</span> in relation to the response. In logistic regression, <span class="math inline">\(logit(p) = log(\frac{p}{1-p}) = X^T\beta\)</span> this <span class="math inline">\(\beta\)</span> represents how a covariate affects the log-odds. An easier way to interpret <span class="math inline">\(\beta\)</span> in terms of <span class="math inline">\(e^\beta\)</span> which then tells us how it affects the odds ratio <span class="math inline">\(\frac{p}{1-p}\)</span>.</p>
+</section>
+<section id="introduction" class="level2" data-number="10.2">
+<h2 data-number="10.2" class="anchored" data-anchor-id="introduction"><span class="header-section-number">10.2</span> Introduction</h2>
+<p>In this lab, we will use data from the “Muscatine Coronary Risk Factor Study” (“muscatine.csv” or “muscatine.dta”). The goal of the study was to examine the development and persistence of risk factors for coronary disease in children. Below we describe our data.</p>
+<p>The outcome of interest: Obesity status (binary response, “obesity_status”).</p>
+<p>The data is longitudinal with each subject having at most three measurements. Measurements were taken biannually (every two years) from 1977 to 1981 (i.e.&nbsp;1977, 1979, 1981). You’ll notice the dataset is already in long format. This is captured in the occasion variable (“1” = 1977, “2” = 1979, “3” = 1981).</p>
+<p><strong>Covariates of interest:</strong> Current age (“curr_age”), baseline age (“base_age”) and gender (“gender”). There is also an id variable (“id”) specific to each participant within the study.</p>
+<p><strong>Main Objective:</strong> Determine whether the risk of obesity increases with age, and whether the patterns of change in obesity are the same for boys and girls.</p>
+<ul>
+<li>We will use the following packages for models:
+<ul>
+<li>lme4: This package is for fitting mixed-effects models. We will use the lmer() function to fit a linear model.</li>
+<li>geepack: This is the “Generalized Estimating Equation Package” package</li>
+</ul></li>
+</ul>
+</section>
+<section id="loading-the-data-into-rstudio" class="level2" data-number="10.3">
+<h2 data-number="10.3" class="anchored" data-anchor-id="loading-the-data-into-rstudio"><span class="header-section-number">10.3</span> Loading the Data into RStudio</h2>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyr)  <span class="co"># To manipulate the data structure</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(data.table)  <span class="co"># To manipulate the data structure</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)  <span class="co"># To create plots</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)  <span class="co">#for dataset manipulations with the %&gt;% operator</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(scales)  <span class="co">#for making percentages appear on y axis in ggplot</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(naniar)  <span class="co">#for missing data visualizations</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="co"># packages for models</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lme4)  <span class="co"># for mixed effects models</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(geepack)  <span class="co"># install.packages('geepack'), used for the geeglm() function</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="do">## SLOWEST METHOD: This is in base R (i.e. you odn't need to load any packages)</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>muscatine <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">"Data/muscatine.csv"</span>)</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="co"># head function allows us to see a sneak preview of the data.</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(muscatine, <span class="at">n =</span> <span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>   id gender base_age curr_age occasion obesity_status
+1   1      0        6        6        1              1
+2   1      0        6        8        2              1
+3   1      0        6       10        3              1
+4   2      0        6        6        1              1
+5   2      0        6        8        2              1
+6   2      0        6       10        3              1
+7   3      0        6        6        1              1
+8   3      0        6        8        2              1
+9   3      0        6       10        3              1
+10  4      0        6        6        1              1</code></pre>
+</div>
+</div>
+<p>Below we standardize the current age variable by centering by the mean. We also create a label for the gender variable.</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Here we turn muscatine into a data table for easier manipulations</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>muscatine <span class="ot">&lt;-</span> <span class="fu">data.table</span>(muscatine)</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Center the variable age (curr_age) around the mean</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>muscatine[, centered_age <span class="sc">:</span><span class="er">=</span> curr_age <span class="sc">-</span> <span class="fu">mean</span>(curr_age)]</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="co"># create labels for gender variable</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>muscatine[, gender_label <span class="sc">:</span><span class="er">=</span> <span class="fu">ifelse</span>(gender <span class="sc">==</span> <span class="dv">0</span>, <span class="st">"male"</span>, <span class="st">"female"</span>)]</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(muscatine, <span class="at">n =</span> <span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>       id gender base_age curr_age occasion obesity_status centered_age
+    &lt;int&gt;  &lt;int&gt;    &lt;int&gt;    &lt;int&gt;    &lt;int&gt;          &lt;int&gt;        &lt;num&gt;
+ 1:     1      0        6        6        1              1    -5.976524
+ 2:     1      0        6        8        2              1    -3.976524
+ 3:     1      0        6       10        3              1    -1.976524
+ 4:     2      0        6        6        1              1    -5.976524
+ 5:     2      0        6        8        2              1    -3.976524
+ 6:     2      0        6       10        3              1    -1.976524
+ 7:     3      0        6        6        1              1    -5.976524
+ 8:     3      0        6        8        2              1    -3.976524
+ 9:     3      0        6       10        3              1    -1.976524
+10:     4      0        6        6        1              1    -5.976524
+    gender_label
+          &lt;char&gt;
+ 1:         male
+ 2:         male
+ 3:         male
+ 4:         male
+ 5:         male
+ 6:         male
+ 7:         male
+ 8:         male
+ 9:         male
+10:         male</code></pre>
+</div>
+</div>
+</section>
+<section id="exploratory-data-analysis" class="level2" data-number="10.4">
+<h2 data-number="10.4" class="anchored" data-anchor-id="exploratory-data-analysis"><span class="header-section-number">10.4</span> Exploratory Data Analysis</h2>
+<p>Before heading to the model fitting, we first would like to perform some data exploration to have a better understanding. Firstly we will begin with a missing data visualization using the <code>naniar</code> package. The <code>naniar</code> package contains a function called <code>vis_miss</code> which allows us to see which covariates are missing data and by how much. Be sure to install the <code>naniar</code> package first.</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">vis_miss</span>(muscatine)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="Longi_noncontinuous_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid figure-img" width="576"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>From the above plot we can see that our only missingness is due to the outcome, obesity status.</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>muscatine[, numbered_visit <span class="sc">:</span><span class="er">=</span> <span class="fu">seq_len</span>(.N), by <span class="ot">=</span> id]</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>descript <span class="ot">&lt;-</span> muscatine <span class="sc">%&gt;%</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">group_by</span>(numbered_visit) <span class="sc">%&gt;%</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarise</span>(<span class="at">ids =</span> <span class="fu">length</span>(id), <span class="at">Males =</span> <span class="fu">sum</span>(gender_label <span class="sc">==</span> <span class="st">"male"</span>), <span class="at">Females =</span> <span class="fu">sum</span>(gender_label <span class="sc">==</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>        <span class="st">"female"</span>), <span class="at">mean_age =</span> <span class="fu">round</span>(<span class="fu">mean</span>(curr_age, <span class="at">na.rm =</span> T), <span class="dv">3</span>), <span class="at">sd =</span> <span class="fu">round</span>(<span class="fu">sd</span>(curr_age,</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>        <span class="at">na.rm =</span> T), <span class="dv">3</span>), <span class="at">var =</span> <span class="fu">round</span>(<span class="fu">var</span>(curr_age, <span class="at">na.rm =</span> T), <span class="dv">3</span>))</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>descript</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 3 × 7
+  numbered_visit   ids Males Females mean_age    sd   var
+           &lt;int&gt; &lt;int&gt; &lt;int&gt;   &lt;int&gt;    &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+1              1  4856  2486    2370     9.98  2.79  7.80
+2              2  4856  2486    2370    12.0   2.79  7.80
+3              3  4856  2486    2370    14.0   2.79  7.80</code></pre>
+</div>
+</div>
+<p>Now we will make barplots to summarize/visualize the proportion of children who are classified as obese within each age within each gender. To start we need to derive this proportion variable. ggplot unfortunately does not have a built in way to specify this so we need to create a new data frame which can take care of this for us. To do so we wil be using the dplyr function.</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># by subject, summarize the proportion of these T/F combinations</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>obesity_prop_by_age <span class="ot">&lt;-</span> muscatine <span class="sc">%&gt;%</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>    <span class="co"># create a unique identifier for each combination (e.g. 'TRUE-TRUE-FALSE')</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="fu">group_by</span>(base_age, gender_label) <span class="sc">%&gt;%</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>    <span class="co"># prop of times each combo type occurs for a given subject:</span></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a><span class="fu">reframe</span>(<span class="at">prop =</span> <span class="fu">mean</span>(obesity_status, <span class="at">na.rm =</span> T), <span class="at">times =</span> <span class="fu">n</span>())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Now that we have the proportions for each age group we create a new variable.</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>bars <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(obesity_prop_by_age,</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>        <span class="fu">aes</span>(<span class="at">x =</span> base_age,<span class="at">y =</span> prop, <span class="at">fill =</span> gender_label)) <span class="sc">+</span> </span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">stat =</span> <span class="st">"identity"</span>) <span class="sc">+</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(.<span class="sc">~</span>gender_label) <span class="sc">+</span> <span class="co">#this is what allows us to make separate boxes for the groups</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.line =</span> <span class="fu">element_line</span>(<span class="at">colour =</span> <span class="st">"black"</span>, <span class="at">linewidth =</span> <span class="dv">2</span>),</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>        <span class="at">text =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">20</span>),</span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>        <span class="at">axis.text =</span> <span class="fu">element_text</span>(<span class="at">colour =</span> <span class="st">"black"</span>, <span class="at">size =</span> <span class="dv">20</span>, <span class="at">face =</span> <span class="st">"bold"</span>),</span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>        <span class="at">axis.title =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">24</span>, <span class="at">face =</span> <span class="st">"bold"</span>),</span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>        <span class="at">axis.ticks.length =</span> <span class="fu">unit</span>(.<span class="dv">25</span>, <span class="st">"cm"</span>),</span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>        <span class="at">axis.ticks =</span> <span class="fu">element_line</span>(<span class="at">colour =</span> <span class="st">"black"</span>, <span class="at">linewidth =</span> <span class="fl">1.5</span>),</span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>        <span class="at">strip.background=</span><span class="fu">element_rect</span>(<span class="at">colour =</span> <span class="st">"black"</span>, <span class="at">fill =</span> <span class="st">"yellow"</span>)) <span class="sc">+</span></span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggtitle</span>(<span class="st">"Proportion of Obese Children by Age and Gender"</span>) <span class="sc">+</span></span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_manual</span>(<span class="at">name =</span> <span class="st">"Gender"</span>, <span class="at">values =</span> <span class="fu">c</span>(<span class="st">"green"</span>,<span class="st">"purple"</span>)) <span class="sc">+</span></span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">labels =</span> percent) <span class="sc">+</span></span>
+<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">"Percent of Obese Children"</span>) <span class="sc">+</span></span>
+<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">"Baseline Age (years)"</span>)</span>
+<span id="cb10-17"><a href="#cb10-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-18"><a href="#cb10-18" aria-hidden="true" tabindex="-1"></a>bars</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="Longi_noncontinuous_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid figure-img" width="576"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># by subject, summarize the proportion of these T/F combinations</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>obesity_prop_by_curr_age <span class="ot">&lt;-</span> muscatine <span class="sc">%&gt;%</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>    <span class="co"># create a unique identifier for each combination (e.g. 'TRUE-TRUE-FALSE')</span></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a><span class="fu">group_by</span>(curr_age, gender_label) <span class="sc">%&gt;%</span></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>    <span class="co"># prop of times each combo type occurs for a given subject:</span></span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a><span class="fu">reframe</span>(<span class="at">prop =</span> <span class="fu">mean</span>(obesity_status, <span class="at">na.rm =</span> T), <span class="at">times =</span> <span class="fu">n</span>())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Now that we have the proportions for each age group we create a new variable.</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>lines <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(obesity_prop_by_curr_age,</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>                <span class="fu">aes</span>(<span class="at">x =</span> curr_age,<span class="at">y =</span> prop,<span class="at">color =</span> gender_label)) <span class="sc">+</span> </span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">linewidth =</span> <span class="dv">3</span>) <span class="sc">+</span></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(.<span class="sc">~</span>gender_label) <span class="sc">+</span> <span class="co">#this is what allows us to make separate boxes for the groups</span></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.line =</span> <span class="fu">element_line</span>(<span class="at">colour =</span> <span class="st">"black"</span>, <span class="at">linewidth =</span> <span class="dv">2</span>),</span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>        <span class="at">text =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">20</span>),</span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>        <span class="at">axis.text =</span> <span class="fu">element_text</span>(<span class="at">colour =</span> <span class="st">"black"</span>, <span class="at">size =</span> <span class="dv">20</span>,<span class="at">face =</span> <span class="st">"bold"</span>),</span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>        <span class="at">axis.title =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">24</span>, <span class="at">face =</span> <span class="st">"bold"</span>),</span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>        <span class="at">axis.ticks.length =</span> <span class="fu">unit</span>(.<span class="dv">25</span>, <span class="st">"cm"</span>),</span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>        <span class="at">axis.ticks =</span> <span class="fu">element_line</span>(<span class="at">colour =</span> <span class="st">"black"</span>, <span class="at">linewidth =</span> <span class="fl">1.5</span>),</span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>        <span class="at">strip.background=</span><span class="fu">element_rect</span>(<span class="at">colour =</span> <span class="st">"black"</span>, <span class="at">fill =</span> <span class="st">"yellow"</span>)) <span class="sc">+</span></span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_manual</span>(<span class="at">name =</span> <span class="st">"Gender"</span>,<span class="at">values =</span> <span class="fu">c</span>(<span class="st">"Female"</span> <span class="ot">=</span> <span class="st">"green"</span>,<span class="st">"Male"</span> <span class="ot">=</span> <span class="st">"purple"</span>)) <span class="sc">+</span></span>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">labels =</span> percent) <span class="sc">+</span></span>
+<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggtitle</span>(<span class="st">"Proportion of Obese Children by Age and Gender"</span>) <span class="sc">+</span></span>
+<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">"Percent of Obese Children"</span>) <span class="sc">+</span></span>
+<span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">"Baseline Age (years)"</span>)</span>
+<span id="cb12-17"><a href="#cb12-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-18"><a href="#cb12-18" aria-hidden="true" tabindex="-1"></a>lines</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="Longi_noncontinuous_files/figure-html/unnamed-chunk-11-1.png" class="img-fluid figure-img" width="1536"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="marginal-models" class="level2" data-number="10.5">
+<h2 data-number="10.5" class="anchored" data-anchor-id="marginal-models"><span class="header-section-number">10.5</span> Marginal Models</h2>
+<p><em>Model 1:</em> This model includes gender, age, age<span class="math inline">\(^2\)</span>, and an interaction term.</p>
+<p>Model 1: <span class="math inline">\(E(y_{ij} \mid X) = beta_{0} + \beta_{age}age + \beta_{age^2}age^2 + \beta_{gender}gender + \beta_{gender:age}gender*age + \beta_{gender:age^2}gender*age^2\)</span>.</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>model_1 <span class="ot">&lt;-</span> <span class="fu">geeglm</span>(obesity_status <span class="sc">~</span> <span class="dv">1</span> <span class="sc">+</span> gender <span class="sc">+</span> centered_age <span class="sc">+</span> <span class="fu">I</span>(centered_age<span class="sc">^</span><span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>    centered_age<span class="sc">:</span>gender <span class="sc">+</span> <span class="fu">I</span>(centered_age<span class="sc">^</span><span class="dv">2</span>)<span class="sc">:</span>gender, <span class="at">id =</span> id, <span class="at">data =</span> muscatine, <span class="at">family =</span> <span class="fu">binomial</span>(<span class="at">link =</span> <span class="st">"logit"</span>),</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">corstr =</span> <span class="st">"unstructured"</span>)</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(model_1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+geeglm(formula = obesity_status ~ 1 + gender + centered_age + 
+    I(centered_age^2) + centered_age:gender + I(centered_age^2):gender, 
+    family = binomial(link = "logit"), data = muscatine, id = id, 
+    corstr = "unstructured")
+
+ Coefficients:
+                          Estimate   Std.err    Wald Pr(&gt;|W|)    
+(Intercept)              -1.210629  0.050581 572.862  &lt; 2e-16 ***
+gender                    0.112872  0.071127   2.518  0.11253    
+centered_age              0.040922  0.013348   9.398  0.00217 ** 
+I(centered_age^2)        -0.017927  0.003388  28.002 1.21e-07 ***
+gender:centered_age       0.005087  0.018349   0.077  0.78161    
+gender:I(centered_age^2)  0.003883  0.004642   0.700  0.40295    
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Correlation structure = unstructured 
+Estimated Scale Parameters:
+
+            Estimate Std.err
+(Intercept)   0.9925 0.02745
+  Link = identity 
+
+Estimated Correlation Parameters:
+          Estimate Std.err
+alpha.1:2   0.5792 0.02042
+alpha.1:3   0.4624 0.03192
+alpha.2:3   0.5589 0.03207
+Number of clusters:   4856  Maximum cluster size: 3 </code></pre>
+</div>
+</div>
+<p><em>Model 2:</em> This model includes gender, age, age<span class="math inline">\(^2\)</span>, and no interaction term.</p>
+<p>Model 2: <span class="math inline">\(E(y_{ij} \mid X) = beta_{0} + \beta_{age}age + \beta_{age^2}age^2 + \beta_{gender}gender\)</span>.</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>model_2 <span class="ot">&lt;-</span> <span class="fu">geeglm</span>(obesity_status <span class="sc">~</span> gender <span class="sc">+</span> centered_age <span class="sc">+</span> <span class="fu">I</span>(centered_age<span class="sc">^</span><span class="dv">2</span>), <span class="at">id =</span> id,</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>    <span class="at">data =</span> muscatine, <span class="at">family =</span> <span class="fu">binomial</span>(<span class="at">link =</span> <span class="st">"logit"</span>), <span class="at">corstr =</span> <span class="st">"unstructured"</span>)</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(model_2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+geeglm(formula = obesity_status ~ gender + centered_age + I(centered_age^2), 
+    family = binomial(link = "logit"), data = muscatine, id = id, 
+    corstr = "unstructured")
+
+ Coefficients:
+                  Estimate  Std.err  Wald Pr(&gt;|W|)    
+(Intercept)       -1.22520  0.04772 659.3  &lt; 2e-16 ***
+gender             0.14152  0.06270   5.1    0.024 *  
+centered_age       0.04368  0.00915  22.8  1.8e-06 ***
+I(centered_age^2) -0.01593  0.00231  47.4  5.8e-12 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Correlation structure = unstructured 
+Estimated Scale Parameters:
+
+            Estimate Std.err
+(Intercept)    0.992  0.0274
+  Link = identity 
+
+Estimated Correlation Parameters:
+          Estimate Std.err
+alpha.1:2    0.580  0.0204
+alpha.1:3    0.462  0.0319
+alpha.2:3    0.558  0.0320
+Number of clusters:   4856  Maximum cluster size: 3 </code></pre>
+</div>
+</div>
+<p>Now that we have our two models what do we do with them? As mentioned before the purpose is to predict probabilities so let’s do just that. This can be done through the predict() function. To return predicted probabilities specify type as “response”. To get back the linear predictions (i.e.&nbsp;the natural log of the odds ratio <span class="math inline">\(\frac{P(Y=1| \mid X)}{1-P(Y=1 \mid X)}\)</span> in this case) specify type as “link” (i.e.&nbsp;for link function). A third option is to specify type as “terms”. This gives you back an <span class="math inline">\(N \times (p-1)\)</span> matrix where each column corresponds to the product of the estimated coefficient <span class="math inline">\(\beta_j\)</span> and the corresponding covariate <span class="math inline">\(X_j\)</span>. This is not done for the intercept so that must be done manually.</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co"># calculate predicted probabilities for model 1</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>model_1_probs <span class="ot">&lt;-</span> <span class="fu">predict</span>(model_1, <span class="at">type =</span> <span class="st">"response"</span>)</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a><span class="co"># calculate predicted probabilities for model 2</span></span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>model_2_probs <span class="ot">&lt;-</span> <span class="fu">predict</span>(model_2, <span class="at">type =</span> <span class="st">"response"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Now that we have these two probability vectors what do we do with them? We can see how these probabilities vary with respect to age and gender.</p>
+<p>We can create plots. We will take the predicted probabilities and plot them against the observed. To do so we begin by taking the mean predicted probability within each Age/Gender strata. To make that clearer, for example we look at the predicted probabilities for all 14 year old males and find their mean.</p>
+<p>Note: Uncomment this after you defined model_2_probs</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co">#create new dataset that removes missing values</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>muscatine_complete <span class="ot">&lt;-</span> <span class="fu">na.omit</span>(muscatine)</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a><span class="co"># add in probabilities as covariates</span></span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>muscatine_complete[,model_1 <span class="sc">:</span><span class="er">=</span> model_1_probs]</span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>muscatine_complete[,model_2 <span class="sc">:</span><span class="er">=</span> model_2_probs]</span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a><span class="co"># by subject, summarize the proportion of these T/F combinations </span></span>
+<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a>gee_probs <span class="ot">&lt;-</span> <span class="fu">data.table</span>(muscatine_complete <span class="sc">%&gt;%</span></span>
+<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a>  <span class="co"># create a unique identifier for each combination (e.g. "TRUE-TRUE-FALSE")</span></span>
+<span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(curr_age, gender_label) <span class="sc">%&gt;%</span></span>
+<span id="cb18-12"><a href="#cb18-12" aria-hidden="true" tabindex="-1"></a>  <span class="co"># prop of times each combo type occurs for a given subject:</span></span>
+<span id="cb18-13"><a href="#cb18-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">reframe</span>(<span class="at">prop =</span> <span class="fu">mean</span>(obesity_status, <span class="at">na.rm =</span> T),</span>
+<span id="cb18-14"><a href="#cb18-14" aria-hidden="true" tabindex="-1"></a>          <span class="at">prob_1 =</span> <span class="fu">mean</span>(model_1),</span>
+<span id="cb18-15"><a href="#cb18-15" aria-hidden="true" tabindex="-1"></a>          <span class="at">prob_2 =</span> <span class="fu">mean</span>(model_2)))</span>
+<span id="cb18-16"><a href="#cb18-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-17"><a href="#cb18-17" aria-hidden="true" tabindex="-1"></a>df_models <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="st">"Age"</span> <span class="ot">=</span> <span class="fu">unique</span>(gee_probs[, curr_age]),</span>
+<span id="cb18-18"><a href="#cb18-18" aria-hidden="true" tabindex="-1"></a>                    <span class="st">"Est_Female1"</span> <span class="ot">=</span> gee_probs[gender_label <span class="sc">==</span> <span class="st">"female"</span>, prob_1],</span>
+<span id="cb18-19"><a href="#cb18-19" aria-hidden="true" tabindex="-1"></a>                    <span class="st">"Est_Male1"</span> <span class="ot">=</span> gee_probs[gender_label <span class="sc">==</span> <span class="st">"male"</span>, prob_1],</span>
+<span id="cb18-20"><a href="#cb18-20" aria-hidden="true" tabindex="-1"></a>                    <span class="st">"Est_Female2"</span> <span class="ot">=</span> gee_probs[gender_label <span class="sc">==</span> <span class="st">"female"</span>, prob_2],</span>
+<span id="cb18-21"><a href="#cb18-21" aria-hidden="true" tabindex="-1"></a>                    <span class="st">"Est_Male2"</span> <span class="ot">=</span> gee_probs[gender_label <span class="sc">==</span> <span class="st">"male"</span>, prob_2],</span>
+<span id="cb18-22"><a href="#cb18-22" aria-hidden="true" tabindex="-1"></a>                     <span class="st">"Obs_Female"</span> <span class="ot">=</span> gee_probs[gender_label <span class="sc">==</span> <span class="st">"female"</span>, prop],</span>
+<span id="cb18-23"><a href="#cb18-23" aria-hidden="true" tabindex="-1"></a>                     <span class="st">"Obs_Male"</span> <span class="ot">=</span> gee_probs[gender_label <span class="sc">==</span> <span class="st">"male"</span>, prop])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>labels <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"Est. Probability, Female"</span>, <span class="st">"Est. Probability, Male"</span>, <span class="st">"Obs. Proportion, Female"</span>,</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Obs. Proportion, Male"</span>)</span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">x =</span> <span class="fu">rep</span>(df_models[, <span class="st">"Age"</span>], <span class="at">times =</span> <span class="dv">4</span>), <span class="at">y =</span> <span class="fu">c</span>(df_models[, <span class="st">"Est_Female1"</span>],</span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>    df_models[, <span class="st">"Est_Male1"</span>], df_models[, <span class="st">"Obs_Female"</span>], df_models[, <span class="st">"Obs_Male"</span>]),</span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">group =</span> <span class="fu">rep</span>(labels, <span class="at">each =</span> <span class="dv">7</span>))</span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>df <span class="sc">%&gt;%</span></span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ggplot</span>() <span class="sc">+</span> <span class="fu">geom_line</span>(<span class="fu">aes</span>(x, y, <span class="at">color =</span> group, <span class="at">linetype =</span> group), <span class="at">linewidth =</span> <span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme</span>(<span class="at">axis.line =</span> <span class="fu">element_line</span>(<span class="at">colour =</span> <span class="st">"black"</span>, <span class="at">linewidth =</span> <span class="dv">2</span>), <span class="at">text =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">20</span>),</span>
+<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a>        <span class="at">axis.text =</span> <span class="fu">element_text</span>(<span class="at">colour =</span> <span class="st">"black"</span>, <span class="at">size =</span> <span class="dv">20</span>, <span class="at">face =</span> <span class="st">"bold"</span>), <span class="at">axis.title =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">24</span>,</span>
+<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a>            <span class="at">face =</span> <span class="st">"bold"</span>), <span class="at">axis.ticks.length =</span> <span class="fu">unit</span>(<span class="fl">0.25</span>, <span class="st">"cm"</span>), <span class="at">axis.ticks =</span> <span class="fu">element_line</span>(<span class="at">colour =</span> <span class="st">"black"</span>,</span>
+<span id="cb19-12"><a href="#cb19-12" aria-hidden="true" tabindex="-1"></a>            <span class="at">linewidth =</span> <span class="fl">1.5</span>)) <span class="sc">+</span> <span class="fu">scale_color_manual</span>(<span class="at">name =</span> <span class="st">""</span>, <span class="at">labels =</span> labels, <span class="at">values =</span> <span class="fu">c</span>(<span class="st">"darkred"</span>,</span>
+<span id="cb19-13"><a href="#cb19-13" aria-hidden="true" tabindex="-1"></a>    <span class="st">"darkblue"</span>, <span class="st">"red"</span>, <span class="st">"dodgerblue3"</span>)) <span class="sc">+</span> <span class="fu">scale_linetype_manual</span>(<span class="at">name =</span> <span class="st">""</span>, <span class="at">labels =</span> labels,</span>
+<span id="cb19-14"><a href="#cb19-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">values =</span> <span class="fu">c</span>(<span class="st">"dashed"</span>, <span class="st">"dashed"</span>, <span class="st">"solid"</span>, <span class="st">"solid"</span>)) <span class="sc">+</span> <span class="fu">scale_y_continuous</span>(<span class="at">labels =</span> percent) <span class="sc">+</span></span>
+<span id="cb19-15"><a href="#cb19-15" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ggtitle</span>(<span class="st">"Marginal Model 1: Observed vs Predicted Probabilities"</span>) <span class="sc">+</span> <span class="fu">ylab</span>(<span class="st">"Percent of Obese Children"</span>) <span class="sc">+</span></span>
+<span id="cb19-16"><a href="#cb19-16" aria-hidden="true" tabindex="-1"></a>    <span class="fu">xlab</span>(<span class="st">"Age (years)"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="Longi_noncontinuous_files/figure-html/unnamed-chunk-16-1.png" class="img-fluid figure-img" width="1536"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">x =</span> <span class="fu">rep</span>(df_models[, <span class="st">"Age"</span>], <span class="at">times =</span> <span class="dv">4</span>), <span class="at">y =</span> <span class="fu">c</span>(df_models[, <span class="st">"Est_Female2"</span>],</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>    df_models[, <span class="st">"Est_Male2"</span>], df_models[, <span class="st">"Obs_Female"</span>], df_models[, <span class="st">"Obs_Male"</span>]),</span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">group =</span> <span class="fu">rep</span>(labels, <span class="at">each =</span> <span class="dv">7</span>))</span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>df <span class="sc">%&gt;%</span></span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ggplot</span>() <span class="sc">+</span> <span class="fu">geom_line</span>(<span class="fu">aes</span>(x, y, <span class="at">color =</span> group, <span class="at">linetype =</span> group), <span class="at">linewidth =</span> <span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme</span>(<span class="at">axis.line =</span> <span class="fu">element_line</span>(<span class="at">colour =</span> <span class="st">"black"</span>, <span class="at">linewidth =</span> <span class="dv">2</span>), <span class="at">text =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">20</span>),</span>
+<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a>        <span class="at">axis.text =</span> <span class="fu">element_text</span>(<span class="at">colour =</span> <span class="st">"black"</span>, <span class="at">size =</span> <span class="dv">20</span>, <span class="at">face =</span> <span class="st">"bold"</span>), <span class="at">axis.title =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">24</span>,</span>
+<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a>            <span class="at">face =</span> <span class="st">"bold"</span>), <span class="at">axis.ticks.length =</span> <span class="fu">unit</span>(<span class="fl">0.25</span>, <span class="st">"cm"</span>), <span class="at">axis.ticks =</span> <span class="fu">element_line</span>(<span class="at">colour =</span> <span class="st">"black"</span>,</span>
+<span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a>            <span class="at">linewidth =</span> <span class="fl">1.5</span>)) <span class="sc">+</span> <span class="fu">scale_color_manual</span>(<span class="at">name =</span> <span class="st">" "</span>, <span class="at">labels =</span> labels, <span class="at">values =</span> <span class="fu">c</span>(<span class="st">"darkred"</span>,</span>
+<span id="cb20-11"><a href="#cb20-11" aria-hidden="true" tabindex="-1"></a>    <span class="st">"darkblue"</span>, <span class="st">"red"</span>, <span class="st">"dodgerblue3"</span>)) <span class="sc">+</span> <span class="fu">scale_linetype_manual</span>(<span class="at">name =</span> <span class="st">" "</span>, <span class="at">labels =</span> labels,</span>
+<span id="cb20-12"><a href="#cb20-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">values =</span> <span class="fu">c</span>(<span class="st">"dashed"</span>, <span class="st">"dashed"</span>, <span class="st">"solid"</span>, <span class="st">"solid"</span>)) <span class="sc">+</span> <span class="fu">scale_y_continuous</span>(<span class="at">labels =</span> percent) <span class="sc">+</span></span>
+<span id="cb20-13"><a href="#cb20-13" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ggtitle</span>(<span class="st">"Marginal Model 2: Observed vs Predicted Probabilities"</span>) <span class="sc">+</span> <span class="fu">ylab</span>(<span class="st">"Percent of Obese Children"</span>) <span class="sc">+</span></span>
+<span id="cb20-14"><a href="#cb20-14" aria-hidden="true" tabindex="-1"></a>    <span class="fu">xlab</span>(<span class="st">"Age (years)"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="Longi_noncontinuous_files/figure-html/unnamed-chunk-17-1.png" class="img-fluid figure-img" width="1536"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="mixed-effect-models" class="level2" data-number="10.6">
+<h2 data-number="10.6" class="anchored" data-anchor-id="mixed-effect-models"><span class="header-section-number">10.6</span> Mixed Effect Models</h2>
+<p>In this section we will fit Mixed-Effects (subject-specific) Models for longitudinal data, when the outcome of interest is a non-continuous variable.</p>
+<p>Recall that a Generalized Mixed Effects Model has the following form: <span class="math inline">\(g(E[y_{ij} \mid X] )= X_{i}\beta + Z_{i}b_i\)</span>. Here <span class="math inline">\(g(p) = logit(p)\)</span>.</p>
+<p><em>Model 3:</em> We fit a mixed-effects model with gender, age, age<span class="math inline">\(^2\)</span>, and an interaction term, and a random intercept.</p>
+<p>Model 3: <span class="math inline">\(logit(E[y_{i} \mid b_i, X_i, \beta])= beta_{0} + \beta_{age}age + \beta_{age^2}age^2 + \beta_{gender}gender + \beta_{gender:age}gender*age + \beta_{gender:age^2}gender*age^2 + b_{0,i}\)</span>.</p>
+<p>The (1|id) means that we are allowing the intercept, represented by 1, to vary by patient.</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>model_3 <span class="ot">&lt;-</span> <span class="fu">glmer</span>(obesity_status <span class="sc">~</span> <span class="dv">1</span> <span class="sc">+</span> gender <span class="sc">+</span> centered_age <span class="sc">+</span> <span class="fu">I</span>(centered_age<span class="sc">^</span><span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>    centered_age<span class="sc">:</span>gender <span class="sc">+</span> <span class="fu">I</span>(centered_age<span class="sc">^</span><span class="dv">2</span>)<span class="sc">:</span>gender <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">|</span> id), <span class="at">family =</span> <span class="fu">binomial</span>(<span class="at">link =</span> <span class="st">"logit"</span>),</span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">data =</span> muscatine, <span class="at">nAGQ =</span> <span class="dv">7</span>)</span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(model_3)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Generalized linear mixed model fit by maximum likelihood (Adaptive
+  Gauss-Hermite Quadrature, nAGQ = 7) [glmerMod]
+ Family: binomial  ( logit )
+Formula: obesity_status ~ 1 + gender + centered_age + I(centered_age^2) +  
+    centered_age:gender + I(centered_age^2):gender + (1 | id)
+   Data: muscatine
+
+     AIC      BIC   logLik deviance df.resid 
+    8729     8780    -4358     8715     9849 
+
+Scaled residuals: 
+   Min     1Q Median     3Q    Max 
+-1.546 -0.192 -0.174 -0.115  2.522 
+
+Random effects:
+ Groups Name        Variance Std.Dev.
+ id     (Intercept) 9.91     3.15    
+Number of obs: 9856, groups:  id, 4856
+
+Fixed effects:
+                         Estimate Std. Error z value Pr(&gt;|z|)    
+(Intercept)              -2.70752    0.12460  -21.73  &lt; 2e-16 ***
+gender                    0.25269    0.15136    1.67   0.0950 .  
+centered_age              0.08330    0.02710    3.07   0.0021 ** 
+I(centered_age^2)        -0.03785    0.00688   -5.50  3.7e-08 ***
+gender:centered_age       0.01719    0.03795    0.45   0.6506    
+gender:I(centered_age^2)  0.00807    0.00959    0.84   0.3998    
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Correlation of Fixed Effects:
+            (Intr) gender cntrd_ I(_^2) gndr:_
+gender      -0.635                            
+centered_ag -0.033 -0.008                     
+I(cntrd_^2) -0.349  0.336 -0.041              
+gndr:cntrd_ -0.024  0.013 -0.705  0.017       
+gndr:I(_^2)  0.286 -0.486  0.023 -0.708 -0.043</code></pre>
+</div>
+</div>
+<p>One thing you might notice about the <code>glmer()</code> function and its output are integration points and the parameter <code>nAGQ</code>, which specifies said points. When the distribution we’re dealing with isn’t normal and the link function <span class="math inline">\(g()\)</span> isn’t the identity we can’t derive an analytic solution.</p>
+<p>In fact the log likelihood <span class="math inline">\(\ell(\beta)\)</span> looks like: <span class="math inline">\(\ell(\beta) = \sum^N_{i=1}log( p(y_j \mid \beta) ) = \sum^N_{i=1}log( \int p(y_j \mid b_j,X_j, \beta)p(b_j \mid \beta) db_j)\)</span></p>
+<p>The integral in the definition does not have a closed-form solution, and numerical approximations are required to obtain the maximum likelihood estimates. So when you see the word Adaptive Gauss-Hermite Quadrature that is simply the method that we use to approximate the integral.</p>
+<p>For those who are curious, Gauss-Hermite Quadrature is a method for approximating integrals of the following form: <span class="math inline">\(\int e^{-x^2} f(x)dx \approx \sum^K_{k=1}w_k f(x_k)\)</span> where we pick k points (i.e.&nbsp;the integration points). The <span class="math inline">\(x_k\)</span> are the roots of the <span class="math inline">\(K^{th}\)</span> order Hermite polynomial <span class="math inline">\(H_K(x)\)</span> where <span class="math inline">\(H_K(x) = (-1)^K e^{x^2} \frac{d^K}{dx^K}e^{-x^2}\)</span>, and <span class="math inline">\(w_k = \frac{2^{K-1}K!\sqrt{\pi}}{K^2[H_{K-1}(x_k)]^2}\)</span>. Adaptive Gauss Qudrature chooses the integration points <span class="math inline">\(x_k\)</span> through a different method, but the specification of the weights <span class="math inline">\(w_k\)</span> remains the same.</p>
+<p>For <span class="math inline">\(K=1\)</span> this is just the Laplace Approximation method for integration which <code>glmer()</code> uses automatically. If you want to use Adaptive Gauss Hermite you need to specify <code>nAGQ</code> &gt; 1. I mention this because STATA uses adaptive and non-adaptive Gauss Hermite Quadrature to estimate the integral.</p>
+<p><em>Model 4:</em> We fit a mixed-effects model with gender, age, age<span class="math inline">\(^2\)</span>, with no interaction term, and a random intercept.</p>
+<p>Model 4: <span class="math inline">\(logit(E[y_{i} \mid b_i, X_i, \beta]) = beta_{0} + \beta_{age}age + \beta_{age^2}age^2 + b_{0,i}\)</span>.</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="co"># name this model 'model_4'</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>model_4 <span class="ot">&lt;-</span> <span class="fu">glmer</span>(obesity_status <span class="sc">~</span> <span class="dv">1</span> <span class="sc">+</span> gender <span class="sc">+</span> centered_age <span class="sc">+</span> <span class="fu">I</span>(centered_age<span class="sc">^</span><span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>    (<span class="dv">1</span> <span class="sc">|</span> id), <span class="at">data =</span> muscatine, <span class="at">family =</span> <span class="fu">binomial</span>(<span class="at">link =</span> <span class="st">"logit"</span>), <span class="at">nAGQ =</span> <span class="dv">7</span>)</span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(model_4)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Generalized linear mixed model fit by maximum likelihood (Adaptive
+  Gauss-Hermite Quadrature, nAGQ = 7) [glmerMod]
+ Family: binomial  ( logit )
+Formula: obesity_status ~ 1 + gender + centered_age + I(centered_age^2) +  
+    (1 | id)
+   Data: muscatine
+
+     AIC      BIC   logLik deviance df.resid 
+    8726     8762    -4358     8716     9851 
+
+Scaled residuals: 
+   Min     1Q Median     3Q    Max 
+-1.545 -0.193 -0.170 -0.116  2.602 
+
+Random effects:
+ Groups Name        Variance Std.Dev.
+ id     (Intercept) 9.9      3.15    
+Number of obs: 9856, groups:  id, 4856
+
+Fixed effects:
+                  Estimate Std. Error z value Pr(&gt;|z|)    
+(Intercept)       -2.73777    0.11945  -22.92  &lt; 2e-16 ***
+gender             0.31539    0.13215    2.39    0.017 *  
+centered_age       0.09211    0.01921    4.80  1.6e-06 ***
+I(centered_age^2) -0.03375    0.00485   -6.96  3.5e-12 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Correlation of Fixed Effects:
+            (Intr) gender cntrd_
+gender      -0.594              
+centered_ag -0.072 -0.001       
+I(cntrd_^2) -0.219 -0.010 -0.068</code></pre>
+</div>
+</div>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="co"># calculate predicted probabilities for model 3</span></span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>model_3_probs <span class="ot">&lt;-</span> <span class="fu">predict</span>(model_3, <span class="at">type =</span> <span class="st">"response"</span>)</span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a><span class="co"># calculate predicted probabilities for model 4</span></span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>model_4_probs <span class="ot">&lt;-</span> <span class="fu">predict</span>(model_4, <span class="at">type =</span> <span class="st">"response"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Note: Uncomment this after you define model_3_probs and model_4_probs</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="co"># add in probabilities as covariates</span></span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>muscatine_complete[, model_3 <span class="sc">:</span><span class="er">=</span> model_3_probs]</span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>muscatine_complete[, model_4 <span class="sc">:</span><span class="er">=</span> model_4_probs]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="co"># by subject, summarize the proportion of these T/F combinations </span></span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>mem_probs <span class="ot">&lt;-</span> <span class="fu">data.table</span>( muscatine_complete <span class="sc">%&gt;%</span></span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>  <span class="co"># create a unique identifier for each combination (e.g. "TRUE-TRUE-FALSE")</span></span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(curr_age, gender_label) <span class="sc">%&gt;%</span></span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a>  <span class="co"># prop of times each combo type occurs for a given subject:</span></span>
+<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">reframe</span>(<span class="at">prob_3 =</span> <span class="fu">max</span>(model_3),</span>
+<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a>          <span class="at">prob_4 =</span> <span class="fu">max</span>(model_4)))</span>
+<span id="cb27-8"><a href="#cb27-8" aria-hidden="true" tabindex="-1"></a>df_models2 <span class="ot">&lt;-</span> <span class="fu">cbind</span>(df_models, <span class="fu">data.frame</span>(<span class="st">"Est_Female3"</span> <span class="ot">=</span> mem_probs[gender_label <span class="sc">==</span> <span class="st">"female"</span>, prob_3],</span>
+<span id="cb27-9"><a href="#cb27-9" aria-hidden="true" tabindex="-1"></a>                                          <span class="st">"Est_Male3"</span> <span class="ot">=</span> mem_probs[gender_label <span class="sc">==</span> <span class="st">"male"</span>, prob_3],</span>
+<span id="cb27-10"><a href="#cb27-10" aria-hidden="true" tabindex="-1"></a>                                          <span class="st">"Est_Female4"</span> <span class="ot">=</span> mem_probs[gender_label <span class="sc">==</span> <span class="st">"female"</span>, prob_4],</span>
+<span id="cb27-11"><a href="#cb27-11" aria-hidden="true" tabindex="-1"></a>                                          <span class="st">"Est_Male4"</span> <span class="ot">=</span> mem_probs[gender_label <span class="sc">==</span> <span class="st">"male"</span>, prob_4]))</span>
+<span id="cb27-12"><a href="#cb27-12" aria-hidden="true" tabindex="-1"></a>df_models2 <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(df_models2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">x =</span> <span class="fu">rep</span>(df_models[, <span class="st">"Age"</span>], <span class="at">times =</span> <span class="dv">4</span>), <span class="at">y =</span> <span class="fu">c</span>(df_models2[, <span class="st">"Est_Female3"</span>],</span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>    df_models2[, <span class="st">"Est_Male3"</span>], df_models2[, <span class="st">"Obs_Female"</span>], df_models2[, <span class="st">"Obs_Male"</span>]),</span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">group =</span> <span class="fu">rep</span>(labels, <span class="at">each =</span> <span class="dv">7</span>))</span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a>df <span class="sc">%&gt;%</span></span>
+<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ggplot</span>() <span class="sc">+</span> <span class="fu">geom_line</span>(<span class="fu">aes</span>(x, y, <span class="at">color =</span> group, <span class="at">linetype =</span> group), <span class="at">linewidth =</span> <span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme</span>(<span class="at">axis.line =</span> <span class="fu">element_line</span>(<span class="at">colour =</span> <span class="st">"black"</span>, <span class="at">linewidth =</span> <span class="dv">2</span>), <span class="at">text =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">20</span>),</span>
+<span id="cb28-8"><a href="#cb28-8" aria-hidden="true" tabindex="-1"></a>        <span class="at">axis.text =</span> <span class="fu">element_text</span>(<span class="at">colour =</span> <span class="st">"black"</span>, <span class="at">size =</span> <span class="dv">20</span>, <span class="at">face =</span> <span class="st">"bold"</span>), <span class="at">axis.title =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">24</span>,</span>
+<span id="cb28-9"><a href="#cb28-9" aria-hidden="true" tabindex="-1"></a>            <span class="at">face =</span> <span class="st">"bold"</span>), <span class="at">axis.ticks.length =</span> <span class="fu">unit</span>(<span class="fl">0.25</span>, <span class="st">"cm"</span>), <span class="at">axis.ticks =</span> <span class="fu">element_line</span>(<span class="at">colour =</span> <span class="st">"black"</span>,</span>
+<span id="cb28-10"><a href="#cb28-10" aria-hidden="true" tabindex="-1"></a>            <span class="at">linewidth =</span> <span class="fl">1.5</span>)) <span class="sc">+</span> <span class="fu">scale_color_manual</span>(<span class="at">name =</span> <span class="st">""</span>, <span class="at">labels =</span> labels, <span class="at">values =</span> <span class="fu">c</span>(<span class="st">"darkred"</span>,</span>
+<span id="cb28-11"><a href="#cb28-11" aria-hidden="true" tabindex="-1"></a>    <span class="st">"darkblue"</span>, <span class="st">"red"</span>, <span class="st">"dodgerblue3"</span>)) <span class="sc">+</span> <span class="fu">scale_linetype_manual</span>(<span class="at">name =</span> <span class="st">""</span>, <span class="at">labels =</span> labels,</span>
+<span id="cb28-12"><a href="#cb28-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">values =</span> <span class="fu">c</span>(<span class="st">"dashed"</span>, <span class="st">"dashed"</span>, <span class="st">"solid"</span>, <span class="st">"solid"</span>)) <span class="sc">+</span> <span class="fu">scale_y_continuous</span>(<span class="at">labels =</span> percent) <span class="sc">+</span></span>
+<span id="cb28-13"><a href="#cb28-13" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ggtitle</span>(<span class="st">"Mixed Effect Model 1: Observed vs Predicted Probabilities"</span>) <span class="sc">+</span> <span class="fu">ylab</span>(<span class="st">"Percent of Obese Children"</span>) <span class="sc">+</span></span>
+<span id="cb28-14"><a href="#cb28-14" aria-hidden="true" tabindex="-1"></a>    <span class="fu">xlab</span>(<span class="st">"Baseline Age (years)"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="Longi_noncontinuous_files/figure-html/unnamed-chunk-23-1.png" class="img-fluid figure-img" width="1536"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">x =</span> <span class="fu">rep</span>(df_models[, <span class="st">"Age"</span>], <span class="at">times =</span> <span class="dv">4</span>), <span class="at">y =</span> <span class="fu">c</span>(df_models2[, <span class="st">"Est_Female4"</span>],</span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>    df_models2[, <span class="st">"Est_Male4"</span>], df_models2[, <span class="st">"Obs_Female"</span>], df_models2[, <span class="st">"Obs_Male"</span>]),</span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">group =</span> <span class="fu">rep</span>(labels, <span class="at">each =</span> <span class="dv">7</span>))</span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a>df <span class="sc">%&gt;%</span></span>
+<span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ggplot</span>() <span class="sc">+</span> <span class="fu">geom_line</span>(<span class="fu">aes</span>(x, y, <span class="at">color =</span> group, <span class="at">linetype =</span> group), <span class="at">linewidth =</span> <span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb29-7"><a href="#cb29-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme</span>(<span class="at">axis.line =</span> <span class="fu">element_line</span>(<span class="at">colour =</span> <span class="st">"black"</span>, <span class="at">linewidth =</span> <span class="dv">2</span>), <span class="at">text =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">20</span>),</span>
+<span id="cb29-8"><a href="#cb29-8" aria-hidden="true" tabindex="-1"></a>        <span class="at">axis.text =</span> <span class="fu">element_text</span>(<span class="at">colour =</span> <span class="st">"black"</span>, <span class="at">size =</span> <span class="dv">20</span>, <span class="at">face =</span> <span class="st">"bold"</span>), <span class="at">axis.title =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">24</span>,</span>
+<span id="cb29-9"><a href="#cb29-9" aria-hidden="true" tabindex="-1"></a>            <span class="at">face =</span> <span class="st">"bold"</span>), <span class="at">axis.ticks.length =</span> <span class="fu">unit</span>(<span class="fl">0.25</span>, <span class="st">"cm"</span>), <span class="at">axis.ticks =</span> <span class="fu">element_line</span>(<span class="at">colour =</span> <span class="st">"black"</span>,</span>
+<span id="cb29-10"><a href="#cb29-10" aria-hidden="true" tabindex="-1"></a>            <span class="at">linewidth =</span> <span class="fl">1.5</span>)) <span class="sc">+</span> <span class="fu">scale_color_manual</span>(<span class="at">name =</span> <span class="st">" "</span>, <span class="at">labels =</span> labels, <span class="at">values =</span> <span class="fu">c</span>(<span class="st">"darkred"</span>,</span>
+<span id="cb29-11"><a href="#cb29-11" aria-hidden="true" tabindex="-1"></a>    <span class="st">"darkblue"</span>, <span class="st">"red"</span>, <span class="st">"dodgerblue3"</span>)) <span class="sc">+</span> <span class="fu">scale_linetype_manual</span>(<span class="at">name =</span> <span class="st">" "</span>, <span class="at">labels =</span> labels,</span>
+<span id="cb29-12"><a href="#cb29-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">values =</span> <span class="fu">c</span>(<span class="st">"dashed"</span>, <span class="st">"dashed"</span>, <span class="st">"solid"</span>, <span class="st">"solid"</span>)) <span class="sc">+</span> <span class="fu">scale_y_continuous</span>(<span class="at">labels =</span> percent) <span class="sc">+</span></span>
+<span id="cb29-13"><a href="#cb29-13" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ggtitle</span>(<span class="st">"Mixed Effect Model 2: Observed vs Predicted Probabilities"</span>) <span class="sc">+</span> <span class="fu">ylab</span>(<span class="st">"Percent of Obese Children"</span>) <span class="sc">+</span></span>
+<span id="cb29-14"><a href="#cb29-14" aria-hidden="true" tabindex="-1"></a>    <span class="fu">xlab</span>(<span class="st">"Baseline Age (years)"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="Longi_noncontinuous_files/figure-html/unnamed-chunk-24-1.png" class="img-fluid figure-img" width="1536"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="binary-outcome" class="level2" data-number="10.7">
+<h2 data-number="10.7" class="anchored" data-anchor-id="binary-outcome"><span class="header-section-number">10.7</span> Binary Outcome</h2>
+</section>
+<section id="count-outcome" class="level2" data-number="10.8">
+<h2 data-number="10.8" class="anchored" data-anchor-id="count-outcome"><span class="header-section-number">10.8</span> Count Outcome</h2>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./Longi_interpretation.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Interpretation</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./Longi_missingdata.html" class="pagination-link">
+        <span class="nav-page-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Missing Data</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+</body></html>

@@ -211,7 +211,7 @@
 
 \begin{document}
 \maketitle
-\ifdefined\Shaded\renewenvironment{Shaded}{\begin{tcolorbox}[sharp corners, breakable, boxrule=0pt, frame hidden, interior hidden, borderline west={3pt}{0pt}{shadecolor}, enhanced]}{\end{tcolorbox}}\fi
+\ifdefined\Shaded\renewenvironment{Shaded}{\begin{tcolorbox}[sharp corners, interior hidden, borderline west={3pt}{0pt}{shadecolor}, breakable, enhanced, boxrule=0pt, frame hidden]}{\end{tcolorbox}}\fi
 
 \renewcommand*\contentsname{Table of contents}
 {
@@ -361,12 +361,13 @@ above, and we print the first 5 rows of the data.
 \end{Shaded}
 
 \begin{verbatim}
-   id lead0 lead1 lead4 lead6     group
-1:  1  30.8  26.9  25.8  23.8   Placebo
-2:  2  26.5  14.8  19.5  21.0 Treatment
-3:  3  25.8  23.0  19.1  23.2 Treatment
-4:  4  24.7  24.5  22.0  22.5   Placebo
-5:  5  20.4   2.8   3.2   9.4 Treatment
+      id lead0 lead1 lead4 lead6     group
+   <int> <num> <num> <num> <num>    <char>
+1:     1  30.8  26.9  25.8  23.8   Placebo
+2:     2  26.5  14.8  19.5  21.0 Treatment
+3:     3  25.8  23.0  19.1  23.2 Treatment
+4:     4  24.7  24.5  22.0  22.5   Placebo
+5:     5  20.4   2.8   3.2   9.4 Treatment
 \end{verbatim}
 
 \hypertarget{loading-dta-files}{%
@@ -3188,25 +3189,25 @@ REML criterion at convergence: 2547.2
 
 Scaled residuals: 
     Min      1Q  Median      3Q     Max 
--3.7766 -0.4184 -0.0562  0.3924  5.9161 
+-3.7766 -0.4184 -0.0564  0.3925  5.9170 
 
 Random effects:
- Groups   Name        Variance  Std.Dev. Corr
- id       (Intercept) 1.664e+01 4.078782     
-          time        1.143e-01 0.338022 1.00
- id.1     (Intercept) 2.895e-02 0.170135     
-          I(time^2)   1.930e-06 0.001389 1.00
- Residual             2.205e+01 4.695976     
+ Groups   Name        Variance Std.Dev. Corr
+ id       (Intercept) 16.660   4.0817       
+          time         0.114   0.3377   1.00
+ id.1     (Intercept)  0.000   0.0000       
+          I(time^2)    0.000   0.0000    NaN
+ Residual             22.056   4.6964       
 Number of obs: 400, groups:  id, 100
 
 Fixed effects:
                          Estimate Std. Error t value
-(Intercept)               25.9695     0.8252  31.472
-groupTreatment            -1.9961     1.1670  -1.710
-time                      -0.9173     0.5963  -1.538
-I(time^2)                  0.0917     0.0972   0.943
-groupTreatment:time       -6.6239     0.8433  -7.855
-groupTreatment:I(time^2)   1.1045     0.1375   8.035
+(Intercept)              25.96954    0.82515  31.473
+groupTreatment           -1.99607    1.16693  -1.711
+time                     -0.91731    0.59637  -1.538
+I(time^2)                 0.09170    0.09721   0.943
+groupTreatment:time      -6.62390    0.84339  -7.854
+groupTreatment:I(time^2)  1.10447    0.13747   8.034
 
 Correlation of Fixed Effects:
             (Intr) grpTrt time   I(t^2) grpTr:
@@ -3238,31 +3239,31 @@ REML criterion at convergence: 2543
 
 Scaled residuals: 
     Min      1Q  Median      3Q     Max 
--3.2512 -0.4031 -0.0509  0.3868  5.1991 
+-3.2531 -0.4033 -0.0512  0.3865  5.2033 
 
 Random effects:
  Groups   Name        Variance Std.Dev. Corr       
- id       (Intercept) 14.6748  3.8308              
-          time         3.3271  1.8240    0.48      
-          I(time^2)    0.1054  0.3246   -0.28 -0.98
- Residual             19.8710  4.4577              
+ id       (Intercept) 14.6592  3.8287              
+          time         3.3089  1.8190    0.49      
+          I(time^2)    0.1047  0.3236   -0.28 -0.98
+ Residual             19.8761  4.4583              
 Number of obs: 400, groups:  id, 100
 
 Fixed effects:
                          Estimate Std. Error t value
-(Intercept)               25.9695     0.7789  33.340
-groupTreatment            -1.9961     1.1016  -1.812
-time                      -0.9173     0.6204  -1.479
-I(time^2)                  0.0917     0.1031   0.890
-groupTreatment:time       -6.6239     0.8774  -7.550
-groupTreatment:I(time^2)   1.1045     0.1457   7.578
+(Intercept)               25.9695     0.7788  33.347
+groupTreatment            -1.9961     1.1014  -1.812
+time                      -0.9173     0.6202  -1.479
+I(time^2)                  0.0917     0.1030   0.890
+groupTreatment:time       -6.6239     0.8771  -7.552
+groupTreatment:I(time^2)   1.1045     0.1457   7.582
 
 Correlation of Fixed Effects:
             (Intr) grpTrt time   I(t^2) grpTr:
 groupTrtmnt -0.707                            
-time        -0.284  0.201                     
+time        -0.283  0.200                     
 I(time^2)    0.242 -0.171 -0.972              
-grpTrtmnt:t  0.201 -0.284 -0.707  0.687       
+grpTrtmnt:t  0.200 -0.283 -0.707  0.687       
 grpTr:I(^2) -0.171  0.242  0.687 -0.707 -0.972
 optimizer (nloptwrap) convergence code: 0 (OK)
 boundary (singular) fit: see help('isSingular')
@@ -3290,7 +3291,7 @@ other models above, run this chunk below.
 2 Mixed Model 2 2678.397 2706.337
 3 Mixed Model 3 2683.108 2707.057
 4 Mixed Model 4 2681.281 2713.213
-5 Mixed Model 5 2573.232 2625.121
+5 Mixed Model 5 2573.229 2625.118
 \end{verbatim}
 
 Which model would you select?
@@ -4008,18 +4009,20 @@ We also create a label for the gender variable.
 \end{Shaded}
 
 \begin{verbatim}
-    id gender base_age curr_age occasion obesity_status centered_age
- 1:  1      0        6        6        1              1    -5.976524
- 2:  1      0        6        8        2              1    -3.976524
- 3:  1      0        6       10        3              1    -1.976524
- 4:  2      0        6        6        1              1    -5.976524
- 5:  2      0        6        8        2              1    -3.976524
- 6:  2      0        6       10        3              1    -1.976524
- 7:  3      0        6        6        1              1    -5.976524
- 8:  3      0        6        8        2              1    -3.976524
- 9:  3      0        6       10        3              1    -1.976524
-10:  4      0        6        6        1              1    -5.976524
+       id gender base_age curr_age occasion obesity_status centered_age
+    <int>  <int>    <int>    <int>    <int>          <int>        <num>
+ 1:     1      0        6        6        1              1    -5.976524
+ 2:     1      0        6        8        2              1    -3.976524
+ 3:     1      0        6       10        3              1    -1.976524
+ 4:     2      0        6        6        1              1    -5.976524
+ 5:     2      0        6        8        2              1    -3.976524
+ 6:     2      0        6       10        3              1    -1.976524
+ 7:     3      0        6        6        1              1    -5.976524
+ 8:     3      0        6        8        2              1    -3.976524
+ 9:     3      0        6       10        3              1    -1.976524
+10:     4      0        6        6        1              1    -5.976524
     gender_label
+          <char>
  1:         male
  2:         male
  3:         male
@@ -4442,12 +4445,12 @@ Number of obs: 9856, groups:  id, 4856
 
 Fixed effects:
                          Estimate Std. Error z value Pr(>|z|)    
-(Intercept)              -2.70752    0.12459  -21.73  < 2e-16 ***
-gender                    0.25269    0.15135    1.67   0.0950 .  
+(Intercept)              -2.70752    0.12460  -21.73  < 2e-16 ***
+gender                    0.25269    0.15136    1.67   0.0950 .  
 centered_age              0.08330    0.02710    3.07   0.0021 ** 
 I(centered_age^2)        -0.03785    0.00688   -5.50  3.7e-08 ***
 gender:centered_age       0.01719    0.03795    0.45   0.6506    
-gender:I(centered_age^2)  0.00807    0.00959    0.84   0.3999    
+gender:I(centered_age^2)  0.00807    0.00959    0.84   0.3998    
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
@@ -4529,9 +4532,9 @@ Number of obs: 9856, groups:  id, 4856
 
 Fixed effects:
                   Estimate Std. Error z value Pr(>|z|)    
-(Intercept)       -2.73780    0.11948  -22.91  < 2e-16 ***
-gender             0.31541    0.13217    2.39    0.017 *  
-centered_age       0.09212    0.01921    4.80  1.6e-06 ***
+(Intercept)       -2.73777    0.11945  -22.92  < 2e-16 ***
+gender             0.31539    0.13215    2.39    0.017 *  
+centered_age       0.09211    0.01921    4.80  1.6e-06 ***
 I(centered_age^2) -0.03375    0.00485   -6.96  3.5e-12 ***
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1

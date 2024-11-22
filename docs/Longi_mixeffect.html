@@ -1,0 +1,1125 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.3.353">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Longitudinal Tutorial - 4&nbsp; Mixed Effects Model</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./Longi_comparison.html" rel="next">
+<link href="./Longi_GEEinterpretation.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+</head>
+
+<body class="nav-sidebar floating">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./Longi_intro.html">Longitudinal Data Analysis</a></li><li class="breadcrumb-item"><a href="./Longi_mixeffect.html"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Mixed Effects Model</span></a></li></ol></nav>
+      <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+      </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Longitudinal Tutorial</a> 
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Welcome</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./preface.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Preface</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="./Longi_intro.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Longitudinal Data Analysis</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Longi_EDA.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Exploratory Data Analysis</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Longi_GEE.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Marginal Model (GEE)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Longi_GEEinterpretation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Marginal Model Interpretation</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Longi_mixeffect.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Mixed Effects Model</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Longi_comparison.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Comparison Covariance and Marginal Model</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Longi_covmodel.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Modeling the Covariance</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Longi_modelselection.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Model Selection</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Longi_prediction.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Prediction</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Longi_interpretation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Interpretation</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Longi_noncontinuous.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Models for Non-Continuous Outcomes</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Longi_missingdata.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Missing Data</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction"><span class="header-section-number">4.1</span> Introduction</a></li>
+  <li><a href="#brief-review-of-what-we-learned-so-far" id="toc-brief-review-of-what-we-learned-so-far" class="nav-link" data-scroll-target="#brief-review-of-what-we-learned-so-far"><span class="header-section-number">4.2</span> Brief Review of what we learned so far</a></li>
+  <li><a href="#fitting-mixed-effect-models-to-the-tlc-data" id="toc-fitting-mixed-effect-models-to-the-tlc-data" class="nav-link" data-scroll-target="#fitting-mixed-effect-models-to-the-tlc-data"><span class="header-section-number">4.3</span> Fitting Mixed Effect Models to the TLC data</a></li>
+  <li><a href="#model-comparison" id="toc-model-comparison" class="nav-link" data-scroll-target="#model-comparison"><span class="header-section-number">4.4</span> Model Comparison</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title"><span id="sec-longi-mixeffect" class="quarto-section-identifier"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Mixed Effects Model</span></span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+</header>
+
+<p><strong>Learning Objectives</strong></p>
+<ol type="1">
+<li>Understand how to fit mixed effects models to longitudinal data</li>
+<li>Understand how to interpret results</li>
+</ol>
+<section id="introduction" class="level2" data-number="4.1">
+<h2 data-number="4.1" class="anchored" data-anchor-id="introduction"><span class="header-section-number">4.1</span> Introduction</h2>
+<p>Lets consider a few simple cases in understanding the Mixed-Effect Model:</p>
+<p><span class="math display">\[\mu_{ij} = E(Y_{ij} \mid {X_{ij},t_{ij}})\]</span></p>
+<p>where <span class="math inline">\(X_{ij}\)</span> are the explanatory variables and <span class="math inline">\(t_{ij}\)</span> is time.</p>
+<p><strong>Individual intercepts:</strong> The coefficient <span class="math inline">\(b_i\)</span> represents each <span class="math inline">\(i\)</span>th individual starting level.</p>
+<p>Consider the three following cases:</p>
+<ol type="a">
+<li><p><span class="math inline">\(\mu_{ij} = \mu + b_i\)</span></p></li>
+<li><p>Model with only time: <span class="math inline">\(\mu_{ij} = \beta_0 + \beta_1 t_{ij} + b_i\)</span>. The systematic component is <span class="math inline">\(\beta_0 + \beta_1 t_{ij}\)</span> and random component is <span class="math inline">\(b_i\)</span></p></li>
+<li><p>Model with only covariates: <span class="math inline">\(\mu_{ij} = \beta_0 + b_i + \beta_1 X_{ij}\)</span>. The systematic component is <span class="math inline">\(\beta_0 + \beta_1 X_{ij}\)</span> and random component is <span class="math inline">\(b_i\)</span></p></li>
+</ol>
+<p>In all of these cases (a-c), the coefficient <span class="math inline">\(b_i\)</span> represents the difference between the overall mean intercept and an individual’s intercept. For example, if <span class="math inline">\(b_i = -2\)</span> then the individual <span class="math inline">\(i\)</span> starts at <span class="math inline">\(2\)</span> units lower in their outcome on average.</p>
+<p>In the Mixed-Effects model, we assume that each individual has their own intercept <span class="math inline">\(b_i\)</span>, where <span class="math inline">\(b_i \overset{\text{iid}}{\sim} N(0,\sigma^2_b)\)</span> and where <span class="math inline">\(\sigma^2_b\)</span> can be obtained from the summary R output. In addition, we assume that errors have constant variance <span class="math inline">\(e_{ij} \overset{\text{iid}}{\sim} N(0,\sigma^2_e)\)</span> where <span class="math inline">\(\sigma^2_e\)</span> can be obtained from the summary R output.</p>
+<p>Using the TLC data as an example, consider the two models</p>
+<ol type="1">
+<li>a simple Mixed-Effects model with a random intercept is defined as:</li>
+</ol>
+<p><span class="math display">\[E(y_{ij} \mid X_{ij}) = \beta_0 +  \beta_{trt}trt +  \beta_{T}T + b_{0,i}\]</span></p>
+<p><strong>Individual slopes:</strong> The interpretation of a random slope in the model is that each individual has a unique growth rate or trajectory.</p>
+<ol start="2" type="1">
+<li>a simple Mixed-Effects model with a random intercept and random slope for time is defined as:</li>
+</ol>
+<p><span class="math display">\[E(y_{ij} \mid X_{ij}) = \beta_0 +  \beta_{trt}trt +  \beta_{T}T + b_{0,i} + b_{T,i}T\]</span></p>
+<p>The systematic component is <span class="math inline">\(\beta_0 + \beta_{trt}trt + \beta_{T}T\)</span> and random component is <span class="math inline">\(b_{0,i} + b_{T,i}T\)</span>. Here every <span class="math inline">\(i\)</span>th individual has a unique starting point <span class="math inline">\(b_{0,i}\)</span>, hence the average starting point of blood lead levels (BLL) for each individual is <span class="math inline">\(\beta_0 + b_{0,i}\)</span>. Further, each <span class="math inline">\(i\)</span>th individual has a unique growth trajectory of BLL <span class="math inline">\(b_{T,i}\)</span> where the average changes in BLL is given by <span class="math inline">\(\beta_1 + b_{T,i}\)</span>.Thus, the new slope for time is <span class="math inline">\((\beta_{T} + b_{T,i})T\)</span></p>
+<p>Note: If the growth rate is explained by explanatory variables (<span class="math inline">\(X_{ij}\)</span>) then include an interaction term. Remember that explanatory variables in the random component of the Mixed-Effects model <strong>must be time-varying</strong>.</p>
+</section>
+<section id="brief-review-of-what-we-learned-so-far" class="level2" data-number="4.2">
+<h2 data-number="4.2" class="anchored" data-anchor-id="brief-review-of-what-we-learned-so-far"><span class="header-section-number">4.2</span> Brief Review of what we learned so far</h2>
+<p><strong>Models for LDA with Continuous Outcomes</strong></p>
+<ul>
+<li>Marginal Models
+<ul>
+<li>GLS
+<ul>
+<li>Define covariance model</li>
+<li>Compare models using AIC, BIC, likelihood ratio test</li>
+</ul></li>
+<li>GEE
+<ul>
+<li>Compare models using QIC</li>
+<li>Define covariance model and link function</li>
+</ul></li>
+</ul></li>
+<li>
+<ul>
+<li>Specify random effects</li>
+<li>Compare models using AIC, BIC</li>
+<li>Other packages allow you to specify the covariance model</li>
+</ul></li>
+</ul>
+</section>
+<section id="fitting-mixed-effect-models-to-the-tlc-data" class="level2" data-number="4.3">
+<h2 data-number="4.3" class="anchored" data-anchor-id="fitting-mixed-effect-models-to-the-tlc-data"><span class="header-section-number">4.3</span> Fitting Mixed Effect Models to the TLC data</h2>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyr)  <span class="co">#Allows for us to manipulate the data structure</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(data.table)  <span class="co">#Allows for us to manipulate the data structure</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lme4)  <span class="co">#Allows us to fit mixed effects models</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lattice)  <span class="co">#for plotting random effects</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Here we will learn how to use R to fit Mixed-Effects (subject-specific) Models for longitudinal data, when the outcome of interest is a continuous variable (linear models).</p>
+<p>The (1|id) means that we are allowing the intercept, represented by 1, to vary by patient.</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># label this model object as mod_1</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>mod_1 <span class="ot">&lt;-</span> <span class="fu">lmer</span>(measurements <span class="sc">~</span> <span class="dv">1</span> <span class="sc">+</span> group <span class="sc">+</span> time <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">|</span> id), <span class="at">data =</span> long_TLC, <span class="at">REML =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(mod_1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Linear mixed model fit by REML ['lmerMod']
+Formula: measurements ~ 1 + group + time + (1 | id)
+   Data: long_TLC
+
+REML criterion at convergence: 2670.2
+
+Scaled residuals: 
+    Min      1Q  Median      3Q     Max 
+-2.4885 -0.3686 -0.0176  0.4514  6.3428 
+
+Random effects:
+ Groups   Name        Variance Std.Dev.
+ id       (Intercept) 22.09    4.700   
+ Residual             33.98    5.829   
+Number of obs: 400, groups:  id, 100
+
+Fixed effects:
+               Estimate Std. Error t value
+(Intercept)     25.7647     0.8512  30.269
+groupTreatment  -5.5775     1.1060  -5.043
+time            -0.4010     0.1222  -3.281
+
+Correlation of Fixed Effects:
+            (Intr) grpTrt
+groupTrtmnt -0.650       
+time        -0.395  0.000</code></pre>
+</div>
+</div>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># added - some helpful functions</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">coef</span>(mod_1)  <span class="co"># plot all coefficients for each individual</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>$id
+    (Intercept) groupTreatment   time
+1      27.32695        -5.5775 -0.401
+2      26.75096        -5.5775 -0.401
+3      28.43016        -5.5775 -0.401
+4      24.87134        -5.5775 -0.401
+5      18.44525        -5.5775 -0.401
+6      19.60083        -5.5775 -0.401
+7      23.66160        -5.5775 -0.401
+8      29.42143        -5.5775 -0.401
+9      19.61708        -5.5775 -0.401
+10     29.90894        -5.5775 -0.401
+11     23.35465        -5.5775 -0.401
+12     30.65103        -5.5775 -0.401
+13     23.51715        -5.5775 -0.401
+14     24.43981        -5.5775 -0.401
+15     22.50602        -5.5775 -0.401
+16     22.48797        -5.5775 -0.401
+17     22.88520        -5.5775 -0.401
+18     32.70760        -5.5775 -0.401
+19     33.17886        -5.5775 -0.401
+20     28.80933        -5.5775 -0.401
+21     29.85477        -5.5775 -0.401
+22     28.68294        -5.5775 -0.401
+23     21.20780        -5.5775 -0.401
+24     26.56860        -5.5775 -0.401
+25     24.58426        -5.5775 -0.401
+26     20.53974        -5.5775 -0.401
+27     22.39949        -5.5775 -0.401
+28     22.41574        -5.5775 -0.401
+29     21.80365        -5.5775 -0.401
+30     29.92699        -5.5775 -0.401
+31     28.37599        -5.5775 -0.401
+32     22.65228        -5.5775 -0.401
+33     26.15331        -5.5775 -0.401
+34     24.32967        -5.5775 -0.401
+35     26.18942        -5.5775 -0.401
+36     28.64683        -5.5775 -0.401
+37     29.60199        -5.5775 -0.401
+38     21.51295        -5.5775 -0.401
+39     24.43981        -5.5775 -0.401
+40     34.91223        -5.5775 -0.401
+41     23.80605        -5.5775 -0.401
+42     21.15183        -5.5775 -0.401
+43     21.60503        -5.5775 -0.401
+44     28.28571        -5.5775 -0.401
+45     22.05643        -5.5775 -0.401
+46     29.69227        -5.5775 -0.401
+47     25.75608        -5.5775 -0.401
+48     25.28844        -5.5775 -0.401
+49     23.77174        -5.5775 -0.401
+50     20.86294        -5.5775 -0.401
+51     20.80877        -5.5775 -0.401
+52     22.54213        -5.5775 -0.401
+53     26.67874        -5.5775 -0.401
+54     36.75393        -5.5775 -0.401
+55     28.06724        -5.5775 -0.401
+56     24.52828        -5.5775 -0.401
+57     23.06756        -5.5775 -0.401
+58     21.67545        -5.5775 -0.401
+59     25.26857        -5.5775 -0.401
+60     36.13822        -5.5775 -0.401
+61     29.83671        -5.5775 -0.401
+62     26.89360        -5.5775 -0.401
+63     23.06576        -5.5775 -0.401
+64     20.57585        -5.5775 -0.401
+65     29.09823        -5.5775 -0.401
+66     37.18727        -5.5775 -0.401
+67     30.05338        -5.5775 -0.401
+68     26.15512        -5.5775 -0.401
+69     27.59959        -5.5775 -0.401
+70     23.73563        -5.5775 -0.401
+71     29.80241        -5.5775 -0.401
+72     23.80785        -5.5775 -0.401
+73     29.83671        -5.5775 -0.401
+74     22.79492        -5.5775 -0.401
+75     28.30196        -5.5775 -0.401
+76     24.34772        -5.5775 -0.401
+77     25.14218        -5.5775 -0.401
+78     23.40882        -5.5775 -0.401
+79     20.34112        -5.5775 -0.401
+80     25.30469        -5.5775 -0.401
+81     26.96583        -5.5775 -0.401
+82     25.75789        -5.5775 -0.401
+83     23.19215        -5.5775 -0.401
+84     34.96459        -5.5775 -0.401
+85     26.48012        -5.5775 -0.401
+86     27.00194        -5.5775 -0.401
+87     24.16897        -5.5775 -0.401
+88     23.35465        -5.5775 -0.401
+89     23.30229        -5.5775 -0.401
+90     26.38984        -5.5775 -0.401
+91     20.70224        -5.5775 -0.401
+92     24.65467        -5.5775 -0.401
+93     32.07745        -5.5775 -0.401
+94     23.78980        -5.5775 -0.401
+95     27.14819        -5.5775 -0.401
+96     22.83283        -5.5775 -0.401
+97     28.98989        -5.5775 -0.401
+98     26.58846        -5.5775 -0.401
+99     21.60503        -5.5775 -0.401
+100    24.04258        -5.5775 -0.401
+
+attr(,"class")
+[1] "coef.mer"</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ranef</span>(mod_1)  <span class="co"># print random effects, in this case, random intercept</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>$id
+     (Intercept)
+1    1.562195132
+2    0.986212749
+3    2.665410575
+4   -0.893405269
+5   -7.319497004
+6   -6.163919915
+7   -2.103150120
+8    3.656679165
+9   -6.147669436
+10   4.144188392
+11  -2.410100441
+12   4.886284940
+13  -2.247597426
+14  -1.324941394
+15  -3.258727480
+16  -3.276783010
+17  -2.879553236
+18   6.942851256
+19   7.414109264
+20   3.044584278
+21   4.090020359
+22   2.918193225
+23  -4.556945687
+24   0.803847907
+25  -1.180494305
+26  -5.225013477
+27  -3.365256708
+28  -3.349006572
+29  -3.961101260
+30   4.162244102
+31   2.611242904
+32  -3.112474239
+33   0.388562965
+34  -1.435081806
+35   0.424674204
+36   2.882081443
+37   3.837238252
+38  -4.251801464
+39  -1.324941249
+40   9.147475846
+41  -1.958702995
+42  -4.612919095
+43  -4.159715894
+44   2.520962909
+45  -3.708318629
+46   3.927517705
+47  -0.008666629
+48  -0.476314210
+49  -1.993009202
+50  -4.901813165
+51  -4.955980475
+52  -3.222615157
+53   0.913989006
+54  10.989176327
+55   2.302486647
+56  -1.236467551
+57  -2.697188990
+58  -4.089298087
+59  -0.496175495
+60  10.373469930
+61   4.071963927
+62   1.128854118
+63  -2.698994691
+64  -5.188901695
+65   3.333477986
+66  11.422517160
+67   4.288634795
+68   0.390368539
+69   1.834839066
+70  -2.029120803
+71   4.037658623
+72  -1.956897421
+73   4.071964649
+74  -2.969832689
+75   2.537213405
+76  -1.417026096
+77  -0.622566910
+78  -2.355932408
+79  -5.423628400
+80  -0.460064436
+81   1.201078042
+82  -0.006861163
+83  -2.572602915
+84   9.199837040
+85   0.715374751
+86   1.237189462
+87  -1.595779789
+88  -2.410100261
+89  -2.462462340
+90   0.625094575
+91  -5.062510786
+92  -1.110076137
+93   6.312700659
+94  -1.974952968
+95   1.383442523
+96  -2.931915676
+97   3.225142823
+98   0.823709535
+99  -4.159716093
+100 -1.722170409
+
+with conditional variances for "id" </code></pre>
+</div>
+</div>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># added - some helpful functions</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="fu">fixef</span>(mod_1)  <span class="co"># print all fixed effects</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>   (Intercept) groupTreatment           time 
+      25.76475       -5.57750       -0.40100 </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">AIC</span>(mod_1)  <span class="co">#print model AIC</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 2680.185</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(<span class="fu">ranef</span>(mod_1)<span class="sc">$</span>id)  <span class="co"># calculate summary statistics of random intercept</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  (Intercept)    
+ Min.   :-7.319  
+ 1st Qu.:-2.893  
+ Median :-0.758  
+ Mean   : 0.000  
+ 3rd Qu.: 2.625  
+ Max.   :11.423  </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">boxplot</span>(<span class="fu">ranef</span>(mod_1)<span class="sc">$</span>id)  <span class="co"># create boxplot of estimated random intercept</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="Longi_mixeffect_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid figure-img" width="576"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># added - some helpful functions</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(<span class="fu">resid</span>(mod_1))  <span class="co"># calculate summary statistics of residuals</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>    Min.  1st Qu.   Median     Mean  3rd Qu.     Max. 
+-14.5050  -2.1487  -0.1027   0.0000   2.6309  36.9713 </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(<span class="fu">resid</span>(mod_1))  <span class="co"># create histogram to assess distribution of residuals</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="Longi_mixeffect_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid figure-img" width="576"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co"># add plot to visualize individual intercepts using dotplot() from the lattice</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="co"># package</span></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a><span class="fu">dotplot</span>(<span class="fu">ranef</span>(mod_1))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>$id</code></pre>
+</div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="Longi_mixeffect_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid figure-img" width="576"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Here the term (1+time|id) specifies the random intercept and random slope for time.</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co"># label this model object as mod_2</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>mod_2 <span class="ot">&lt;-</span> <span class="fu">lmer</span>(measurements <span class="sc">~</span> <span class="dv">1</span> <span class="sc">+</span> group <span class="sc">+</span> time <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">+</span> time <span class="sc">|</span> id), <span class="at">data =</span> long_TLC,</span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">REML =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(mod_2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Linear mixed model fit by REML ['lmerMod']
+Formula: measurements ~ 1 + group + time + (1 + time | id)
+   Data: long_TLC
+
+REML criterion at convergence: 2664.4
+
+Scaled residuals: 
+    Min      1Q  Median      3Q     Max 
+-2.6833 -0.3869 -0.0118  0.4731  5.8022 
+
+Random effects:
+ Groups   Name        Variance Std.Dev. Corr
+ id       (Intercept) 14.93750 3.8649       
+          time         0.09966 0.3157   1.00
+ Residual             33.08488 5.7519       
+Number of obs: 400, groups:  id, 100
+
+Fixed effects:
+               Estimate Std. Error t value
+(Intercept)     25.7370     0.7965  32.312
+groupTreatment  -5.5220     1.0814  -5.106
+time            -0.4010     0.1247  -3.217
+
+Correlation of Fixed Effects:
+            (Intr) grpTrt
+groupTrtmnt -0.679       
+time        -0.280  0.000
+optimizer (nloptwrap) convergence code: 0 (OK)
+boundary (singular) fit: see help('isSingular')</code></pre>
+</div>
+</div>
+<p>This model includes time as a continuous covariate and also includes an interaction term to account and adjust for any possible discrepancies between the treatment and control.</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="co"># label this model object as mod_3</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>mod_3 <span class="ot">&lt;-</span> <span class="fu">lmer</span>(measurements <span class="sc">~</span> <span class="dv">1</span> <span class="sc">+</span> group <span class="sc">+</span> time <span class="sc">+</span> group<span class="sc">:</span>time <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">|</span> id), <span class="at">data =</span> long_TLC,</span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">REML =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(mod_3)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Linear mixed model fit by REML ['lmerMod']
+Formula: measurements ~ 1 + group + time + group:time + (1 | id)
+   Data: long_TLC
+
+REML criterion at convergence: 2671.1
+
+Scaled residuals: 
+    Min      1Q  Median      3Q     Max 
+-2.4683 -0.3762 -0.0182  0.4630  6.3507 
+
+Random effects:
+ Groups   Name        Variance Std.Dev.
+ id       (Intercept) 22.06    4.697   
+ Residual             34.08    5.838   
+Number of obs: 400, groups:  id, 100
+
+Fixed effects:
+                    Estimate Std. Error t value
+(Intercept)         25.68536    0.91553  28.055
+groupTreatment      -5.41873    1.29476  -4.185
+time                -0.37213    0.17310  -2.150
+groupTreatment:time -0.05774    0.24480  -0.236
+
+Correlation of Fixed Effects:
+            (Intr) grpTrt time  
+groupTrtmnt -0.707              
+time        -0.520  0.368       
+grpTrtmnt:t  0.368 -0.520 -0.707</code></pre>
+</div>
+</div>
+<p>This model treats time as a continuous covariate and also introduces a quadratic term.</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="co"># label this model object as mod_4</span></span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>mod_4 <span class="ot">&lt;-</span> <span class="fu">lmer</span>(measurements <span class="sc">~</span> <span class="dv">1</span> <span class="sc">+</span> group <span class="sc">+</span> time <span class="sc">+</span> time<span class="sc">:</span>group <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">+</span> time <span class="sc">|</span> id), <span class="at">data =</span> long_TLC,</span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">REML =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(mod_4)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Linear mixed model fit by REML ['lmerMod']
+Formula: measurements ~ 1 + group + time + time:group + (1 + time | id)
+   Data: long_TLC
+
+REML criterion at convergence: 2665.3
+
+Scaled residuals: 
+    Min      1Q  Median      3Q     Max 
+-2.6754 -0.3847 -0.0057  0.4880  5.8046 
+
+Random effects:
+ Groups   Name        Variance Std.Dev. Corr
+ id       (Intercept) 14.8608  3.8550       
+          time         0.1017  0.3189   1.00
+ Residual             33.1807  5.7603       
+Number of obs: 400, groups:  id, 100
+
+Fixed effects:
+                    Estimate Std. Error t value
+(Intercept)         25.68536    0.82687  31.063
+groupTreatment      -5.41873    1.16937  -4.634
+time                -0.37213    0.17665  -2.107
+groupTreatment:time -0.05774    0.24982  -0.231
+
+Correlation of Fixed Effects:
+            (Intr) grpTrt time  
+groupTrtmnt -0.707              
+time        -0.381  0.269       
+grpTrtmnt:t  0.269 -0.381 -0.707
+optimizer (nloptwrap) convergence code: 0 (OK)
+boundary (singular) fit: see help('isSingular')</code></pre>
+</div>
+</div>
+<p>This model includes time as a continuous covariate and also includes a quadratic term to capture any possible non-linearity in time and an interaction term to account and adjust for any possible discrepancies between the treatment and control.</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="co"># label this model object as mod_5</span></span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>mod_5 <span class="ot">&lt;-</span> <span class="fu">lmer</span>(measurements <span class="sc">~</span> <span class="dv">1</span> <span class="sc">+</span> group <span class="sc">+</span> time <span class="sc">+</span> <span class="fu">I</span>(time<span class="sc">^</span><span class="dv">2</span>) <span class="sc">+</span> group<span class="sc">:</span>(time <span class="sc">+</span> <span class="fu">I</span>(time<span class="sc">^</span><span class="dv">2</span>)) <span class="sc">+</span></span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>    (<span class="dv">1</span> <span class="sc">+</span> time <span class="sc">|</span> id) <span class="sc">+</span> (<span class="fu">I</span>(time<span class="sc">^</span><span class="dv">2</span>) <span class="sc">|</span> id), <span class="at">data =</span> long_TLC, <span class="at">REML =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(mod_5)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Linear mixed model fit by REML ['lmerMod']
+Formula: 
+measurements ~ 1 + group + time + I(time^2) + group:(time + I(time^2)) +  
+    (1 + time | id) + (I(time^2) | id)
+   Data: long_TLC
+
+REML criterion at convergence: 2547.2
+
+Scaled residuals: 
+    Min      1Q  Median      3Q     Max 
+-3.7766 -0.4184 -0.0564  0.3925  5.9170 
+
+Random effects:
+ Groups   Name        Variance Std.Dev. Corr
+ id       (Intercept) 16.660   4.0817       
+          time         0.114   0.3377   1.00
+ id.1     (Intercept)  0.000   0.0000       
+          I(time^2)    0.000   0.0000    NaN
+ Residual             22.056   4.6964       
+Number of obs: 400, groups:  id, 100
+
+Fixed effects:
+                         Estimate Std. Error t value
+(Intercept)              25.96954    0.82515  31.473
+groupTreatment           -1.99607    1.16693  -1.711
+time                     -0.91731    0.59637  -1.538
+I(time^2)                 0.09170    0.09721   0.943
+groupTreatment:time      -6.62390    0.84339  -7.854
+groupTreatment:I(time^2)  1.10447    0.13747   8.034
+
+Correlation of Fixed Effects:
+            (Intr) grpTrt time   I(t^2) grpTr:
+groupTrtmnt -0.707                            
+time        -0.406  0.287                     
+I(time^2)    0.365 -0.258 -0.969              
+grpTrtmnt:t  0.287 -0.406 -0.707  0.685       
+grpTr:I(^2) -0.258  0.365  0.685 -0.707 -0.969
+optimizer (nloptwrap) convergence code: 0 (OK)
+boundary (singular) fit: see help('isSingular')</code></pre>
+</div>
+</div>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>mod_5_test <span class="ot">&lt;-</span> <span class="fu">lmer</span>(measurements <span class="sc">~</span> <span class="dv">1</span> <span class="sc">+</span> group <span class="sc">+</span> time <span class="sc">+</span> <span class="fu">I</span>(time<span class="sc">^</span><span class="dv">2</span>) <span class="sc">+</span> group<span class="sc">:</span>(time <span class="sc">+</span> <span class="fu">I</span>(time<span class="sc">^</span><span class="dv">2</span>)) <span class="sc">+</span></span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>    (<span class="dv">1</span> <span class="sc">+</span> time <span class="sc">+</span> <span class="fu">I</span>(time<span class="sc">^</span><span class="dv">2</span>) <span class="sc">|</span> id), <span class="at">data =</span> long_TLC, <span class="at">REML =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(mod_5_test)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Linear mixed model fit by REML ['lmerMod']
+Formula: 
+measurements ~ 1 + group + time + I(time^2) + group:(time + I(time^2)) +  
+    (1 + time + I(time^2) | id)
+   Data: long_TLC
+
+REML criterion at convergence: 2543
+
+Scaled residuals: 
+    Min      1Q  Median      3Q     Max 
+-3.2531 -0.4033 -0.0512  0.3865  5.2033 
+
+Random effects:
+ Groups   Name        Variance Std.Dev. Corr       
+ id       (Intercept) 14.6592  3.8287              
+          time         3.3089  1.8190    0.49      
+          I(time^2)    0.1047  0.3236   -0.28 -0.98
+ Residual             19.8761  4.4583              
+Number of obs: 400, groups:  id, 100
+
+Fixed effects:
+                         Estimate Std. Error t value
+(Intercept)               25.9695     0.7788  33.347
+groupTreatment            -1.9961     1.1014  -1.812
+time                      -0.9173     0.6202  -1.479
+I(time^2)                  0.0917     0.1030   0.890
+groupTreatment:time       -6.6239     0.8771  -7.552
+groupTreatment:I(time^2)   1.1045     0.1457   7.582
+
+Correlation of Fixed Effects:
+            (Intr) grpTrt time   I(t^2) grpTr:
+groupTrtmnt -0.707                            
+time        -0.283  0.200                     
+I(time^2)    0.242 -0.171 -0.972              
+grpTrtmnt:t  0.200 -0.283 -0.707  0.687       
+grpTr:I(^2) -0.171  0.242  0.687 -0.707 -0.972
+optimizer (nloptwrap) convergence code: 0 (OK)
+boundary (singular) fit: see help('isSingular')</code></pre>
+</div>
+</div>
+</section>
+<section id="model-comparison" class="level2" data-number="4.4">
+<h2 data-number="4.4" class="anchored" data-anchor-id="model-comparison"><span class="header-section-number">4.4</span> Model Comparison</h2>
+<p>We are able to compare the models using AIC and BIC. After you write the other models above, run this chunk below.</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>Mixed_Model_comparisons <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="st">`</span><span class="at">Model Name</span><span class="st">`</span> <span class="ot">=</span> <span class="fu">c</span>(<span class="st">"Mixed Model 1"</span>, <span class="st">"Mixed Model 2"</span>,</span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Mixed Model 3"</span>, <span class="st">"Mixed Model 4"</span>, <span class="st">"Mixed Model 5"</span>), <span class="at">AIC =</span> <span class="fu">c</span>(<span class="fu">AIC</span>(mod_1), <span class="fu">AIC</span>(mod_2),</span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">AIC</span>(mod_3), <span class="fu">AIC</span>(mod_4), <span class="fu">AIC</span>(mod_5)), <span class="at">BIC =</span> <span class="fu">c</span>(<span class="fu">BIC</span>(mod_1), <span class="fu">BIC</span>(mod_2), <span class="fu">BIC</span>(mod_3),</span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">BIC</span>(mod_4), <span class="fu">BIC</span>(mod_5)))</span>
+<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a>Mixed_Model_comparisons</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>     Model.Name      AIC      BIC
+1 Mixed Model 1 2680.185 2700.143
+2 Mixed Model 2 2678.397 2706.337
+3 Mixed Model 3 2683.108 2707.057
+4 Mixed Model 4 2681.281 2713.213
+5 Mixed Model 5 2573.229 2625.118</code></pre>
+</div>
+</div>
+<p>Which model would you select?</p>
+<p><strong>Answer: We would pick Model 5 because it has the lowest AIC and lowest BIC value.</strong></p>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./Longi_GEEinterpretation.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Marginal Model Interpretation</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./Longi_comparison.html" class="pagination-link">
+        <span class="nav-page-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Comparison Covariance and Marginal Model</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+</body></html>
